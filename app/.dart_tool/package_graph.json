@@ -1,0 +1,14 @@
+{
+  "roots": [
+    "bill_app"
+  ],
+  "packages": [
+    {
+      "name": "bill_app",
+      "version": "1.0.0+1",
+      "dependencies": [],
+      "devDependencies": []
+    }
+  ],
+  "configVersion": 1
+}

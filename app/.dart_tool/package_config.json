@@ -1,0 +1,16 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "bill_app",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    }
+  ],
+  "generator": "pub",
+  "generatorVersion": "3.13.1",
+  "flutterRoot": "file:///C:/Users/ADMIN/development/flutter",
+  "flutterVersion": "3.47.1",
+  "pubCache": "file:///C:/Users/ADMIN/AppData/Local/Pub/Cache"
+}

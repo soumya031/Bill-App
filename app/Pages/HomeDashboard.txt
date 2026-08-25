@@ -1,0 +1,860 @@
+import '/components/button/button_widget.dart';
+import '/components/quick_action/quick_action_widget.dart';
+import '/components/summary_card/summary_card_widget.dart';
+import '/components/transaction_item/transaction_item_widget.dart';
+import '/flutter_flow/flutter_flow_charts.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'home_dashboard_model.dart';
+export 'home_dashboard_model.dart';
+
+class HomeDashboardWidget extends StatefulWidget {
+  const HomeDashboardWidget({super.key});
+
+  static String routeName = 'HomeDashboard';
+  static String routePath = '/homeDashboard';
+
+  @override
+  State<HomeDashboardWidget> createState() => _HomeDashboardWidgetState();
+}
+
+class _HomeDashboardWidgetState extends State<HomeDashboardWidget> {
+  late HomeDashboardModel _model;
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => HomeDashboardModel());
+  }
+
+  @override
+  void dispose() {
+    _model.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            print('FAB pressed ...');
+          },
+          backgroundColor: FlutterFlowTheme.of(context).primary,
+          icon: Icon(
+            Icons.add,
+            color: FlutterFlowTheme.of(context).onPrimary,
+            size: 24,
+          ),
+          elevation: 0,
+          label: Text(
+            'Create Sale',
+            style: FlutterFlowTheme.of(context).labelLarge.override(
+                  font: GoogleFonts.inter(
+                    fontWeight:
+                        FlutterFlowTheme.of(context).labelLarge.fontWeight,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).labelLarge.fontStyle,
+                  ),
+                  color: FlutterFlowTheme.of(context).onPrimary,
+                  letterSpacing: 0.0,
+                  fontWeight:
+                      FlutterFlowTheme.of(context).labelLarge.fontWeight,
+                  fontStyle: FlutterFlowTheme.of(context).labelLarge.fontStyle,
+                  lineHeight: 1.4,
+                ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          primary: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                  shape: BoxShape.rectangle,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(24),
+                      child: Container(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'PricePilot Bill',
+                                  style: FlutterFlowTheme.of(context)
+                                      .titleLarge
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w800,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleLarge
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.w800,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .fontStyle,
+                                        lineHeight: 1.3,
+                                      ),
+                                ),
+                                Text(
+                                  'Modern Retail Store',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodySmall
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodySmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodySmall
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .fontStyle,
+                                        lineHeight: 1.4,
+                                      ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                FlutterFlowIconButton(
+                                  borderRadius: 8,
+                                  buttonSize: 40,
+                                  fillColor: Colors.transparent,
+                                  icon: Icon(
+                                    Icons.notifications_outlined,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 24,
+                                  ),
+                                  onPressed: () {
+                                    print('IconButton pressed ...');
+                                  },
+                                ),
+                                Container(
+                                  width: 36,
+                                  height: 36,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  alignment: AlignmentDirectional(0, 0),
+                                  child: Text(
+                                    'JD',
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .onPrimary,
+                                          fontSize: 13.68,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
+                                          lineHeight: 1.4,
+                                        ),
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                              ].divide(SizedBox(width: 8)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 1,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).alternate,
+                        shape: BoxShape.rectangle,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Today\'s Summary',
+                          style: FlutterFlowTheme.of(context)
+                              .titleMedium
+                              .override(
+                                font: GoogleFonts.inter(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleMedium
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleMedium
+                                    .fontStyle,
+                                lineHeight: 1.4,
+                              ),
+                        ),
+                        Container(
+                          height: 34,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: FlutterFlowTheme.of(context).alternate,
+                              width: 1,
+                            ),
+                          ),
+                          alignment: AlignmentDirectional(0, 0),
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.calendar_today_rounded,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  size: 16,
+                                ),
+                                Text(
+                                  '24 Oct 2023',
+                                  style: FlutterFlowTheme.of(context)
+                                      .labelSmall
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        fontSize: 12,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelSmall
+                                            .fontStyle,
+                                        lineHeight: 1.3,
+                                      ),
+                                ),
+                              ].divide(SizedBox(width: 6)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: wrapWithModel(
+                                model: _model.summaryCardModel1,
+                                updateCallback: () => safeSetState(() {}),
+                                child: SummaryCardWidget(
+                                  color: FlutterFlowTheme.of(context).success,
+                                  icon: Icon(
+                                    Icons.trending_up_rounded,
+                                    color: FlutterFlowTheme.of(context).success,
+                                    size: 16,
+                                  ),
+                                  label: 'Sales',
+                                  value: '₹42,500',
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: wrapWithModel(
+                                model: _model.summaryCardModel2,
+                                updateCallback: () => safeSetState(() {}),
+                                child: SummaryCardWidget(
+                                  color: FlutterFlowTheme.of(context).error,
+                                  icon: Icon(
+                                    Icons.trending_down_rounded,
+                                    color: FlutterFlowTheme.of(context).success,
+                                    size: 16,
+                                  ),
+                                  label: 'Purchases',
+                                  value: '₹12,200',
+                                ),
+                              ),
+                            ),
+                          ].divide(SizedBox(width: 16)),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: wrapWithModel(
+                                model: _model.summaryCardModel3,
+                                updateCallback: () => safeSetState(() {}),
+                                child: SummaryCardWidget(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  icon: Icon(
+                                    Icons.payments_rounded,
+                                    color: FlutterFlowTheme.of(context).success,
+                                    size: 16,
+                                  ),
+                                  label: 'Expenses',
+                                  value: '₹3,400',
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: wrapWithModel(
+                                model: _model.summaryCardModel4,
+                                updateCallback: () => safeSetState(() {}),
+                                child: SummaryCardWidget(
+                                  color: FlutterFlowTheme.of(context).tertiary,
+                                  icon: Icon(
+                                    Icons.account_balance_wallet_rounded,
+                                    color: FlutterFlowTheme.of(context).success,
+                                    size: 16,
+                                  ),
+                                  label: 'Net Profit',
+                                  value: '₹26,900',
+                                ),
+                              ),
+                            ),
+                          ].divide(SizedBox(width: 16)),
+                        ),
+                      ].divide(SizedBox(height: 16)),
+                    ),
+                  ].divide(SizedBox(height: 16)),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                child: Container(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius: BorderRadius.circular(12),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: FlutterFlowTheme.of(context).alternate,
+                        width: 1,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(24),
+                      child: Container(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Weekly Revenue',
+                              style: FlutterFlowTheme.of(context)
+                                  .labelLarge
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelLarge
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelLarge
+                                        .fontStyle,
+                                    lineHeight: 1.4,
+                                  ),
+                            ),
+                            Container(
+                              height: 180,
+                              child: Container(
+                                height: 180,
+                                child: FlutterFlowBarChart(
+                                  barData: [
+                                    FFBarChartData(
+                                      yData: ([
+                                        12000.0,
+                                        18000.0,
+                                        15000.0,
+                                        22000.0,
+                                        19000.0,
+                                        25000.0,
+                                        42500.0
+                                      ])!,
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                    )
+                                  ],
+                                  xLabels: ([
+                                    'M',
+                                    'T',
+                                    'W',
+                                    'T',
+                                    'F',
+                                    'S',
+                                    'S'
+                                  ])!,
+                                  barWidth: 20,
+                                  barBorderRadius: BorderRadius.circular(4),
+                                  groupSpace: 12,
+                                  alignment: BarChartAlignment.spaceEvenly,
+                                  chartStylingInfo: ChartStylingInfo(
+                                    backgroundColor: Colors.transparent,
+                                    showBorder: false,
+                                  ),
+                                  axisBounds: AxisBounds(
+                                    minY: 0,
+                                    maxX: 6,
+                                    maxY: 51000,
+                                  ),
+                                  xAxisLabelInfo: AxisLabelInfo(
+                                    showLabels: true,
+                                    labelTextStyle: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          fontSize: 10,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodySmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodySmall
+                                                  .fontStyle,
+                                          lineHeight: 1,
+                                        ),
+                                    reservedSize: 20,
+                                  ),
+                                  yAxisLabelInfo: AxisLabelInfo(
+                                    reservedSize: 0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ].divide(SizedBox(height: 16)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Quick Actions',
+                      style: FlutterFlowTheme.of(context).titleMedium.override(
+                            font: GoogleFonts.inter(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .titleMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .titleMedium
+                                .fontStyle,
+                            lineHeight: 1.4,
+                          ),
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        wrapWithModel(
+                          model: _model.quickActionModel1,
+                          updateCallback: () => safeSetState(() {}),
+                          child: QuickActionWidget(
+                            icon: Icon(
+                              Icons.add_shopping_cart_rounded,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 26,
+                            ),
+                            label: 'New Sale',
+                          ),
+                        ),
+                        wrapWithModel(
+                          model: _model.quickActionModel2,
+                          updateCallback: () => safeSetState(() {}),
+                          child: QuickActionWidget(
+                            icon: Icon(
+                              Icons.inventory_2_rounded,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 26,
+                            ),
+                            label: 'Stock',
+                          ),
+                        ),
+                        wrapWithModel(
+                          model: _model.quickActionModel3,
+                          updateCallback: () => safeSetState(() {}),
+                          child: QuickActionWidget(
+                            icon: Icon(
+                              Icons.people_alt_rounded,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 26,
+                            ),
+                            label: 'Customer',
+                          ),
+                        ),
+                        wrapWithModel(
+                          model: _model.quickActionModel4,
+                          updateCallback: () => safeSetState(() {}),
+                          child: QuickActionWidget(
+                            icon: Icon(
+                              Icons.analytics_rounded,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 26,
+                            ),
+                            label: 'Reports',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ].divide(SizedBox(height: 16)),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Recent Transactions',
+                          style: FlutterFlowTheme.of(context)
+                              .titleMedium
+                              .override(
+                                font: GoogleFonts.inter(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleMedium
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleMedium
+                                    .fontStyle,
+                                lineHeight: 1.4,
+                              ),
+                        ),
+                        wrapWithModel(
+                          model: _model.buttonModel1,
+                          updateCallback: () => safeSetState(() {}),
+                          child: ButtonWidget(
+                            iconPresent: false,
+                            iconEndPresent: false,
+                            content: 'See All',
+                            variant: 'ghost',
+                            size: 'small',
+                            fullWidth: false,
+                            loading: false,
+                            disabled: false,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        borderRadius: BorderRadius.circular(12),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: FlutterFlowTheme.of(context).alternate,
+                          width: 1,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                        child: Container(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              wrapWithModel(
+                                model: _model.transactionItemModel1,
+                                updateCallback: () => safeSetState(() {}),
+                                child: TransactionItemWidget(
+                                  amount: '+₹8,400',
+                                  amountColor:
+                                      FlutterFlowTheme.of(context).success,
+                                  icon: Icon(
+                                    Icons.shopping_bag_rounded,
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    size: 20,
+                                  ),
+                                  iconColor:
+                                      FlutterFlowTheme.of(context).primary,
+                                  subtitle: 'Aditya Sharma • Partial Payment',
+                                  time: '10:24 AM',
+                                  title: 'Invoice #1024',
+                                ),
+                              ),
+                              wrapWithModel(
+                                model: _model.transactionItemModel2,
+                                updateCallback: () => safeSetState(() {}),
+                                child: TransactionItemWidget(
+                                  amount: '-₹15,000',
+                                  amountColor:
+                                      FlutterFlowTheme.of(context).error,
+                                  icon: Icon(
+                                    Icons.local_shipping_rounded,
+                                    color:
+                                        FlutterFlowTheme.of(context).tertiary,
+                                    size: 20,
+                                  ),
+                                  iconColor:
+                                      FlutterFlowTheme.of(context).tertiary,
+                                  subtitle: 'Inventory Restock',
+                                  time: '09:15 AM',
+                                  title: 'Purchase from wholesaler',
+                                ),
+                              ),
+                              wrapWithModel(
+                                model: _model.transactionItemModel3,
+                                updateCallback: () => safeSetState(() {}),
+                                child: TransactionItemWidget(
+                                  amount: '-₹2,100',
+                                  amountColor:
+                                      FlutterFlowTheme.of(context).error,
+                                  icon: Icon(
+                                    Icons.electric_bolt_rounded,
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    size: 20,
+                                  ),
+                                  iconColor: Color(0x00000000),
+                                  subtitle: 'Monthly Utility',
+                                  time: 'Yesterday',
+                                  title: 'Electricity Bill',
+                                ),
+                              ),
+                              wrapWithModel(
+                                model: _model.transactionItemModel4,
+                                updateCallback: () => safeSetState(() {}),
+                                child: TransactionItemWidget(
+                                  amount: '—',
+                                  amountColor:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  icon: Icon(
+                                    Icons.person_add_rounded,
+                                    color: FlutterFlowTheme.of(context).success,
+                                    size: 20,
+                                  ),
+                                  iconColor:
+                                      FlutterFlowTheme.of(context).success,
+                                  subtitle: 'RK Enterprises added',
+                                  time: 'Yesterday',
+                                  title: 'New Customer',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ].divide(SizedBox(height: 16)),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(24),
+                child: Container(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFFF4E5),
+                      borderRadius: BorderRadius.circular(8),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: Color(0xFFFFE0B2),
+                        width: 1,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Container(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.warning_amber_rounded,
+                              color: FlutterFlowTheme.of(context).onSurface,
+                              size: 24,
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                '5 items are below minimum stock level',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .fontStyle,
+                                      ),
+                                      color: Color(0xFFE65100),
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .fontStyle,
+                                      lineHeight: 1.4,
+                                    ),
+                              ),
+                            ),
+                            wrapWithModel(
+                              model: _model.buttonModel2,
+                              updateCallback: () => safeSetState(() {}),
+                              child: ButtonWidget(
+                                iconPresent: false,
+                                iconEndPresent: false,
+                                content: 'Restock',
+                                variant: 'ghost',
+                                size: 'small',
+                                fullWidth: false,
+                                loading: false,
+                                disabled: false,
+                              ),
+                            ),
+                          ].divide(SizedBox(width: 16)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                height: 80,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,58 @@
+import '/components/customer_card/customer_card_widget.dart';
+import '/components/summary_stat/summary_stat_widget.dart';
+import '/components/text_field/text_field_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
+import 'customer_management_widget.dart' show CustomerManagementWidget;
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+class CustomerManagementModel
+    extends FlutterFlowModel<CustomerManagementWidget> {
+  ///  State fields for stateful widgets in this page.
+
+  // Model for TextField.
+  late TextFieldModel textFieldModel;
+  // Model for SummaryStat.
+  late SummaryStatModel summaryStatModel1;
+  // Model for SummaryStat.
+  late SummaryStatModel summaryStatModel2;
+  // Model for CustomerCard.
+  late CustomerCardModel customerCardModel1;
+  // Model for CustomerCard.
+  late CustomerCardModel customerCardModel2;
+  // Model for CustomerCard.
+  late CustomerCardModel customerCardModel3;
+  // Model for CustomerCard.
+  late CustomerCardModel customerCardModel4;
+  // Model for CustomerCard.
+  late CustomerCardModel customerCardModel5;
+
+  @override
+  void initState(BuildContext context) {
+    textFieldModel = createModel(context, () => TextFieldModel());
+    summaryStatModel1 = createModel(context, () => SummaryStatModel());
+    summaryStatModel2 = createModel(context, () => SummaryStatModel());
+    customerCardModel1 = createModel(context, () => CustomerCardModel());
+    customerCardModel2 = createModel(context, () => CustomerCardModel());
+    customerCardModel3 = createModel(context, () => CustomerCardModel());
+    customerCardModel4 = createModel(context, () => CustomerCardModel());
+    customerCardModel5 = createModel(context, () => CustomerCardModel());
+  }
+
+  @override
+  void dispose() {
+    textFieldModel.dispose();
+    summaryStatModel1.dispose();
+    summaryStatModel2.dispose();
+    customerCardModel1.dispose();
+    customerCardModel2.dispose();
+    customerCardModel3.dispose();
+    customerCardModel4.dispose();
+    customerCardModel5.dispose();
+  }
+}

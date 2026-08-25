@@ -1,0 +1,70 @@
+import '/components/product_item/product_item_widget.dart';
+import '/components/stock_stat_card/stock_stat_card_widget.dart';
+import '/components/text_field/text_field_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
+import 'inventory_product_master_widget.dart' show InventoryProductMasterWidget;
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+class InventoryProductMasterModel
+    extends FlutterFlowModel<InventoryProductMasterWidget> {
+  ///  State fields for stateful widgets in this page.
+
+  // Model for TextField.
+  late TextFieldModel textFieldModel;
+  // Model for StockStatCard.
+  late StockStatCardModel stockStatCardModel1;
+  // Model for StockStatCard.
+  late StockStatCardModel stockStatCardModel2;
+  // Model for StockStatCard.
+  late StockStatCardModel stockStatCardModel3;
+  // Model for StockStatCard.
+  late StockStatCardModel stockStatCardModel4;
+  // Model for ProductItem.
+  late ProductItemModel productItemModel1;
+  // Model for ProductItem.
+  late ProductItemModel productItemModel2;
+  // Model for ProductItem.
+  late ProductItemModel productItemModel3;
+  // Model for ProductItem.
+  late ProductItemModel productItemModel4;
+  // Model for ProductItem.
+  late ProductItemModel productItemModel5;
+  // Model for ProductItem.
+  late ProductItemModel productItemModel6;
+
+  @override
+  void initState(BuildContext context) {
+    textFieldModel = createModel(context, () => TextFieldModel());
+    stockStatCardModel1 = createModel(context, () => StockStatCardModel());
+    stockStatCardModel2 = createModel(context, () => StockStatCardModel());
+    stockStatCardModel3 = createModel(context, () => StockStatCardModel());
+    stockStatCardModel4 = createModel(context, () => StockStatCardModel());
+    productItemModel1 = createModel(context, () => ProductItemModel());
+    productItemModel2 = createModel(context, () => ProductItemModel());
+    productItemModel3 = createModel(context, () => ProductItemModel());
+    productItemModel4 = createModel(context, () => ProductItemModel());
+    productItemModel5 = createModel(context, () => ProductItemModel());
+    productItemModel6 = createModel(context, () => ProductItemModel());
+  }
+
+  @override
+  void dispose() {
+    textFieldModel.dispose();
+    stockStatCardModel1.dispose();
+    stockStatCardModel2.dispose();
+    stockStatCardModel3.dispose();
+    stockStatCardModel4.dispose();
+    productItemModel1.dispose();
+    productItemModel2.dispose();
+    productItemModel3.dispose();
+    productItemModel4.dispose();
+    productItemModel5.dispose();
+    productItemModel6.dispose();
+  }
+}

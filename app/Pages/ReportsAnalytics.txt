@@ -1,0 +1,70 @@
+import '/components/button/button_widget.dart';
+import '/components/date_range_chip/date_range_chip_widget.dart';
+import '/components/report_card/report_card_widget.dart';
+import '/flutter_flow/flutter_flow_charts.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
+import 'reports_analytics_widget.dart' show ReportsAnalyticsWidget;
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+class ReportsAnalyticsModel extends FlutterFlowModel<ReportsAnalyticsWidget> {
+  ///  State fields for stateful widgets in this page.
+
+  // Model for DateRangeChip.
+  late DateRangeChipModel dateRangeChipModel1;
+  // Model for DateRangeChip.
+  late DateRangeChipModel dateRangeChipModel2;
+  // Model for DateRangeChip.
+  late DateRangeChipModel dateRangeChipModel3;
+  // Model for DateRangeChip.
+  late DateRangeChipModel dateRangeChipModel4;
+  // Model for ReportCard.
+  late ReportCardModel reportCardModel1;
+  // Model for ReportCard.
+  late ReportCardModel reportCardModel2;
+  // Model for ReportCard.
+  late ReportCardModel reportCardModel3;
+  // Model for ReportCard.
+  late ReportCardModel reportCardModel4;
+  // Model for ReportCard.
+  late ReportCardModel reportCardModel5;
+  // Model for ReportCard.
+  late ReportCardModel reportCardModel6;
+  // Model for Button.
+  late ButtonModel buttonModel;
+
+  @override
+  void initState(BuildContext context) {
+    dateRangeChipModel1 = createModel(context, () => DateRangeChipModel());
+    dateRangeChipModel2 = createModel(context, () => DateRangeChipModel());
+    dateRangeChipModel3 = createModel(context, () => DateRangeChipModel());
+    dateRangeChipModel4 = createModel(context, () => DateRangeChipModel());
+    reportCardModel1 = createModel(context, () => ReportCardModel());
+    reportCardModel2 = createModel(context, () => ReportCardModel());
+    reportCardModel3 = createModel(context, () => ReportCardModel());
+    reportCardModel4 = createModel(context, () => ReportCardModel());
+    reportCardModel5 = createModel(context, () => ReportCardModel());
+    reportCardModel6 = createModel(context, () => ReportCardModel());
+    buttonModel = createModel(context, () => ButtonModel());
+  }
+
+  @override
+  void dispose() {
+    dateRangeChipModel1.dispose();
+    dateRangeChipModel2.dispose();
+    dateRangeChipModel3.dispose();
+    dateRangeChipModel4.dispose();
+    reportCardModel1.dispose();
+    reportCardModel2.dispose();
+    reportCardModel3.dispose();
+    reportCardModel4.dispose();
+    reportCardModel5.dispose();
+    reportCardModel6.dispose();
+    buttonModel.dispose();
+  }
+}

@@ -1,0 +1,58 @@
+import '/components/account_card/account_card_widget.dart';
+import '/components/button/button_widget.dart';
+import '/components/transaction_item3/transaction_item3_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
+import 'cash_bank_management_widget.dart' show CashBankManagementWidget;
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+class CashBankManagementModel
+    extends FlutterFlowModel<CashBankManagementWidget> {
+  ///  State fields for stateful widgets in this page.
+
+  // Model for Button.
+  late ButtonModel buttonModel;
+  // Model for AccountCard.
+  late AccountCardModel accountCardModel1;
+  // Model for AccountCard.
+  late AccountCardModel accountCardModel2;
+  // Model for AccountCard.
+  late AccountCardModel accountCardModel3;
+  // Model for TransactionItem.
+  late TransactionItem3Model transactionItemModel1;
+  // Model for TransactionItem.
+  late TransactionItem3Model transactionItemModel2;
+  // Model for TransactionItem.
+  late TransactionItem3Model transactionItemModel3;
+  // Model for TransactionItem.
+  late TransactionItem3Model transactionItemModel4;
+
+  @override
+  void initState(BuildContext context) {
+    buttonModel = createModel(context, () => ButtonModel());
+    accountCardModel1 = createModel(context, () => AccountCardModel());
+    accountCardModel2 = createModel(context, () => AccountCardModel());
+    accountCardModel3 = createModel(context, () => AccountCardModel());
+    transactionItemModel1 = createModel(context, () => TransactionItem3Model());
+    transactionItemModel2 = createModel(context, () => TransactionItem3Model());
+    transactionItemModel3 = createModel(context, () => TransactionItem3Model());
+    transactionItemModel4 = createModel(context, () => TransactionItem3Model());
+  }
+
+  @override
+  void dispose() {
+    buttonModel.dispose();
+    accountCardModel1.dispose();
+    accountCardModel2.dispose();
+    accountCardModel3.dispose();
+    transactionItemModel1.dispose();
+    transactionItemModel2.dispose();
+    transactionItemModel3.dispose();
+    transactionItemModel4.dispose();
+  }
+}

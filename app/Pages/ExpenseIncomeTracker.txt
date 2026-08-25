@@ -1,0 +1,67 @@
+import '/components/button/button_widget.dart';
+import '/components/summary_card2/summary_card2_widget.dart';
+import '/components/transaction_item2/transaction_item2_widget.dart';
+import '/flutter_flow/flutter_flow_charts.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
+import 'expense_income_tracker_widget.dart' show ExpenseIncomeTrackerWidget;
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+class ExpenseIncomeTrackerModel
+    extends FlutterFlowModel<ExpenseIncomeTrackerWidget> {
+  ///  State fields for stateful widgets in this page.
+
+  // Model for SummaryCard.
+  late SummaryCard2Model summaryCardModel1;
+  // Model for SummaryCard.
+  late SummaryCard2Model summaryCardModel2;
+  // Model for Button.
+  late ButtonModel buttonModel1;
+  // Model for Button.
+  late ButtonModel buttonModel2;
+  // Model for Button.
+  late ButtonModel buttonModel3;
+  // Model for TransactionItem.
+  late TransactionItem2Model transactionItemModel1;
+  // Model for TransactionItem.
+  late TransactionItem2Model transactionItemModel2;
+  // Model for TransactionItem.
+  late TransactionItem2Model transactionItemModel3;
+  // Model for TransactionItem.
+  late TransactionItem2Model transactionItemModel4;
+  // Model for TransactionItem.
+  late TransactionItem2Model transactionItemModel5;
+
+  @override
+  void initState(BuildContext context) {
+    summaryCardModel1 = createModel(context, () => SummaryCard2Model());
+    summaryCardModel2 = createModel(context, () => SummaryCard2Model());
+    buttonModel1 = createModel(context, () => ButtonModel());
+    buttonModel2 = createModel(context, () => ButtonModel());
+    buttonModel3 = createModel(context, () => ButtonModel());
+    transactionItemModel1 = createModel(context, () => TransactionItem2Model());
+    transactionItemModel2 = createModel(context, () => TransactionItem2Model());
+    transactionItemModel3 = createModel(context, () => TransactionItem2Model());
+    transactionItemModel4 = createModel(context, () => TransactionItem2Model());
+    transactionItemModel5 = createModel(context, () => TransactionItem2Model());
+  }
+
+  @override
+  void dispose() {
+    summaryCardModel1.dispose();
+    summaryCardModel2.dispose();
+    buttonModel1.dispose();
+    buttonModel2.dispose();
+    buttonModel3.dispose();
+    transactionItemModel1.dispose();
+    transactionItemModel2.dispose();
+    transactionItemModel3.dispose();
+    transactionItemModel4.dispose();
+    transactionItemModel5.dispose();
+  }
+}
