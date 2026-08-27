@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'backend/bill_database.dart';
 
 class CustomerRecord {
   CustomerRecord(this.name, this.contact, this.balance);
@@ -38,6 +40,9 @@ class TransactionRecord {
 }
 
 class BillStore extends ChangeNotifier {
+  final BillDatabase _database = BillDatabase();
+  bool isLoading = false;
+  bool isReady = false;
   final customers = <CustomerRecord>[
     CustomerRecord('Meera Enterprises', 'meera@example.com', 42800),
     CustomerRecord('Northstar Foods', 'accounts@northstar.in', 18450),
@@ -69,23 +74,161 @@ class BillStore extends ChangeNotifier {
         'Courier charges', 'Cash on hand', '23 Aug 2026', -1850, 'Expense'),
   ];
 
+  bool get _supportsSqlite =>
+      defaultTargetPlatform == TargetPlatform.android ||
+      defaultTargetPlatform == TargetPlatform.iOS;
+
+  Future<void> initialize() async {
+    if (!_supportsSqlite || isLoading || isReady) return;
+    isLoading = true;
+    notifyListeners();
+    try {
+      final savedCustomers = await _database.read('customers');
+      final savedProducts = await _database.read('products');
+      final savedInvoices = await _database.read('invoices');
+      final savedTransactions = await _database.read('transactions');
+      if (savedCustomers.isNotEmpty) {
+        customers
+          ..clear()
+          ..addAll(savedCustomers.map((row) => CustomerRecord(
+              row['name']! as String,
+              row['contact']! as String,
+              (row['balance']! as num).toDouble())));
+      }
+      if (savedProducts.isNotEmpty) {
+        products
+          ..clear()
+          ..addAll(savedProducts.map((row) => ProductRecord(
+              row['name']! as String,
+              row['sku']! as String,
+              row['category']! as String,
+              row['stock']! as int,
+              (row['price']! as num).toDouble())));
+      }
+      if (savedInvoices.isNotEmpty) {
+        invoices
+          ..clear()
+          ..addAll(savedInvoices.map((row) => InvoiceRecord(
+              row['number']! as String,
+              row['customer']! as String,
+              row['date']! as String,
+              (row['amount']! as num).toDouble(),
+              row['status']! as String)));
+      }
+      if (savedTransactions.isNotEmpty) {
+        transactions
+          ..clear()
+          ..addAll(savedTransactions.map((row) => TransactionRecord(
+              row['description']! as String,
+              row['account']! as String,
+              row['date']! as String,
+              (row['amount']! as num).toDouble(),
+              row['type']! as String)));
+      }
+      if (savedCustomers.isEmpty &&
+          savedProducts.isEmpty &&
+          savedInvoices.isEmpty &&
+          savedTransactions.isEmpty) {
+        await _seedDatabase();
+      }
+      isReady = true;
+    } catch (_) {
+      // The in-memory records remain usable if the local database is unavailable.
+      isReady = true;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> _seedDatabase() async {
+    for (final item in customers) {
+      await _database.insert('customers', {
+        'name': item.name,
+        'contact': item.contact,
+        'balance': item.balance
+      });
+    }
+    for (final item in products) {
+      await _database.insert('products', {
+        'name': item.name,
+        'sku': item.sku,
+        'category': item.category,
+        'stock': item.stock,
+        'price': item.price
+      });
+    }
+    for (final item in invoices) {
+      await _database.insert('invoices', {
+        'number': item.number,
+        'customer': item.customer,
+        'date': item.date,
+        'amount': item.amount,
+        'status': item.status
+      });
+    }
+    for (final item in transactions) {
+      await _database.insert('transactions', {
+        'description': item.description,
+        'account': item.account,
+        'date': item.date,
+        'amount': item.amount,
+        'type': item.type
+      });
+    }
+  }
+
   void addCustomer(CustomerRecord customer) {
     customers.insert(0, customer);
+    if (_supportsSqlite) {
+      _database.insert('customers', {
+        'name': customer.name,
+        'contact': customer.contact,
+        'balance': customer.balance
+      });
+    }
     notifyListeners();
   }
 
   void addProduct(ProductRecord product) {
     products.insert(0, product);
+    if (_supportsSqlite) {
+      _database.insert('products', {
+        'name': product.name,
+        'sku': product.sku,
+        'category': product.category,
+        'stock': product.stock,
+        'price': product.price
+      });
+    }
     notifyListeners();
   }
 
   void addInvoice(InvoiceRecord invoice) {
     invoices.insert(0, invoice);
+    if (_supportsSqlite) {
+      _database.insert('invoices', {
+        'number': invoice.number,
+        'customer': invoice.customer,
+        'date': invoice.date,
+        'amount': invoice.amount,
+        'status': invoice.status
+      });
+    }
     notifyListeners();
   }
 
   void addTransaction(TransactionRecord transaction) {
     transactions.insert(0, transaction);
+    if (_supportsSqlite) {
+      _database.insert('transactions', {
+        'description': transaction.description,
+        'account': transaction.account,
+        'date': transaction.date,
+        'amount': transaction.amount,
+        'type': transaction.type
+      });
+    }
     notifyListeners();
   }
 }
@@ -93,6 +236,8 @@ class BillStore extends ChangeNotifier {
 final billStore = BillStore();
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  billStore.initialize();
   runApp(const BillApp());
 }
 
