@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Core Ledger - Balance Sheet</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c7c5d4",
+                        "surface": "#f8f9ff",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#d5e3fc",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "surface-variant": "#d5e3fc",
+                        "on-secondary-fixed": "#002114",
+                        "secondary-container": "#82f5c1",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-primary-container": "#9da1ff",
+                        "tertiary": "#3c2300",
+                        "surface-container": "#e6eeff",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-container": "#00714e",
+                        "surface-dim": "#ccdbf3",
+                        "secondary-fixed": "#85f8c4",
+                        "inverse-on-surface": "#eaf1ff",
+                        "inverse-surface": "#233144",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-surface": "#0d1c2e",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ec9700",
+                        "background": "#f8f9ff",
+                        "primary": "#15157d",
+                        "on-primary-fixed-variant": "#373a9b",
+                        "on-error": "#ffffff",
+                        "outline": "#777683",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#5a3700",
+                        "secondary": "#006c4a",
+                        "error-container": "#ffdad6",
+                        "on-background": "#0d1c2e",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#464652",
+                        "tertiary-fixed": "#ffddb8",
+                        "primary-container": "#2e3192",
+                        "inverse-primary": "#c0c1ff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#68dba9",
+                        "primary-fixed": "#e1e0ff",
+                        "on-primary-fixed": "#04006d",
+                        "on-secondary-fixed-variant": "#005137",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#4f54b4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "lg": "16px",
+                        "sm": "8px",
+                        "md": "12px",
+                        "xxl": "32px",
+                        "xl": "20px",
+                        "margin-tablet": "24px",
+                        "margin-mobile": "16px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "title-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "label-lg": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "title-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg": ["57px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["10px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "600" }],
+                        "title-lg": ["22px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "label-md": ["11px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased flex flex-col min-h-screen">
+<!-- Header (No TopAppBar/Drawer per instructions to suppress nav for focused tasks, assuming this is a generated report view, but providing a contextual app bar) -->
+<header class="bg-surface sticky top-0 z-40 px-gutter md:px-margin-tablet py-md flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:bg-surface-container-low rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary">Balance Sheet</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">As of October 31, 2023</p>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-sm">
+<span class="bg-surface-container text-on-surface-variant font-label-lg text-label-lg px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="sync">sync</span> Synced 2m ago
+             </span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-7xl mx-auto px-gutter md:px-margin-tablet py-xl md:py-xxl flex flex-col gap-xl">
+<!-- Summary Dashboard (Bento-style Header) -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Total Assets -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm border border-surface-container flex flex-col justify-between">
+<div class="flex items-center gap-sm mb-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="account_balance">account_balance</span>
+<h2 class="font-title-md text-title-md">Total Assets</h2>
+</div>
+<div class="font-headline-lg text-headline-lg text-primary">$1,245,000.00</div>
+</div>
+<!-- Total Liab & Equity -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm border border-surface-container flex flex-col justify-between">
+<div class="flex items-center gap-sm mb-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="balance">balance</span>
+<h2 class="font-title-md text-title-md">Total Liabilities &amp; Equity</h2>
+</div>
+<div class="font-headline-lg text-headline-lg text-primary">$1,245,000.00</div>
+</div>
+</section>
+<!-- Detailed Ledger Columns -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-xl">
+<!-- ASSETS COLUMN -->
+<div class="flex flex-col gap-md">
+<h3 class="font-title-lg text-title-lg border-b-2 border-primary pb-sm text-on-surface">Assets</h3>
+<!-- Current Assets -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm">
+<div class="bg-surface-container-low px-lg py-sm rounded-t-lg border-b border-outline-variant">
+<h4 class="font-title-sm text-title-sm text-on-surface-variant">Current Assets</h4>
+</div>
+<div class="p-lg flex flex-col gap-md">
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Cash &amp; Equivalents</span>
+<span class="font-title-md text-title-md">$150,000.00</span>
+</div>
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Accounts Receivable</span>
+<span class="font-title-md text-title-md">$320,000.00</span>
+</div>
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Inventory</span>
+<span class="font-title-md text-title-md">$450,000.00</span>
+</div>
+</div>
+<div class="bg-surface-container-low px-lg py-md rounded-b-lg border-t border-outline-variant flex justify-between items-center">
+<span class="font-title-sm text-title-sm text-on-surface-variant">Total Current Assets</span>
+<span class="font-title-md text-title-md text-primary">$920,000.00</span>
+</div>
+</div>
+<!-- Non-Current Assets -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm">
+<div class="bg-surface-container-low px-lg py-sm rounded-t-lg border-b border-outline-variant">
+<h4 class="font-title-sm text-title-sm text-on-surface-variant">Non-Current Assets</h4>
+</div>
+<div class="p-lg flex flex-col gap-md">
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Property, Plant &amp; Equipment</span>
+<span class="font-title-md text-title-md">$275,000.00</span>
+</div>
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Intangible Assets</span>
+<span class="font-title-md text-title-md">$50,000.00</span>
+</div>
+</div>
+<div class="bg-surface-container-low px-lg py-md rounded-b-lg border-t border-outline-variant flex justify-between items-center">
+<span class="font-title-sm text-title-sm text-on-surface-variant">Total Non-Current Assets</span>
+<span class="font-title-md text-title-md text-primary">$325,000.00</span>
+</div>
+</div>
+<!-- Total Assets Summary Footer -->
+<div class="mt-auto bg-primary-container text-on-primary-container rounded-lg p-lg flex justify-between items-center">
+<span class="font-title-lg text-title-lg">Total Assets</span>
+<span class="font-headline-sm text-headline-sm font-bold">$1,245,000.00</span>
+</div>
+</div>
+<!-- LIABILITIES & EQUITY COLUMN -->
+<div class="flex flex-col gap-md">
+<h3 class="font-title-lg text-title-lg border-b-2 border-primary pb-sm text-on-surface">Liabilities &amp; Equity</h3>
+<!-- Liabilities -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm">
+<div class="bg-surface-container-low px-lg py-sm rounded-t-lg border-b border-outline-variant">
+<h4 class="font-title-sm text-title-sm text-on-surface-variant">Liabilities</h4>
+</div>
+<div class="p-lg flex flex-col gap-md">
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Accounts Payable</span>
+<span class="font-title-md text-title-md">$180,000.00</span>
+</div>
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Short-term Loans</span>
+<span class="font-title-md text-title-md">$75,000.00</span>
+</div>
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Long-term Debt</span>
+<span class="font-title-md text-title-md">$240,000.00</span>
+</div>
+</div>
+<div class="bg-surface-container-low px-lg py-md rounded-b-lg border-t border-outline-variant flex justify-between items-center">
+<span class="font-title-sm text-title-sm text-on-surface-variant">Total Liabilities</span>
+<span class="font-title-md text-title-md text-primary">$495,000.00</span>
+</div>
+</div>
+<!-- Equity -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm">
+<div class="bg-surface-container-low px-lg py-sm rounded-t-lg border-b border-outline-variant">
+<h4 class="font-title-sm text-title-sm text-on-surface-variant">Equity</h4>
+</div>
+<div class="p-lg flex flex-col gap-md">
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Share Capital</span>
+<span class="font-title-md text-title-md">$500,000.00</span>
+</div>
+<div class="flex justify-between items-end border-b border-surface-variant pb-xs">
+<span class="font-body-md text-body-md text-on-surface">Retained Earnings</span>
+<span class="font-title-md text-title-md">$250,000.00</span>
+</div>
+</div>
+<div class="bg-surface-container-low px-lg py-md rounded-b-lg border-t border-outline-variant flex justify-between items-center">
+<span class="font-title-sm text-title-sm text-on-surface-variant">Total Equity</span>
+<span class="font-title-md text-title-md text-primary">$750,000.00</span>
+</div>
+</div>
+<!-- Total Liab & Equity Summary Footer -->
+<div class="mt-auto bg-primary-container text-on-primary-container rounded-lg p-lg flex justify-between items-center">
+<span class="font-title-lg text-title-lg">Total Liab &amp; Equity</span>
+<span class="font-headline-sm text-headline-sm font-bold">$1,245,000.00</span>
+</div>
+</div>
+</section>
+<!-- Spacing for sticky footer -->
+<div class="h-[80px]"></div>
+</main>
+<!-- Sticky Export Footer -->
+<footer class="fixed bottom-0 w-full bg-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50">
+<div class="max-w-7xl mx-auto px-gutter md:px-margin-tablet h-[72px] flex items-center justify-end gap-md">
+<button class="h-[48px] px-lg bg-surface text-primary border border-outline-variant rounded-md font-label-lg text-label-lg hover:bg-surface-container-low transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="print">print</span> Print
+            </button>
+<button class="h-[48px] px-lg bg-primary-container text-on-primary rounded-md font-label-lg text-label-lg hover:bg-primary transition-colors shadow-sm flex items-center gap-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span> Export PDF
+            </button>
+</div>
+</footer>
+</body></html>

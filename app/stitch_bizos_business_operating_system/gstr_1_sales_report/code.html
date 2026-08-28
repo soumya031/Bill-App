@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GSTR-1 Sales Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#002114",
+                      "inverse-surface": "#233144",
+                      "tertiary-fixed": "#ffddb8",
+                      "on-surface": "#0d1c2e",
+                      "surface-dim": "#ccdbf3",
+                      "on-primary-fixed-variant": "#373a9b",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#00714e",
+                      "surface-variant": "#d5e3fc",
+                      "secondary-container": "#82f5c1",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#c0c1ff",
+                      "on-tertiary-container": "#ec9700",
+                      "on-secondary-fixed-variant": "#005137",
+                      "secondary-fixed": "#85f8c4",
+                      "surface-container": "#e6eeff",
+                      "outline": "#777683",
+                      "surface-bright": "#f8f9ff",
+                      "on-error-container": "#93000a",
+                      "outline-variant": "#c7c5d4",
+                      "surface-tint": "#4f54b4",
+                      "on-primary-container": "#9da1ff",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#15157d",
+                      "tertiary": "#3c2300",
+                      "surface-container-highest": "#d5e3fc",
+                      "error": "#ba1a1a",
+                      "surface": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "on-tertiary-fixed": "#2a1700",
+                      "on-background": "#0d1c2e",
+                      "secondary": "#006c4a",
+                      "background": "#f8f9ff",
+                      "surface-container-high": "#dce9ff",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#68dba9",
+                      "primary-container": "#2e3192",
+                      "on-surface-variant": "#464652",
+                      "inverse-on-surface": "#eaf1ff",
+                      "primary-fixed-dim": "#c0c1ff",
+                      "tertiary-container": "#5a3700",
+                      "on-primary-fixed": "#04006d",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "on-error": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "primary-fixed": "#e1e0ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "unit": "4px",
+                      "xs": "4px",
+                      "lg": "16px",
+                      "xl": "20px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "md": "12px",
+                      "xxl": "32px",
+                      "margin-tablet": "24px"
+              },
+              "fontFamily": {
+                      "title-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "title-sm": [
+                              "Inter"
+                      ],
+                      "title-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "label-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "34px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "title-lg": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "10px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-lg": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "57px",
+                              {
+                                      "lineHeight": "64px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased pb-[80px] md:pb-0">
+<!-- Top App Bar - Mobile/Tablet -->
+<header class="flex justify-between items-center px-margin-mobile h-[56px] w-full z-50 bg-surface text-primary shadow-sm sticky top-0 md:hidden">
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-low rounded-full p-2 transition-colors">arrow_back</button>
+<h1 class="font-headline-sm-mobile text-headline-sm-mobile text-on-surface">GSTR-1 Report</h1>
+</div>
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-low rounded-full p-2 transition-colors">more_vert</button>
+</header>
+<!-- Main Navigation Layout (Web) -->
+<div class="hidden md:flex h-screen w-[360px] bg-surface-container-low flex-col p-md rounded-r-xl shadow-xl fixed left-0 top-0 z-40">
+<div class="mb-xl px-4 pt-4">
+<h1 class="font-headline-sm text-headline-sm text-primary font-bold tracking-tight">Sharma Electronics</h1>
+<p class="font-label-lg text-label-lg text-on-surface-variant mt-1">Premium Plan</p>
+<div class="flex items-center gap-1 mt-2 text-secondary">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Synced 2m ago</span>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container font-bold rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-title-md text-title-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+<span class="font-title-md text-title-md">Sales</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">inventory_2</span>
+<span class="font-title-md text-title-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">groups</span>
+<span class="font-title-md text-title-md">Parties</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<button class="w-full flex items-center justify-center gap-2 bg-primary-container text-on-primary-container py-3 px-4 rounded-full font-title-md text-title-md hover:bg-primary-fixed transition-colors shadow-sm">
+<span class="material-symbols-outlined">download</span>
+                Export Report
+            </button>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="md:ml-[360px] p-margin-mobile md:p-margin-tablet max-w-[1200px] mx-auto min-h-screen pb-32">
+<!-- Header & Filters (Desktop) -->
+<div class="hidden md:flex justify-between items-end mb-xl mt-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">GSTR-1 Report</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-1">Review outward supplies for GST filing.</p>
+</div>
+<div class="flex items-center gap-sm">
+<div class="bg-surface-container flex items-center gap-2 px-4 py-2 rounded-lg border border-outline-variant shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant">calendar_today</span>
+<span class="font-title-sm text-title-sm text-on-surface">Oct 1 - Oct 31, 2023</span>
+<span class="material-symbols-outlined text-on-surface-variant ml-2">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Date Filter (Mobile) -->
+<div class="md:hidden flex items-center justify-between bg-surface-container px-4 py-3 rounded-lg border border-outline-variant shadow-sm mb-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">calendar_today</span>
+<span class="font-title-sm text-title-sm text-on-surface">Oct 2023</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">arrow_drop_down</span>
+</div>
+<!-- Summary Metrics - Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-xxl">
+<!-- Metric 1 -->
+<div class="bg-surface p-lg rounded-xl shadow-sm border border-surface-container-highest flex flex-col justify-between h-[120px]">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-title-sm text-title-sm">Total Taxable Value</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface font-semibold">
+                    ₹ 12,45,000.00
+                </div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface p-lg rounded-xl shadow-sm border border-surface-container-highest flex flex-col justify-between h-[120px]">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+<span class="font-title-sm text-title-sm">Total Tax Amount</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface font-semibold">
+                    ₹ 2,24,100.00
+                </div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface p-lg rounded-xl shadow-sm border border-surface-container-highest flex flex-col justify-between h-[120px]">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">receipt</span>
+<span class="font-title-sm text-title-sm">Total Invoices</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface font-semibold">
+                    142
+                </div>
+</div>
+</div>
+<!-- Grouped Data Section: 18% GST -->
+<div class="mb-xl">
+<h2 class="font-title-lg text-title-lg text-on-surface mb-md flex items-center gap-2">
+<span class="bg-surface-container-high px-2 py-1 rounded font-label-lg text-label-lg text-primary">18% GST</span>
+                B2B Invoices (4B, 4C, 6B, 6C)
+            </h2>
+<div class="bg-surface rounded-xl shadow-sm border border-surface-container-highest overflow-hidden">
+<!-- Mobile List View -->
+<div class="md:hidden flex flex-col divide-y divide-outline-variant">
+<!-- Item 1 -->
+<div class="p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">INV-2023-089</div>
+<div class="font-body-md text-body-md text-on-surface-variant">Acme Corp</div>
+</div>
+<div class="text-right">
+<div class="font-title-sm text-title-sm text-on-surface">₹ 50,000</div>
+<div class="font-label-md text-label-md text-on-surface-variant">Taxable</div>
+</div>
+</div>
+<div class="flex justify-between items-center mt-1 bg-surface-container-low p-2 rounded">
+<div class="font-label-md text-label-md text-on-surface-variant">CGST/SGST (9%)</div>
+<div class="font-title-sm text-title-sm text-on-surface">₹ 4,500 / ₹ 4,500</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">INV-2023-091</div>
+<div class="font-body-md text-body-md text-on-surface-variant">Global Tech Ltd</div>
+</div>
+<div class="text-right">
+<div class="font-title-sm text-title-sm text-on-surface">₹ 1,20,000</div>
+<div class="font-label-md text-label-md text-on-surface-variant">Taxable</div>
+</div>
+</div>
+<div class="flex justify-between items-center mt-1 bg-surface-container-low p-2 rounded">
+<div class="font-label-md text-label-md text-on-surface-variant">IGST (18%)</div>
+<div class="font-title-sm text-title-sm text-on-surface">₹ 21,600</div>
+</div>
+</div>
+</div>
+<!-- Desktop Table View -->
+<div class="hidden md:block overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant">
+<th class="p-4 font-label-lg text-label-lg text-on-surface-variant font-medium">Invoice No</th>
+<th class="p-4 font-label-lg text-label-lg text-on-surface-variant font-medium">Customer</th>
+<th class="p-4 font-label-lg text-label-lg text-on-surface-variant font-medium text-right">Taxable Value</th>
+<th class="p-4 font-label-lg text-label-lg text-on-surface-variant font-medium text-right">CGST</th>
+<th class="p-4 font-label-lg text-label-lg text-on-surface-variant font-medium text-right">SGST</th>
+<th class="p-4 font-label-lg text-label-lg text-on-surface-variant font-medium text-right">IGST</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="p-4 font-body-md text-body-md text-on-surface">INV-2023-089</td>
+<td class="p-4 font-body-md text-body-md text-on-surface">Acme Corp</td>
+<td class="p-4 font-title-sm text-title-sm text-on-surface text-right">₹ 50,000.00</td>
+<td class="p-4 font-body-md text-body-md text-on-surface-variant text-right">₹ 4,500.00</td>
+<td class="p-4 font-body-md text-body-md text-on-surface-variant text-right">₹ 4,500.00</td>
+<td class="p-4 font-body-md text-body-md text-on-surface-variant text-right">-</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="p-4 font-body-md text-body-md text-on-surface">INV-2023-091</td>
+<td class="p-4 font-body-md text-body-md text-on-surface">Global Tech Ltd</td>
+<td class="p-4 font-title-sm text-title-sm text-on-surface text-right">₹ 1,20,000.00</td>
+<td class="p-4 font-body-md text-body-md text-on-surface-variant text-right">-</td>
+<td class="p-4 font-body-md text-body-md text-on-surface-variant text-right">-</td>
+<td class="p-4 font-body-md text-body-md text-on-surface-variant text-right">₹ 21,600.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Export Button (Mobile) -->
+<div class="md:hidden fixed bottom-[80px] w-full p-4 bg-gradient-to-t from-surface via-surface to-transparent z-40 pb-6">
+<button class="w-full flex items-center justify-center gap-2 bg-primary-container text-on-primary-container h-[48px] rounded-lg font-title-md text-title-md shadow-md active:scale-95 transition-transform">
+<span class="material-symbols-outlined">download</span>
+            Export for Filing
+        </button>
+</div>
+<!-- Bottom Nav Bar - Mobile -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-[80px] px-2 pb-safe bg-surface border-t border-outline-variant md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined text-[24px]">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-1">Sales</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined text-[24px]">inventory_2</span>
+<span class="font-label-sm text-label-sm mt-1">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-sm text-label-sm mt-1 font-bold">Reports</span>
+</a>
+</nav>
+</body></html>

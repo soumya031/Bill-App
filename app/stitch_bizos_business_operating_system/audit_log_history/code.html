@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Advanced Audit Log - Sharma Electronics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "outline-variant": "#c7c5d4",
+                            "surface": "#f8f9ff",
+                            "tertiary-fixed-dim": "#ffb95f",
+                            "surface-bright": "#f8f9ff",
+                            "surface-container-low": "#eff4ff",
+                            "on-tertiary": "#ffffff",
+                            "surface-container-highest": "#d5e3fc",
+                            "on-tertiary-fixed-variant": "#653e00",
+                            "surface-variant": "#d5e3fc",
+                            "on-secondary-fixed": "#002114",
+                            "secondary-container": "#82f5c1",
+                            "on-tertiary-fixed": "#2a1700",
+                            "on-primary-container": "#9da1ff",
+                            "tertiary": "#3c2300",
+                            "surface-container": "#e6eeff",
+                            "surface-container-high": "#dce9ff",
+                            "on-secondary-container": "#00714e",
+                            "surface-dim": "#ccdbf3",
+                            "secondary-fixed": "#85f8c4",
+                            "inverse-on-surface": "#eaf1ff",
+                            "inverse-surface": "#233144",
+                            "primary-fixed-dim": "#c0c1ff",
+                            "on-surface": "#0d1c2e",
+                            "on-secondary": "#ffffff",
+                            "on-tertiary-container": "#ec9700",
+                            "background": "#f8f9ff",
+                            "primary": "#15157d",
+                            "on-primary-fixed-variant": "#373a9b",
+                            "on-error": "#ffffff",
+                            "outline": "#777683",
+                            "on-primary": "#ffffff",
+                            "tertiary-container": "#5a3700",
+                            "secondary": "#006c4a",
+                            "error-container": "#ffdad6",
+                            "on-background": "#0d1c2e",
+                            "on-error-container": "#93000a",
+                            "on-surface-variant": "#464652",
+                            "tertiary-fixed": "#ffddb8",
+                            "primary-container": "#2e3192",
+                            "inverse-primary": "#c0c1ff",
+                            "surface-container-lowest": "#ffffff",
+                            "secondary-fixed-dim": "#68dba9",
+                            "primary-fixed": "#e1e0ff",
+                            "on-primary-fixed": "#04006d",
+                            "on-secondary-fixed-variant": "#005137",
+                            "error": "#ba1a1a",
+                            "surface-tint": "#4f54b4"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "unit": "4px",
+                            "gutter": "16px",
+                            "lg": "16px",
+                            "sm": "8px",
+                            "md": "12px",
+                            "xxl": "32px",
+                            "xl": "20px",
+                            "margin-tablet": "24px",
+                            "margin-mobile": "16px",
+                            "xs": "4px"
+                    },
+                    "fontFamily": {
+                            "headline-md": ["Inter"],
+                            "label-lg": ["Inter"],
+                            "title-sm": ["Inter"],
+                            "display-lg": ["Inter"],
+                            "headline-lg": ["Inter"],
+                            "body-md": ["Inter"],
+                            "label-sm": ["Inter"],
+                            "headline-sm": ["Inter"],
+                            "headline-lg-mobile": ["Inter"],
+                            "title-lg": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "title-md": ["Inter"],
+                            "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                            "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                            "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                            "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                            "display-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                            "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
+                            "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "600"}],
+                            "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                            "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col md:flex-row antialiased">
+<!-- Navigation Drawer (Desktop) -->
+<aside class="hidden md:flex flex-col p-md h-screen w-[360px] rounded-r-xl bg-surface-container-low dark:bg-surface-container-low shadow-xl z-50 sticky top-0 shrink-0">
+<div class="flex items-center gap-md mb-xl p-md">
+<div class="w-12 h-12 rounded-full overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A professional corporate headshot of a business owner, neutral expression, clean lighting, set against a subtle minimalist office background, modern light-mode financial software context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwk31JkKJXj3vz6OzC3P2Q9ORm1SDx_E4BGJgRlHYF0wcDKzA7Mz8fIAXnsAEKKfs_4MNCDuSrs1T1ObInlpUYiPAtNkre4cF4GUJm_eqgUX51yF6AkCIt3dO1F3NPVmBj2LsiKL9zs96VKjx-RF1qQDPdRtXvp3e7KOrOjcbUlu9tY704ZwiRIbyw0dWZh2EHNVlm5H-e1U6uGKyZroarPdgmw6B1tyD2o7_cBwieEI0jsfFqHEnMIw"/>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary">Sharma Electronics</h2>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined filled text-[16px] text-secondary">check_circle</span>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Synced 2m ago</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-sm">
+<a class="flex items-center gap-md px-lg py-md text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined">home</span>
+                Home
+            </a>
+<a class="flex items-center gap-md px-lg py-md text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+                Sales
+            </a>
+<a class="flex items-center gap-md px-lg py-md text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Inventory
+            </a>
+<a class="flex items-center gap-md px-lg py-md bg-primary-container text-on-primary-container font-bold rounded-full font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Reports
+            </a>
+</nav>
+<div class="mt-auto pt-lg border-t border-outline-variant/30">
+<div class="px-lg py-sm">
+<p class="font-label-lg text-label-lg text-primary font-bold">Premium Plan</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+<!-- TopAppBar (Mobile) -->
+<header class="md:hidden flex justify-between items-center px-margin-mobile h-[56px] w-full z-50 bg-surface shadow-sm sticky top-0 shrink-0">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional corporate headshot of a business owner, neutral expression, clean lighting, set against a subtle minimalist office background, modern light-mode financial software context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv8kcuRdZRuKY8EKYiZYLb1J_zUK8SXBw0DDJ0VoWnS0k6hAS_I_bEbVupEZP4MMc3Gy2fgRhhpiqqzZanjO4hY-JY_k8j4mzxnVCAJbU3OpX5IUNt-IWFTHqcwBeGvS_SqQzg_-XEX2bXEZmsYtf3qX792LfTkcWZWoLn73kUrrutzacrx_TNadeBh-SfFuiEX4Ql4H7SdadKsXWEBjrdydChPdRRisLBRWPESYinxswqOI5KLgDxXA"/>
+</div>
+<h1 class="font-headline-sm text-headline-sm-mobile text-on-surface">Sharma Electronics</h1>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-container-low rounded-full p-sm transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-y-auto p-margin-mobile md:p-xl bg-background">
+<div class="max-w-5xl mx-auto space-y-xl pb-24 md:pb-0">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-xs">Audit Log</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">System-wide transactional and structural changes.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-sm w-full md:w-auto">
+<div class="relative w-full sm:w-64">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full h-12 pl-10 pr-4 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface focus:border-primary focus:ring-1 focus:ring-primary font-body-md text-body-md shadow-sm transition-shadow" placeholder="Search logs..." type="text"/>
+</div>
+<button class="flex items-center justify-center gap-xs px-lg h-12 bg-surface-container-lowest border border-outline-variant text-primary rounded-lg hover:bg-surface-container-low transition-colors font-title-sm text-title-sm shadow-sm whitespace-nowrap">
+<span class="material-symbols-outlined">filter_list</span>
+                            Filter
+                        </button>
+<button class="flex items-center justify-center gap-xs px-lg h-12 bg-primary-container text-on-primary-container rounded-lg hover:opacity-90 transition-opacity font-title-sm text-title-sm shadow-sm whitespace-nowrap">
+<span class="material-symbols-outlined">download</span>
+                            Export
+                        </button>
+</div>
+</div>
+<!-- Timeline Container -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/50 overflow-hidden relative">
+<!-- Vertical Line -->
+<div class="absolute left-[36px] md:left-[60px] top-0 bottom-0 w-px bg-outline-variant/30"></div>
+<!-- Timeline Item 1 -->
+<div class="relative p-md md:p-lg border-b border-outline-variant/30 last:border-0 hover:bg-surface-container-low transition-colors group">
+<div class="flex flex-col md:flex-row gap-md md:gap-lg">
+<!-- Avatar / Icon Column -->
+<div class="flex items-start gap-md shrink-0 relative z-10">
+<div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-title-md text-title-md font-bold shadow-sm ring-4 ring-surface-container-lowest">
+                                    AP
+                                </div>
+<div class="md:hidden mt-1">
+<p class="font-title-sm text-title-sm text-on-surface">Amit Patel</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">10:45 AM</p>
+</div>
+</div>
+<!-- Content Column -->
+<div class="flex-1 space-y-md ml-[44px] md:ml-0">
+<div class="hidden md:flex justify-between items-start mb-sm">
+<p class="font-title-sm text-title-sm text-on-surface">Amit Patel <span class="font-body-md text-body-md text-on-surface-variant font-normal">updated an invoice</span></p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Today, 10:45 AM</p>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg border border-outline-variant/20">
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-[18px] text-primary">edit_document</span>
+<p class="font-title-sm text-title-sm text-on-surface">Invoice INV-1025</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-sm mt-md">
+<div class="p-sm bg-surface-container-lowest rounded border border-error-container relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error"></div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1 pl-2">Previous Total</p>
+<p class="font-title-md text-title-md text-error pl-2 line-through">₹45,000.00</p>
+</div>
+<div class="p-sm bg-surface-container-lowest rounded border border-secondary-container relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1 pl-2">New Total</p>
+<p class="font-title-md text-title-md text-secondary pl-2">₹42,500.00</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-sm">Applied 5% festival discount to line items.</p>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">smartphone</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Mobile App (iOS)</p>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">location_on</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Mumbai, IN</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-[80px] px-2 pb-safe bg-surface border-t border-outline-variant shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-1">Sales</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-sm text-label-sm mt-1">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-90 transition-transform shadow-sm" href="#">
+<span class="material-symbols-outlined filled">analytics</span>
+<span class="font-label-sm text-label-sm mt-1 font-bold">Reports</span>
+</a>
+</nav>
+</body></html>

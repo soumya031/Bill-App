@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HSN Summary - Sharma Electronics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#002114",
+                      "inverse-surface": "#233144",
+                      "tertiary-fixed": "#ffddb8",
+                      "on-surface": "#0d1c2e",
+                      "surface-dim": "#ccdbf3",
+                      "on-primary-fixed-variant": "#373a9b",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#00714e",
+                      "surface-variant": "#d5e3fc",
+                      "secondary-container": "#82f5c1",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#c0c1ff",
+                      "on-tertiary-container": "#ec9700",
+                      "on-secondary-fixed-variant": "#005137",
+                      "secondary-fixed": "#85f8c4",
+                      "surface-container": "#e6eeff",
+                      "outline": "#777683",
+                      "surface-bright": "#f8f9ff",
+                      "on-error-container": "#93000a",
+                      "outline-variant": "#c7c5d4",
+                      "surface-tint": "#4f54b4",
+                      "on-primary-container": "#9da1ff",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#15157d",
+                      "tertiary": "#3c2300",
+                      "surface-container-highest": "#d5e3fc",
+                      "error": "#ba1a1a",
+                      "surface": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "on-tertiary-fixed": "#2a1700",
+                      "on-background": "#0d1c2e",
+                      "secondary": "#006c4a",
+                      "background": "#f8f9ff",
+                      "surface-container-high": "#dce9ff",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#68dba9",
+                      "primary-container": "#2e3192",
+                      "on-surface-variant": "#464652",
+                      "inverse-on-surface": "#eaf1ff",
+                      "primary-fixed-dim": "#c0c1ff",
+                      "tertiary-container": "#5a3700",
+                      "on-primary-fixed": "#04006d",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "on-error": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "primary-fixed": "#e1e0ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "unit": "4px",
+                      "xs": "4px",
+                      "lg": "16px",
+                      "xl": "20px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "md": "12px",
+                      "xxl": "32px",
+                      "margin-tablet": "24px"
+              },
+              "fontFamily": {
+                      "title-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "title-sm": [
+                              "Inter"
+                      ],
+                      "title-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "label-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "34px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "title-lg": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "10px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-lg": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "57px",
+                              {
+                                      "lineHeight": "64px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-sans antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top App Bar -->
+<header class="bg-surface shadow-sm docked full-width top-0 z-50 flex justify-between items-center px-margin-mobile h-[56px] w-full">
+<div class="flex items-center gap-md">
+<button aria-label="Menu" class="text-on-surface hover:bg-surface-container-low rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="flex items-center gap-2">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A small, professional business logo suitable for an electronics store, circular shape, modern corporate style, light mode, clean and crisp design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoCvG9UB96LswKdjCycFeD-hj8pfLhvnBZjvNFbfT5odphTVpuA4l7IoxyVHJi2thBGlPtRe3ujZD5eeJo-L_oP-Df66SysLE1GfJmkxThm3e797MKsFUUy830wda7bixTPN85bKrTxKVayycvvYXlz5a5bnLFv6C88E84SzppTQiD25mcA9D344sMwQJHfNu7mzZg4wGsLLVwXp9a8BVg_EDA0UlvMve-SLLsQQeL1ahuTWCwGU_Q5g"/>
+<h1 class="font-headline-sm text-headline-sm-mobile text-on-surface">Sharma Electronics</h1>
+</div>
+</div>
+<button aria-label="Notifications" class="text-on-surface hover:bg-surface-container-low rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col pt-4 pb-[100px] md:pb-8 max-w-7xl mx-auto w-full px-margin-mobile">
+<!-- Page Header & Controls -->
+<div class="mb-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">HSN Summary</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Review GST categorization and tax impact.</p>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<div class="relative flex-grow sm:flex-grow-0 sm:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full h-12 pl-10 pr-4 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary font-body-md text-body-md text-on-surface placeholder-on-surface-variant transition-shadow" placeholder="Search HSN Code..." type="text"/>
+</div>
+<button aria-label="Filter" class="h-12 px-4 bg-surface-container-low hover:bg-surface-container-high rounded-lg flex items-center justify-center text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Summary Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-lg mb-xl border border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-md w-full md:w-auto">
+<div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Total Items Categorized</h3>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-primary">125</span>
+<span class="font-label-lg text-label-lg text-on-surface-variant">Active HSN Codes</span>
+</div>
+</div>
+</div>
+<div class="flex gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+<div class="bg-surface-container-low px-4 py-3 rounded-lg min-w-[140px] flex-shrink-0">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Total Taxable Value</p>
+<p class="font-title-lg text-title-lg text-on-surface">₹ 4,50,000</p>
+</div>
+<div class="bg-secondary-container/30 px-4 py-3 rounded-lg min-w-[140px] flex-shrink-0">
+<p class="font-label-md text-label-md text-on-secondary-fixed-variant uppercase tracking-wider mb-1">Total Tax Collected</p>
+<p class="font-title-lg text-title-lg text-on-secondary-fixed">₹ 81,000</p>
+</div>
+</div>
+</div>
+<!-- List View -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-outline-variant/30 overflow-hidden">
+<!-- Table Header (Hidden on small screens, shown on md+) -->
+<div class="hidden md:grid grid-cols-12 gap-4 p-4 bg-surface-container border-b border-outline-variant/50">
+<div class="col-span-2 font-label-lg text-label-lg text-on-surface-variant uppercase">HSN Code</div>
+<div class="col-span-4 font-label-lg text-label-lg text-on-surface-variant uppercase">Description</div>
+<div class="col-span-2 text-right font-label-lg text-label-lg text-on-surface-variant uppercase">Qty Sold</div>
+<div class="col-span-2 text-right font-label-lg text-label-lg text-on-surface-variant uppercase">Taxable Value</div>
+<div class="col-span-2 text-right font-label-lg text-label-lg text-on-surface-variant uppercase">Total Tax</div>
+</div>
+<!-- List Items -->
+<div class="flex flex-col">
+<!-- Item 1 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-y-2 md:gap-x-4 p-4 border-b border-outline-variant/30 hover:bg-surface-container-lowest/50 transition-colors group">
+<div class="md:col-span-2 flex items-center justify-between md:block">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">HSN Code</span>
+<span class="font-title-md text-title-md text-primary font-medium">8517</span>
+</div>
+<div class="md:col-span-4 flex items-center justify-between md:block">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Description</span>
+<span class="font-body-lg text-body-lg text-on-surface">Smartphones &amp; Accessories</span>
+</div>
+<div class="md:col-span-2 flex items-center justify-between md:justify-end">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Qty Sold</span>
+<span class="font-body-md text-body-md text-on-surface">450 units</span>
+</div>
+<div class="md:col-span-2 flex items-center justify-between md:justify-end">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Taxable Value</span>
+<span class="font-title-md text-title-md text-on-surface">₹ 2,10,000</span>
+</div>
+<div class="md:col-span-2 flex items-center justify-between md:justify-end">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Total Tax</span>
+<span class="font-title-md text-title-md text-on-secondary-container">₹ 37,800</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-y-2 md:gap-x-4 p-4 border-b border-outline-variant/30 hover:bg-surface-container-lowest/50 transition-colors group">
+<div class="md:col-span-2 flex items-center justify-between md:block">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">HSN Code</span>
+<span class="font-title-md text-title-md text-primary font-medium">8471</span>
+</div>
+<div class="md:col-span-4 flex items-center justify-between md:block">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Description</span>
+<span class="font-body-lg text-body-lg text-on-surface">Laptops &amp; Computers</span>
+</div>
+<div class="md:col-span-2 flex items-center justify-between md:justify-end">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Qty Sold</span>
+<span class="font-body-md text-body-md text-on-surface">120 units</span>
+</div>
+<div class="md:col-span-2 flex items-center justify-between md:justify-end">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Taxable Value</span>
+<span class="font-title-md text-title-md text-on-surface">₹ 1,80,000</span>
+</div>
+<div class="md:col-span-2 flex items-center justify-between md:justify-end">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Total Tax</span>
+<span class="font-title-md text-title-md text-on-secondary-container">₹ 32,400</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-y-2 md:gap-x-4 p-4 hover:bg-surface-container-lowest/50 transition-colors group">
+<div class="md:col-span-2 flex items-center justify-between md:block">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">HSN Code</span>
+<span class="font-title-md text-title-md text-primary font-medium">8528</span>
+</div>
+<div class="md:col-span-4 flex items-center justify-between md:block">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Description</span>
+<span class="font-body-lg text-body-lg text-on-surface">Televisions &amp; Monitors</span>
+</div>
+<div class="md:col-span-2 flex items-center justify-between md:justify-end">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Qty Sold</span>
+<span class="font-body-md text-body-md text-on-surface">65 units</span>
+</div>
+<div class="md:col-span-2 flex items-center justify-between md:justify-end">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Taxable Value</span>
+<span class="font-title-md text-title-md text-on-surface">₹ 60,000</span>
+</div>
+<div class="md:col-span-2 flex items-center justify-between md:justify-end">
+<span class="md:hidden font-label-md text-label-md text-on-surface-variant uppercase">Total Tax</span>
+<span class="font-title-md text-title-md text-on-secondary-container">₹ 10,800</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="bg-surface fixed bottom-0 w-full z-50 flex justify-around items-center h-[80px] px-2 pb-safe md:hidden border-t-0 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<button aria-label="Home" class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container px-4 py-1 rounded-xl transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<button aria-label="Sales" class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container px-4 py-1 rounded-xl transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</button>
+<button aria-label="Inventory" class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container px-4 py-1 rounded-xl transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm">Inventory</span>
+</button>
+<button aria-label="Parties" class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container px-4 py-1 rounded-xl transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="groups">groups</span>
+<span class="font-label-sm text-label-sm">Parties</span>
+</button>
+<button aria-label="Reports" class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-90 transition-transform">
+<span class="material-symbols-outlined mb-1" data-icon="analytics" data-weight="fill" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-sm text-label-sm font-bold">Reports</span>
+</button>
+</nav>
+<!-- Sync Status Badge (Desktop only, positioned fixed bottom left) -->
+<div class="hidden md:flex fixed bottom-4 left-4 items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full shadow-sm z-50">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="cloud_sync">cloud_sync</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Synced 2m ago</span>
+</div>
+</body></html>

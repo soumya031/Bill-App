@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inventory Dashboard - Sharma Electronics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#e1e0ff",
+                      "tertiary-container": "#5a3700",
+                      "secondary-fixed": "#85f8c4",
+                      "outline": "#777683",
+                      "on-secondary-fixed": "#002114",
+                      "tertiary-fixed": "#ffddb8",
+                      "tertiary": "#3c2300",
+                      "primary": "#15157d",
+                      "surface-bright": "#f8f9ff",
+                      "on-primary-container": "#9da1ff",
+                      "error": "#ba1a1a",
+                      "outline-variant": "#c7c5d4",
+                      "on-tertiary-container": "#ec9700",
+                      "secondary": "#006c4a",
+                      "surface-dim": "#ccdbf3",
+                      "surface": "#f8f9ff",
+                      "surface-tint": "#4f54b4",
+                      "on-secondary-container": "#00714e",
+                      "surface-container-highest": "#d5e3fc",
+                      "on-tertiary-fixed": "#2a1700",
+                      "background": "#f8f9ff",
+                      "on-surface-variant": "#464652",
+                      "on-background": "#0d1c2e",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "secondary-container": "#82f5c1",
+                      "primary-fixed-dim": "#c0c1ff",
+                      "surface-container-low": "#eff4ff",
+                      "error-container": "#ffdad6",
+                      "on-surface": "#0d1c2e",
+                      "inverse-primary": "#c0c1ff",
+                      "on-primary": "#ffffff",
+                      "secondary-fixed-dim": "#68dba9",
+                      "inverse-on-surface": "#eaf1ff",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "on-primary-fixed-variant": "#373a9b",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-high": "#dce9ff",
+                      "on-secondary-fixed-variant": "#005137",
+                      "inverse-surface": "#233144",
+                      "surface-variant": "#d5e3fc",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed": "#04006d",
+                      "primary-container": "#2e3192",
+                      "surface-container": "#e6eeff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xxl": "32px",
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "margin-tablet": "24px",
+                      "xs": "4px",
+                      "md": "12px",
+                      "sm": "8px",
+                      "gutter": "16px",
+                      "xl": "20px",
+                      "lg": "16px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "title-sm": ["Inter"],
+                      "label-lg": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "title-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "title-md": ["Inter"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
+                      "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "600"}],
+                      "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Desktop Shell Layout (Sidebar) -->
+<div class="hidden md:flex fixed inset-y-0 left-0 bg-surface-container-low w-[360px] rounded-r-xl shadow-xl flex-col p-md h-full z-40">
+<!-- Drawer Header -->
+<div class="flex items-center gap-md mb-xl p-sm">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center shrink-0">
+<img class="w-full h-full rounded-full object-cover" data-alt="A clean, minimalist logo for a modern electronics store. Bright light mode aesthetic, crisp lines, corporate blue palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7f6RZt7D-6-vrMBno5gJo8Cvf-VD2YfB5SPq4ixSVUA1O2ch3cUdbUR_dZ3ZcYQldbX2k2sokzKrM0OBkUYDNHq9d0Y9KTLwqvO-ii--7f-otGKC073hOGV1-4zSI5sWXJyiCNfUesvozNvWY5yxtQ4ieJVFC5AUWS6d93lY9aL3ficPR45TFxLZ-_825wnlBEkP-cvOzINNxmiMBCntufd5AlKyzuJs_0YzIAkilBEalyKgUT68uGA"/>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm-mobile text-primary">Sharma Electronics</div>
+<div class="font-label-md text-label-md text-on-surface-variant flex gap-sm">
+<span>Premium Plan</span>
+<span class="text-outline-variant">•</span>
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">cloud_done</span> Synced 2m ago</span>
+</div>
+</div>
+</div>
+<!-- Drawer Navigation -->
+<nav class="flex-1 space-y-sm mt-md">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors hover:bg-surface-container-high rounded-full font-title-md text-title-md group" href="#">
+<span class="material-symbols-outlined group-active:scale-98">home</span>
+                Home
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors hover:bg-surface-container-high rounded-full font-title-md text-title-md group" href="#">
+<span class="material-symbols-outlined group-active:scale-98">receipt_long</span>
+                Sales
+            </a>
+<a class="flex items-center gap-md px-md py-sm bg-primary-container text-on-primary-container font-bold rounded-full font-title-md text-title-md group" href="#">
+<span class="material-symbols-outlined group-active:scale-98" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                Inventory
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors hover:bg-surface-container-high rounded-full font-title-md text-title-md group" href="#">
+<span class="material-symbols-outlined group-active:scale-98">groups</span>
+                Parties
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors hover:bg-surface-container-high rounded-full font-title-md text-title-md group" href="#">
+<span class="material-symbols-outlined group-active:scale-98">analytics</span>
+                Reports
+            </a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-md">
+<button class="w-full flex items-center justify-center gap-sm bg-primary-container text-on-primary hover:bg-primary-fixed-variant transition-colors py-3 rounded-full font-title-sm text-title-sm">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+                BARCODE SCAN
+            </button>
+</div>
+</div>
+<!-- Mobile Top App Bar -->
+<header class="md:hidden flex justify-between items-center px-margin-mobile h-[56px] w-full z-50 bg-surface text-primary shadow-sm docked full-width top-0 sticky">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shrink-0">
+<img class="w-full h-full rounded-full object-cover" data-alt="A small circular avatar logo for an electronics business in a bright, modern interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjL7SGsKpfOLpm-oSCloDei530aGlnQk8lh8VH_5RLXUTjZX6cPtgN97vi7ghzGDLiwGDF85EHCaAAejb1ZaaVGzAt4DKWdZ3irmDv0fDDxlUNy169msMNHHqjLWDU0-v2KUZck5WBg4CXSRtuPpwFE_j1z3c5FIr3W4p7q0XTBjxF9w8uSYvavPl7jBUAErAiE5Zx777qcopPNWWdsZH7wpG7guvo3g-PWKdsOj7ucSOg0O_4I6TpHw"/>
+</div>
+<h1 class="font-headline-sm text-headline-sm-mobile text-on-surface font-title-lg text-title-lg">Sharma Electronics</h1>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full active:scale-95 duration-100 ease-in-out transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="md:ml-[360px] pb-[96px] md:pb-xxl min-h-screen">
+<!-- Header & Primary Actions -->
+<div class="px-margin-mobile md:px-margin-tablet py-xl md:py-xxl flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Inventory Dashboard</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage stock, track movements, and monitor alerts.</p>
+</div>
+<div class="flex gap-sm w-full md:w-auto">
+<button class="md:hidden flex-1 md:flex-none flex items-center justify-center gap-sm bg-primary-container text-on-primary hover:bg-primary-fixed-variant transition-colors py-3 px-6 rounded-full font-title-sm text-title-sm shadow-sm active:scale-95 duration-100 ease-in-out">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+                    Scan
+                </button>
+<button class="flex-1 md:flex-none flex items-center justify-center gap-sm bg-surface-container-high text-on-surface hover:bg-surface-variant transition-colors py-3 px-6 rounded-full font-title-sm text-title-sm border border-outline-variant shadow-sm active:scale-95 duration-100 ease-in-out">
+<span class="material-symbols-outlined">add_box</span>
+                    Add Product
+                </button>
+</div>
+</div>
+<!-- Dashboard Canvas -->
+<div class="px-margin-mobile md:px-margin-tablet grid grid-cols-1 md:grid-cols-12 gap-lg md:gap-xl">
+<!-- Key Metrics Grid -->
+<div class="col-span-1 md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-md md:gap-lg">
+<!-- Stock Value -->
+<div class="bg-surface rounded-xl p-md md:p-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-surface-container-high flex flex-col justify-between h-full relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-fixed-dim rounded-full opacity-20 group-hover:scale-110 transition-transform"></div>
+<div class="flex items-center justify-between mb-md relative z-10">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Stock Value</span>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">currency_rupee</span>
+</div>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface relative z-10">₹8,42,000</div>
+</div>
+<!-- Total Products -->
+<div class="bg-surface rounded-xl p-md md:p-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-surface-container-high flex flex-col justify-between h-full">
+<div class="flex items-center justify-between mb-md">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Total Products</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+</div>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface">1,245</div>
+</div>
+<!-- Low Stock -->
+<div class="bg-surface rounded-xl p-md md:p-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-surface-container-high flex flex-col justify-between h-full relative overflow-hidden">
+<div class="absolute inset-0 bg-tertiary-fixed opacity-10"></div>
+<div class="flex items-center justify-between mb-md relative z-10">
+<span class="font-label-lg text-label-lg text-on-tertiary-container">Low Stock</span>
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+</div>
+</div>
+<div class="font-headline-md text-headline-md text-tertiary relative z-10">12</div>
+</div>
+<!-- Out of Stock -->
+<div class="bg-surface rounded-xl p-md md:p-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-surface-container-high flex flex-col justify-between h-full relative overflow-hidden">
+<div class="absolute inset-0 bg-error-container opacity-20"></div>
+<div class="flex items-center justify-between mb-md relative z-10">
+<span class="font-label-lg text-label-lg text-on-error-container">Out of Stock</span>
+<div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[18px]">error</span>
+</div>
+</div>
+<div class="font-headline-md text-headline-md text-error relative z-10">3</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Nav Bar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-[80px] px-2 pb-safe bg-surface border-t border-outline-variant shadow-none">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-1">Sales</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-sm text-label-sm mt-1">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-sm text-label-sm mt-1">Parties</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-sm text-label-sm mt-1">Reports</span>
+</a>
+</nav>
+</body></html>

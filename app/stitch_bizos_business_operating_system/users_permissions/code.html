@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Team Management - Sharma Electronics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c7c5d4",
+                        "surface": "#f8f9ff",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#d5e3fc",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "surface-variant": "#d5e3fc",
+                        "on-secondary-fixed": "#002114",
+                        "secondary-container": "#82f5c1",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-primary-container": "#9da1ff",
+                        "tertiary": "#3c2300",
+                        "surface-container": "#e6eeff",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-container": "#00714e",
+                        "surface-dim": "#ccdbf3",
+                        "secondary-fixed": "#85f8c4",
+                        "inverse-on-surface": "#eaf1ff",
+                        "inverse-surface": "#233144",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-surface": "#0d1c2e",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ec9700",
+                        "background": "#f8f9ff",
+                        "primary": "#15157d",
+                        "on-primary-fixed-variant": "#373a9b",
+                        "on-error": "#ffffff",
+                        "outline": "#777683",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#5a3700",
+                        "secondary": "#006c4a",
+                        "error-container": "#ffdad6",
+                        "on-background": "#0d1c2e",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#464652",
+                        "tertiary-fixed": "#ffddb8",
+                        "primary-container": "#2e3192",
+                        "inverse-primary": "#c0c1ff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#68dba9",
+                        "primary-fixed": "#e1e0ff",
+                        "on-primary-fixed": "#04006d",
+                        "on-secondary-fixed-variant": "#005137",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#4f54b4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "lg": "16px",
+                        "sm": "8px",
+                        "md": "12px",
+                        "xxl": "32px",
+                        "xl": "20px",
+                        "margin-tablet": "24px",
+                        "margin-mobile": "16px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "title-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "label-lg": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "title-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg": ["57px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["10px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "600" }],
+                        "title-lg": ["22px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "label-md": ["11px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill-0 {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col md:flex-row font-body-md">
+<!-- Navigation Drawer (Desktop/Web) -->
+<aside class="hidden md:flex flex-col p-md h-screen w-[360px] rounded-r-xl bg-surface-container-low shadow-xl z-40 fixed left-0 top-0">
+<!-- Header -->
+<div class="flex items-center gap-md mb-xl p-md">
+<img alt="Business Owner" class="w-12 h-12 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a business owner, modern lighting, clear background, high quality, suitable for a corporate dashboard profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx_cSKXwg24dNaz9wNkJ-u3DU4DvZkUQASJDlmZFgWGg6qJDj34FouqJrC3lWZtGBbxq6jHUJeSgUOA_xo2a0UE4RqtlBv-DH0gEEqYyE-oeVBVM62IlVqO48ndmK7gI1eXBSvaM2ROUmsZVm_NYln-zUsKVVJJBUzNhDASXFarbwEAoDLzg0NC8WHe66gSU7Y4nxQDCM51W9qAvUc1m-oCWMlgOdJuy768RQqBZ0FGvhVRrrLlhPjcA"/>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-primary">Sharma Electronics</h2>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Synced 2m ago</span>
+<span class="text-on-surface-variant">•</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Premium Plan</span>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 flex flex-col gap-sm overflow-y-auto">
+<a class="flex items-center gap-md px-lg py-md rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined icon-fill-0" data-icon="home">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined icon-fill-0" data-icon="receipt_long">receipt_long</span>
+<span>Sales</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined icon-fill-0" data-icon="inventory_2">inventory_2</span>
+<span>Inventory</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md rounded-full bg-primary-container text-on-primary-container font-bold font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span>Parties</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined icon-fill-0" data-icon="analytics">analytics</span>
+<span>Reports</span>
+</a>
+</nav>
+<!-- Quick Actions -->
+<div class="mt-auto pt-md border-t border-outline-variant flex flex-col gap-sm">
+<button class="flex items-center gap-md px-lg py-md rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-lg text-label-lg w-full text-left">
+<span class="material-symbols-outlined icon-fill-0" data-icon="add_shopping_cart">add_shopping_cart</span>
+<span>New Sale</span>
+</button>
+<button class="flex items-center gap-md px-lg py-md rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-lg text-label-lg w-full text-left">
+<span class="material-symbols-outlined icon-fill-0" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span>Payment In</span>
+</button>
+<button class="flex items-center gap-md px-lg py-md rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-lg text-label-lg w-full text-left">
+<span class="material-symbols-outlined icon-fill-0" data-icon="add_box">add_box</span>
+<span>Add Product</span>
+</button>
+<button class="flex items-center gap-md px-lg py-md rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-lg text-label-lg w-full text-left">
+<span class="material-symbols-outlined icon-fill-0" data-icon="person_add">person_add</span>
+<span>Add Customer</span>
+</button>
+</div>
+</aside>
+<!-- Top App Bar (Mobile Only) -->
+<header class="md:hidden flex justify-between items-center px-margin-mobile h-[56px] w-full z-50 bg-surface shadow-sm sticky top-0">
+<div class="flex items-center gap-md">
+<img alt="Business Logo" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A clear, professional logo mark suitable for a business named Sharma Electronics, clean lines, modern design, light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH2AWJae-skd_d1_u2CbvMl5w44ClXeUzndyipxC04k0f_D7fMJCPli0NyKJIxDY4Xj41XnDRuKKci_pWinpBZv1M5h_hh96ENjAGBYpO2NmRDEPwQT96aCVk5il_UCv7IdBaCntnxRlG9v7Gl41vqaXtyT6nZSHlYEUdIsutjkF5FJYnOPszFSp1rUTVcU16Bse3ElXklPJVqWoFuVQxsUqLexTJdCOYzSK7ATwiTn3rDaeIPNoqd3A"/>
+<h1 class="font-headline-sm text-headline-sm-mobile text-on-surface font-bold">Sharma Electronics</h1>
+</div>
+<button class="text-on-surface-variant p-sm rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[360px] pb-[80px] md:pb-0 min-h-screen">
+<div class="max-w-5xl mx-auto p-margin-mobile md:p-margin-tablet lg:p-xxl flex flex-col gap-xl">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-xs">Team Management</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage multi-user permissions and roles for your business.</p>
+</div>
+</div>
+<!-- Team Members & Permissions Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+<!-- Members List Column -->
+<div class="lg:col-span-1 flex flex-col gap-md">
+<h3 class="font-title-lg text-title-lg text-on-surface">Members</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden flex flex-col">
+<!-- Search -->
+<div class="p-sm border-b border-outline-variant/30 bg-surface-container-low">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-xl pr-md py-sm rounded-lg bg-surface-container-lowest border-none text-body-md focus:ring-1 focus:ring-primary text-on-surface h-10" placeholder="Search members..." type="text"/>
+</div>
+</div>
+<!-- User List -->
+<div class="flex flex-col overflow-y-auto max-h-[600px]">
+<!-- Active User -->
+<button class="w-full text-left p-md flex items-center gap-md bg-surface-container border-l-4 border-primary hover:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-title-md text-title-md shrink-0">
+                                    RA
+                                </div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-xs">
+<p class="font-title-md text-title-md text-on-surface truncate">Rahul Agarwal</p>
+<span class="bg-secondary-container/20 text-secondary px-2 py-0.5 rounded-sm font-label-sm text-label-sm whitespace-nowrap">Active</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">Manager</p>
+</div>
+</button>
+<!-- Inactive/Other Users -->
+<button class="w-full text-left p-md flex items-center gap-md hover:bg-surface-container-low transition-colors border-b border-outline-variant/20 last:border-0">
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-title-md text-title-md shrink-0">
+                                    VS
+                                </div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-xs">
+<p class="font-title-md text-title-md text-on-surface truncate">Vikram Singh</p>
+<span class="bg-secondary-container/20 text-secondary px-2 py-0.5 rounded-sm font-label-sm text-label-sm whitespace-nowrap">Active</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">Salesman</p>
+</div>
+</button>
+<button class="w-full text-left p-md flex items-center gap-md hover:bg-surface-container-low transition-colors border-b border-outline-variant/20 last:border-0">
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-title-md text-title-md shrink-0">
+                                    NK
+                                </div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-xs">
+<p class="font-title-md text-title-md text-on-surface truncate">Neha Kapoor</p>
+<span class="bg-error-container/50 text-error px-2 py-0.5 rounded-sm font-label-sm text-label-sm whitespace-nowrap">Inactive</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">Accountant</p>
+</div>
+</button>
+</div>
+</div>
+</div>
+<!-- Permission Matrix Column -->
+<div class="lg:col-span-2 flex flex-col gap-md">
+<div class="flex items-center justify-between">
+<h3 class="font-title-lg text-title-lg text-on-surface">Permissions: Rahul Agarwal</h3>
+<button class="bg-primary text-on-primary px-lg h-[40px] rounded-lg font-title-sm text-title-sm hover:bg-primary/90 transition-colors hidden md:flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                            Save Changes
+                        </button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden flex flex-col flex-1">
+<!-- Role Selector -->
+<div class="p-md border-b border-outline-variant/30 bg-surface-container-low flex items-center gap-md">
+<label class="font-title-sm text-title-sm text-on-surface whitespace-nowrap">Role Preset:</label>
+<select class="form-select w-full md:w-64 rounded-lg bg-surface-container-lowest border-outline-variant text-body-md focus:ring-primary focus:border-primary text-on-surface h-10">
+<option value="admin">Admin</option>
+<option selected="" value="manager">Manager</option>
+<option value="salesman">Salesman</option>
+<option value="custom">Custom</option>
+</select>
+</div>
+<!-- Matrix Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[600px]">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant/30">
+<th class="p-md font-title-sm text-title-sm text-on-surface-variant w-1/4">Module</th>
+<th class="p-md font-title-sm text-title-sm text-on-surface-variant text-center">View</th>
+<th class="p-md font-title-sm text-title-sm text-on-surface-variant text-center">Create</th>
+<th class="p-md font-title-sm text-title-sm text-on-surface-variant text-center">Edit</th>
+<th class="p-md font-title-sm text-title-sm text-on-surface-variant text-center">Delete</th>
+<th class="p-md font-title-sm text-title-sm text-on-surface-variant text-center">Export</th>
+</tr>
+</thead>
+<tbody>
+<!-- Sales Row -->
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low/50 transition-colors">
+<td class="p-md font-title-md text-title-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">receipt_long</span>
+                                            Sales
+                                        </td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+</tr>
+<!-- Purchases Row -->
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low/50 transition-colors">
+<td class="p-md font-title-md text-title-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">shopping_cart</span>
+                                            Purchases
+                                        </td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+</tr>
+<!-- Expenses Row -->
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low/50 transition-colors">
+<td class="p-md font-title-md text-title-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">payments</span>
+                                            Expenses
+                                        </td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+</tr>
+<!-- Inventory Row -->
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low/50 transition-colors">
+<td class="p-md font-title-md text-title-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">inventory_2</span>
+                                            Inventory
+                                        </td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center"><input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+</tr>
+<!-- Reports Row -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="p-md font-title-md text-title-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">analytics</span>
+                                            Reports
+                                        </td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+<td class="p-md text-center text-on-surface-variant/30">-</td>
+<td class="p-md text-center text-on-surface-variant/30">-</td>
+<td class="p-md text-center text-on-surface-variant/30">-</td>
+<td class="p-md text-center"><input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant focus:ring-primary cursor-pointer" type="checkbox"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Mobile Save FAB (Visible only on mobile when permissions change) -->
+<div class="fixed bottom-[96px] right-margin-mobile z-40 md:hidden">
+<button class="w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-lg flex items-center justify-center hover:bg-primary/90 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-[24px]">save</span>
+</button>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-[80px] px-2 pb-safe bg-surface border-t border-outline-variant">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined icon-fill-0" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined icon-fill-0" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-1">Sales</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined icon-fill-0" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm mt-1">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-sm text-label-sm mt-1 font-bold">Parties</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined icon-fill-0" data-icon="analytics">analytics</span>
+<span class="font-label-sm text-label-sm mt-1">Reports</span>
+</a>
+</nav>
+<!-- Global Add Team Member FAB -->
+<button class="fixed bottom-[96px] md:bottom-margin-tablet right-margin-mobile md:right-margin-tablet w-14 h-14 bg-primary-container text-on-primary-container rounded-2xl shadow-xl flex items-center justify-center hover:bg-primary-container/90 transition-transform hover:-translate-y-1 active:scale-95 z-50">
+<span class="material-symbols-outlined text-[24px]">person_add</span>
+</button>
+</body></html>

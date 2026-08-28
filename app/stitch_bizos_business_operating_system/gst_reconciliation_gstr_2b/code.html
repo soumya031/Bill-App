@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Input Tax Reconciliation - GSTR-2B</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#002114",
+                      "inverse-surface": "#233144",
+                      "tertiary-fixed": "#ffddb8",
+                      "on-surface": "#0d1c2e",
+                      "surface-dim": "#ccdbf3",
+                      "on-primary-fixed-variant": "#373a9b",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#00714e",
+                      "surface-variant": "#d5e3fc",
+                      "secondary-container": "#82f5c1",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#c0c1ff",
+                      "on-tertiary-container": "#ec9700",
+                      "on-secondary-fixed-variant": "#005137",
+                      "secondary-fixed": "#85f8c4",
+                      "surface-container": "#e6eeff",
+                      "outline": "#777683",
+                      "surface-bright": "#f8f9ff",
+                      "on-error-container": "#93000a",
+                      "outline-variant": "#c7c5d4",
+                      "surface-tint": "#4f54b4",
+                      "on-primary-container": "#9da1ff",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#15157d",
+                      "tertiary": "#3c2300",
+                      "surface-container-highest": "#d5e3fc",
+                      "error": "#ba1a1a",
+                      "surface": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "on-tertiary-fixed": "#2a1700",
+                      "on-background": "#0d1c2e",
+                      "secondary": "#006c4a",
+                      "background": "#f8f9ff",
+                      "surface-container-high": "#dce9ff",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#68dba9",
+                      "primary-container": "#2e3192",
+                      "on-surface-variant": "#464652",
+                      "inverse-on-surface": "#eaf1ff",
+                      "primary-fixed-dim": "#c0c1ff",
+                      "tertiary-container": "#5a3700",
+                      "on-primary-fixed": "#04006d",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "on-error": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "primary-fixed": "#e1e0ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "unit": "4px",
+                      "xs": "4px",
+                      "lg": "16px",
+                      "xl": "20px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "md": "12px",
+                      "xxl": "32px",
+                      "margin-tablet": "24px"
+              },
+              "fontFamily": {
+                      "title-md": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "title-sm": ["Inter"],
+                      "title-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "label-lg": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "600"}],
+                      "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                      "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
+                      "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "display-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .shadow-elevation-1 { box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04); }
+        .shadow-elevation-2 { box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg antialiased min-h-screen flex flex-col md:flex-row">
+<!-- Desktop Navigation Drawer (Hidden on Mobile) -->
+<aside class="hidden md:flex flex-col p-md h-full w-[360px] rounded-r-xl bg-surface-container-low dark:bg-surface-container-low shadow-lg shrink-0 sticky top-0 h-screen z-40 shadow-xl">
+<div class="flex items-center gap-lg mb-xl px-lg pt-lg">
+<div class="w-[48px] h-[48px] rounded-full overflow-hidden bg-surface-container-highest shrink-0 flex items-center justify-center text-primary font-bold font-title-lg">
+                SE
+            </div>
+<div>
+<h2 class="font-headline-sm text-headline-sm-mobile text-primary">Sharma Electronics</h2>
+<div class="flex items-center gap-xs">
+<p class="font-label-md text-label-md text-on-surface-variant">Premium Plan</p>
+<span class="w-[4px] h-[4px] rounded-full bg-outline-variant"></span>
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+                        Synced 2m ago
+                    </p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-xs overflow-y-auto">
+<a class="flex items-center gap-md px-lg py-md h-[48px] text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+<span class="font-label-lg text-label-lg">New Sale</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md h-[48px] text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-lg text-label-lg">Payment In</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md h-[48px] text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span class="font-label-lg text-label-lg">Add Product</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md h-[48px] text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+<span class="font-label-lg text-label-lg">Add Customer</span>
+</a>
+<div class="h-[1px] bg-outline-variant my-md mx-lg"></div>
+<a class="flex items-center gap-md px-lg py-md h-[48px] bg-primary-container text-on-primary-container font-bold rounded-full hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-lg text-label-lg">Reports</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col w-full max-w-7xl mx-auto pb-[100px] md:pb-xl">
+<!-- Top App Bar (Mobile & Desktop) -->
+<header class="flex justify-between items-center px-margin-mobile h-[56px] w-full z-50 bg-surface dark:bg-surface shadow-sm docked full-width top-0 sticky">
+<div class="flex items-center gap-lg">
+<div class="md:hidden w-[32px] h-[32px] rounded-full overflow-hidden bg-surface-container-highest flex items-center justify-center text-primary font-bold font-title-sm">
+                    SE
+                </div>
+<h1 class="font-headline-sm text-headline-sm-mobile text-on-surface dark:text-on-surface">Input Tax Reconciliation</h1>
+</div>
+<button class="w-[48px] h-[48px] flex items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-full transition-colors active:scale-95 duration-100 ease-in-out">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Canvas -->
+<div class="px-margin-mobile md:px-margin-tablet py-xl flex flex-col gap-xl">
+<!-- Context & Actions Row -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md">
+<div>
+<h2 class="font-title-lg text-title-lg text-on-surface">GSTR-2B Verification</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">October 2023 • Auto-synced from GST Portal</p>
+</div>
+<button class="h-[48px] px-xl bg-primary-container text-on-primary font-title-md text-title-md rounded-full hover:opacity-90 transition-opacity flex items-center gap-sm">
+<span class="material-symbols-outlined text-[20px]">task_alt</span>
+                    Reconcile All Mismatches
+                </button>
+</div>
+<!-- Status Indicators Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Matched -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-elevation-1 border border-transparent">
+<div class="flex justify-between items-start mb-md">
+<div class="w-[40px] h-[40px] rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="font-label-lg text-label-lg text-secondary bg-secondary-container/20 px-sm py-unit rounded-full">Perfect</span>
+</div>
+<p class="font-title-sm text-title-sm text-on-surface-variant mb-unit">Matched Entries</p>
+<p class="font-headline-md text-headline-md text-on-surface">140</p>
+<p class="font-label-md text-label-md text-on-surface-variant mt-sm">ITC Available: ₹1,24,500</p>
+</div>
+<!-- Mismatch -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-elevation-1 border-[2px] border-tertiary-container relative overflow-hidden">
+<div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-tertiary-container/10 to-transparent"></div>
+<div class="flex justify-between items-start mb-md">
+<div class="w-[40px] h-[40px] rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined">error</span>
+</div>
+<span class="font-label-lg text-label-lg text-tertiary-container bg-tertiary-container/10 px-sm py-unit rounded-full">Action Needed</span>
+</div>
+<p class="font-title-sm text-title-sm text-on-surface-variant mb-unit">Value Mismatch</p>
+<p class="font-headline-md text-headline-md text-on-surface">12</p>
+<p class="font-label-md text-label-md text-on-surface-variant mt-sm">Diff: ₹4,200 (ITC at risk)</p>
+</div>
+<!-- Missing -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-elevation-1 border border-transparent">
+<div class="flex justify-between items-start mb-md">
+<div class="w-[40px] h-[40px] rounded-full bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<span class="font-label-lg text-label-lg text-error bg-error/10 px-sm py-unit rounded-full">Follow up</span>
+</div>
+<p class="font-title-sm text-title-sm text-on-surface-variant mb-unit">Missing in 2B</p>
+<p class="font-headline-md text-headline-md text-on-surface">5</p>
+<p class="font-label-md text-label-md text-on-surface-variant mt-sm">ITC Deferred: ₹18,000</p>
+</div>
+</div>
+<!-- Detailed List Section -->
+<div class="bg-surface-container-lowest rounded-xl shadow-elevation-1 overflow-hidden mt-md">
+<div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+<h3 class="font-title-md text-title-md text-on-surface">Mismatched Invoices (12)</h3>
+<div class="flex gap-sm">
+<button class="h-[32px] px-md bg-surface-container text-on-surface-variant font-label-md text-label-md rounded-full hover:bg-surface-container-high transition-colors">
+                            Filter
+                        </button>
+</div>
+</div>
+<div class="flex flex-col divide-y divide-outline-variant/50">
+<!-- Item 1: Tax Mismatch -->
+<div class="p-lg hover:bg-surface-bright transition-colors group">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold">TechCorp Suppliers Pvt Ltd</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Inv: INV-2023-441 • Date: 12 Oct 2023</p>
+</div>
+<button class="h-[32px] px-md border border-outline-variant bg-surface-container-lowest text-primary font-label-md text-label-md rounded-full hover:bg-surface-container-low transition-colors">
+                                Contact Supplier
+                            </button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md bg-surface-container-low/50 p-md rounded-lg">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-unit">As per Purchase Book</p>
+<p class="font-title-sm text-title-sm text-on-surface">Tax: ₹2,400</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Value: ₹13,333</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-unit">As per GSTR-2B</p>
+<p class="font-title-sm text-title-sm text-on-surface">Tax: ₹2,200</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Value: ₹12,222</p>
+</div>
+<div class="md:col-span-2 flex flex-col justify-center items-end">
+<span class="font-title-sm text-title-sm text-tertiary-container bg-tertiary-container/10 px-sm py-unit rounded flex items-center gap-unit">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+                                    Tax Diff: -₹200
+                                </span>
+<div class="mt-sm flex gap-sm">
+<button class="text-primary font-label-md text-label-md hover:underline">Accept 2B</button>
+<span class="text-outline-variant">|</span>
+<button class="text-primary font-label-md text-label-md hover:underline">Keep Book</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2: Value Mismatch -->
+<div class="p-lg hover:bg-surface-bright transition-colors group">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold">Mega Electronics Distributors</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Inv: ME-8902 • Date: 15 Oct 2023</p>
+</div>
+<button class="h-[32px] px-md border border-outline-variant bg-surface-container-lowest text-primary font-label-md text-label-md rounded-full hover:bg-surface-container-low transition-colors">
+                                Contact Supplier
+                            </button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md bg-surface-container-low/50 p-md rounded-lg">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-unit">As per Purchase Book</p>
+<p class="font-title-sm text-title-sm text-on-surface">Tax: ₹18,000</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Value: ₹1,00,000</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-unit">As per GSTR-2B</p>
+<p class="font-title-sm text-title-sm text-on-surface">Tax: ₹18,000</p>
+<p class="font-label-md text-label-md text-on-surface-variant text-error">Value: ₹1,05,000</p>
+</div>
+<div class="md:col-span-2 flex flex-col justify-center items-end">
+<span class="font-title-sm text-title-sm text-error bg-error/10 px-sm py-unit rounded flex items-center gap-unit">
+<span class="material-symbols-outlined text-[16px]">priority_high</span>
+                                    Value Diff: ₹5,000
+                                </span>
+<div class="mt-sm flex gap-sm">
+<button class="text-primary font-label-md text-label-md hover:underline">Accept 2B</button>
+<span class="text-outline-variant">|</span>
+<button class="text-primary font-label-md text-label-md hover:underline">Keep Book</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-md text-center border-t border-outline-variant/50 bg-surface-bright">
+<button class="text-primary font-title-sm text-title-sm hover:underline p-unit">View all 12 mismatches</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-[80px] px-2 pb-safe bg-surface dark:bg-surface border-t border-outline-variant dark:border-outline docked full-width bottom-0 flat no shadows">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high h-[48px] w-[64px] rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high h-[48px] w-[64px] rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-1">Sales</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high h-[48px] w-[64px] rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm mt-1">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high h-[48px] w-[64px] rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-sm text-label-sm mt-1">Parties</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container rounded-full px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high scale-90 transition-transform h-[48px] w-[64px]" href="#">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-sm text-label-sm mt-1 font-bold">Reports</span>
+</a>
+</nav>
+</body></html>
