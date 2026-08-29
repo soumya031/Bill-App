@@ -27,7 +27,9 @@ dependencies:
   google_fonts: 6.3.3
   intl: 0.20.2
   json_path: 0.7.2
+  mobile_scanner: 6.0.2
   page_transition: 2.1.0
+  pdf: 3.11.1
   path_provider: 2.1.4
   path_provider_android: 2.2.10
   path_provider_foundation: 2.4.0
@@ -35,7 +37,9 @@ dependencies:
   path_provider_platform_interface: 2.1.2
   path_provider_windows: 2.3.0
   percent_indicator: 4.2.2
+  printing: 5.13.4
   provider: 6.1.5
+  share_plus: 10.1.2
   shared_preferences: 2.5.3
   shared_preferences_android: 2.4.10
   shared_preferences_foundation: 2.5.4
@@ -45,6 +49,8 @@ dependencies:
   shared_preferences_windows: 2.4.1
   sqflite: 2.3.3+1
   sqflite_common: 2.5.4+3
+  sqflite_common_ffi: 2.3.4
+  sqlite3: 2.9.0
   timeago: 3.7.1
   url_launcher: 6.3.1
   url_launcher_android: 6.3.16

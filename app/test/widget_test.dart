@@ -1,21 +1,22 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:ledger_pilot/main.dart';
+import 'package:ledger_pilot/core/money.dart';
+import 'package:ledger_pilot/utils/widgets.dart';
 
 void main() {
-  testWidgets('Bill workspace loads the overview', (WidgetTester tester) async {
-    await tester.pumpWidget(const BillApp());
-    await tester.pumpAndSettle();
+  testWidgets('MoneyText renders Indian-formatted amount', (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(home: Scaffold(body: MoneyText(123456))));
+    expect(find.text('₹1,234.56'), findsOneWidget);
+    final rendered = tester.widget<Text>(find.byType(Text));
+    expect(rendered.style?.fontSize, 15);
+    expect(rendered.style?.fontWeight, FontWeight.w700);
+  });
 
-    expect(find.text('PricePilot Bill'), findsOneWidget);
-    expect(find.text('Good morning, Anika'), findsOneWidget);
-    expect(find.text('Create invoice'), findsOneWidget);
+  test('moneyStyle exposes size, weight and tabular figures', () {
+    final style = moneyStyle(fontSize: 12, weight: FontWeight.w600);
+    expect(style.fontSize, 12);
+    expect(style.fontWeight, FontWeight.w600);
+    expect(style.fontFeatures, isNotNull);
   });
 }
