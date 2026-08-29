@@ -24,6 +24,7 @@
         "google_fonts",
         "intl",
         "json_path",
+        "mobile_scanner",
         "page_transition",
         "path_provider",
         "path_provider_android",
@@ -31,8 +32,11 @@
         "path_provider_linux",
         "path_provider_platform_interface",
         "path_provider_windows",
+        "pdf",
         "percent_indicator",
+        "printing",
         "provider",
+        "share_plus",
         "shared_preferences",
         "shared_preferences_android",
         "shared_preferences_foundation",
@@ -42,6 +46,8 @@
         "shared_preferences_windows",
         "sqflite",
         "sqflite_common",
+        "sqflite_common_ffi",
+        "sqlite3",
         "timeago",
         "url_launcher",
         "url_launcher_android",
@@ -168,6 +174,29 @@
       ]
     },
     {
+      "name": "sqlite3",
+      "version": "2.9.0",
+      "dependencies": [
+        "collection",
+        "ffi",
+        "meta",
+        "path",
+        "typed_data",
+        "web"
+      ]
+    },
+    {
+      "name": "sqflite_common_ffi",
+      "version": "2.3.4",
+      "dependencies": [
+        "meta",
+        "path",
+        "sqflite_common",
+        "sqlite3",
+        "synchronized"
+      ]
+    },
+    {
       "name": "sqflite_common",
       "version": "2.5.4+3",
       "dependencies": [
@@ -257,12 +286,48 @@
       ]
     },
     {
+      "name": "share_plus",
+      "version": "10.1.2",
+      "dependencies": [
+        "cross_file",
+        "ffi",
+        "file",
+        "flutter",
+        "flutter_web_plugins",
+        "meta",
+        "mime",
+        "share_plus_platform_interface",
+        "url_launcher_linux",
+        "url_launcher_platform_interface",
+        "url_launcher_web",
+        "url_launcher_windows",
+        "web",
+        "win32"
+      ]
+    },
+    {
       "name": "provider",
       "version": "6.1.5",
       "dependencies": [
         "collection",
         "flutter",
         "nested"
+      ]
+    },
+    {
+      "name": "printing",
+      "version": "5.13.4",
+      "dependencies": [
+        "ffi",
+        "flutter",
+        "flutter_web_plugins",
+        "http",
+        "image",
+        "meta",
+        "pdf",
+        "pdf_widget_wrapper",
+        "plugin_platform_interface",
+        "web"
       ]
     },
     {
@@ -331,10 +396,35 @@
       ]
     },
     {
+      "name": "pdf",
+      "version": "3.11.1",
+      "dependencies": [
+        "archive",
+        "barcode",
+        "bidi",
+        "crypto",
+        "image",
+        "meta",
+        "path_parsing",
+        "vector_math",
+        "xml"
+      ]
+    },
+    {
       "name": "page_transition",
       "version": "2.1.0",
       "dependencies": [
         "flutter"
+      ]
+    },
+    {
+      "name": "mobile_scanner",
+      "version": "6.0.2",
+      "dependencies": [
+        "flutter",
+        "flutter_web_plugins",
+        "plugin_platform_interface",
+        "web"
       ]
     },
     {
@@ -595,6 +685,18 @@
       ]
     },
     {
+      "name": "typed_data",
+      "version": "1.4.0",
+      "dependencies": [
+        "collection"
+      ]
+    },
+    {
+      "name": "ffi",
+      "version": "2.2.0",
+      "dependencies": []
+    },
+    {
       "name": "synchronized",
       "version": "3.4.1+2",
       "dependencies": []
@@ -608,6 +710,39 @@
       ]
     },
     {
+      "name": "win32",
+      "version": "5.15.0",
+      "dependencies": [
+        "ffi"
+      ]
+    },
+    {
+      "name": "share_plus_platform_interface",
+      "version": "5.0.2",
+      "dependencies": [
+        "cross_file",
+        "flutter",
+        "meta",
+        "mime",
+        "path_provider",
+        "plugin_platform_interface",
+        "uuid"
+      ]
+    },
+    {
+      "name": "mime",
+      "version": "2.1.0",
+      "dependencies": []
+    },
+    {
+      "name": "cross_file",
+      "version": "0.3.5+5",
+      "dependencies": [
+        "meta",
+        "web"
+      ]
+    },
+    {
       "name": "nested",
       "version": "1.0.0",
       "dependencies": [
@@ -615,9 +750,31 @@
       ]
     },
     {
-      "name": "ffi",
-      "version": "2.2.0",
-      "dependencies": []
+      "name": "pdf_widget_wrapper",
+      "version": "1.0.4",
+      "dependencies": [
+        "flutter",
+        "pdf"
+      ]
+    },
+    {
+      "name": "image",
+      "version": "4.3.0",
+      "dependencies": [
+        "archive",
+        "meta",
+        "xml"
+      ]
+    },
+    {
+      "name": "http",
+      "version": "1.6.0",
+      "dependencies": [
+        "async",
+        "http_parser",
+        "meta",
+        "web"
+      ]
     },
     {
       "name": "platform",
@@ -629,6 +786,51 @@
       "version": "1.1.0",
       "dependencies": [
         "meta",
+        "path"
+      ]
+    },
+    {
+      "name": "xml",
+      "version": "6.5.0",
+      "dependencies": [
+        "collection",
+        "meta",
+        "petitparser"
+      ]
+    },
+    {
+      "name": "path_parsing",
+      "version": "1.1.0",
+      "dependencies": [
+        "meta",
+        "vector_math"
+      ]
+    },
+    {
+      "name": "crypto",
+      "version": "3.0.7",
+      "dependencies": [
+        "typed_data"
+      ]
+    },
+    {
+      "name": "bidi",
+      "version": "2.0.13",
+      "dependencies": []
+    },
+    {
+      "name": "barcode",
+      "version": "2.2.9",
+      "dependencies": [
+        "meta",
+        "qr"
+      ]
+    },
+    {
+      "name": "archive",
+      "version": "3.6.1",
+      "dependencies": [
+        "crypto",
         "path"
       ]
     },
@@ -655,23 +857,6 @@
       "version": "0.1.2",
       "dependencies": [
         "petitparser"
-      ]
-    },
-    {
-      "name": "http",
-      "version": "1.6.0",
-      "dependencies": [
-        "async",
-        "http_parser",
-        "meta",
-        "web"
-      ]
-    },
-    {
-      "name": "crypto",
-      "version": "3.0.7",
-      "dependencies": [
-        "typed_data"
       ]
     },
     {
@@ -826,27 +1011,10 @@
       ]
     },
     {
-      "name": "typed_data",
-      "version": "1.4.0",
+      "name": "qr",
+      "version": "3.0.2",
       "dependencies": [
-        "collection"
-      ]
-    },
-    {
-      "name": "xml",
-      "version": "6.5.0",
-      "dependencies": [
-        "collection",
-        "meta",
-        "petitparser"
-      ]
-    },
-    {
-      "name": "path_parsing",
-      "version": "1.1.0",
-      "dependencies": [
-        "meta",
-        "vector_math"
+        "meta"
       ]
     },
     {
