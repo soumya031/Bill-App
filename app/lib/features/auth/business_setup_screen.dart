@@ -7,6 +7,7 @@ import '../../data/repositories.dart';
 import '../../data/seed_data.dart';
 import '../../theme/stitch_theme.dart';
 import '../../utils/widgets.dart';
+import '../shell/app_shell.dart';
 
 class BusinessSetupScreen extends StatefulWidget {
   const BusinessSetupScreen({super.key, required this.phone});
@@ -37,23 +38,56 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
 
   Future<void> _create() async {
     if (!formKey.currentState!.validate()) return;
-    final session = context.read<Session>();
-    final business = Business(
-      name: name.text.trim(),
-      ownerName: owner.text.trim().isEmpty ? null : owner.text.trim(),
-      gstin: gstin.text.trim().isEmpty ? null : gstin.text.trim(),
-      state: stateController.text.trim().isEmpty ? null : stateController.text.trim(),
-      city: city.text.trim().isEmpty ? null : city.text.trim(),
-      industry: industry,
-      invoicePrefix: prefix.text.trim().isEmpty ? 'INV' : prefix.text.trim(),
-      taxRegistered: taxRegistered,
-    );
-    final businessId = await Repository.instance.createBusiness(business);
-    if (loadSample) {
-      await seedDemoData(Repository.instance, businessId);
+
+    try {
+      final session = context.read<Session>();
+      final business = Business(
+        name: name.text.trim(),
+        ownerName: owner.text.trim().isEmpty ? null : owner.text.trim(),
+        gstin:
+            gstin.text.trim().isEmpty ? null : gstin.text.trim().toUpperCase(),
+        state: stateController.text.trim().isEmpty
+            ? null
+            : stateController.text.trim(),
+        city: city.text.trim().isEmpty ? null : city.text.trim(),
+        industry: industry,
+        invoicePrefix: prefix.text.trim().isEmpty ? 'INV' : prefix.text.trim(),
+        taxRegistered: taxRegistered,
+      );
+
+      // Create business
+      final businessId = await Repository.instance.createBusiness(business);
+
+      // Load sample data if requested
+      if (loadSample) {
+        try {
+          await seedDemoData(Repository.instance, businessId);
+        } catch (seedError) {
+          // Log seed error but continue - don't block business creation
+          print('Seed data error (non-blocking): $seedError');
+        }
+      }
+
+      // Complete onboarding
+      await session.completeOnboarding(businessId);
+
+      if (mounted) {
+        showAppMessage(context, 'Business created successfully!');
+        await Future.delayed(const Duration(milliseconds: 300));
+        // Navigate directly to AppShell
+        if (mounted) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => const AppShell()),
+            (route) => false,
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        showAppMessage(context, 'Error: ${e.toString()}', error: true);
+        print('Business creation error: $e');
+      }
     }
-    await session.completeOnboarding(businessId);
-    if (mounted) Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   @override
@@ -70,24 +104,39 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
               const SizedBox(height: 6),
               const Text('These details appear on your GST invoices.',
-                  style: TextStyle(fontSize: 13, color: StitchColors.textSecondary)),
+                  style: TextStyle(
+                      fontSize: 13, color: StitchColors.textSecondary)),
               const SizedBox(height: 24),
-              AppTextField(controller: name, label: 'Business name', hint: 'e.g. Modern Retail Store',
-                  validator: (v) => (v == null || v.trim().isEmpty) ? 'Business name is required' : null),
+              AppTextField(
+                  controller: name,
+                  label: 'Business name',
+                  hint: 'e.g. Modern Retail Store',
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? 'Business name is required'
+                      : null),
               const SizedBox(height: 14),
-              AppTextField(controller: owner, label: 'Owner name', icon: Icons.person_outline_rounded),
+              AppTextField(
+                  controller: owner,
+                  label: 'Owner name',
+                  icon: Icons.person_outline_rounded),
               const SizedBox(height: 14),
-              AppTextField(controller: gstin,
+              AppTextField(
+                  controller: gstin,
                   label: 'GSTIN (Optional)',
                   hint: 'e.g. 29AAAAA0000A1Z5',
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) return null;
-                    return RegExp(r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$').hasMatch(v.trim())
+                    return RegExp(
+                                r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$')
+                            .hasMatch(v.trim())
                         ? null
                         : 'Invalid GSTIN format';
                   }),
               const SizedBox(height: 14),
-              AppTextField(controller: stateController, label: 'State', hint: 'e.g. Karnataka'),
+              AppTextField(
+                  controller: stateController,
+                  label: 'State',
+                  hint: 'e.g. Karnataka'),
               const SizedBox(height: 14),
               AppTextField(controller: city, label: 'City'),
               const SizedBox(height: 14),
@@ -100,7 +149,8 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
                 onChanged: (v) => setState(() => industry = v),
               ),
               const SizedBox(height: 14),
-              AppTextField(controller: prefix, label: 'Invoice prefix', hint: 'INV'),
+              AppTextField(
+                  controller: prefix, label: 'Invoice prefix', hint: 'INV'),
               const SizedBox(height: 14),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
@@ -114,13 +164,17 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Load sample data'),
-                subtitle: const Text('Pre-fill products, customers and invoices'),
+                subtitle:
+                    const Text('Pre-fill products, customers and invoices'),
                 value: loadSample,
                 onChanged: (v) => setState(() => loadSample = v),
                 activeThumbColor: StitchColors.primary,
               ),
               const SizedBox(height: 24),
-              AsyncButton(label: 'Create business', onPressed: _create, icon: Icons.check_rounded),
+              AsyncButton(
+                  label: 'Create business',
+                  onPressed: _create,
+                  icon: Icons.check_rounded),
             ],
           ),
         ),
