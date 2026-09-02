@@ -82,3 +82,6 @@ pubspec.yaml            Dependencies and Flutter configuration
 ## Current Status
 
 The active application is implemented as a self-contained Flutter UI in `lib/main.dart`. The page files under `Pages/` contain FlutterFlow-style design references and are not currently imported by the running application. Data is currently sample content; backend services, authentication, and production data synchronization are not connected yet.
+
+Set-Location "e:\Bill App\app"; flutter run -d chrome
+cd "e:\Bill App\app" && flutter run -d chrome

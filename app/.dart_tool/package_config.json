@@ -92,6 +92,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "csv",
+      "rootUri": "file:///Users/swapnaniladhikary/.pub-cache/hosted/pub.dev/csv-6.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "dropdown_button2",
       "rootUri": "file:///Users/swapnaniladhikary/.pub-cache/git/dropdown_button2-514178337dfbea442f617daed39c704b57593fc9/packages/dropdown_button2",
       "packageUri": "lib/",
@@ -102,6 +108,12 @@
       "rootUri": "file:///Users/swapnaniladhikary/.pub-cache/hosted/pub.dev/equatable-2.1.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "excel",
+      "rootUri": "file:///Users/swapnaniladhikary/.pub-cache/hosted/pub.dev/excel-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "fake_async",

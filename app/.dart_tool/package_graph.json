@@ -12,7 +12,9 @@
         "cached_network_image_platform_interface",
         "cached_network_image_web",
         "collection",
+        "csv",
         "dropdown_button2",
+        "excel",
         "fl_chart",
         "flutter",
         "flutter_animate",
@@ -92,6 +94,21 @@
       "version": "4.0.0",
       "dependencies": [
         "lints"
+      ]
+    },
+    {
+      "name": "csv",
+      "version": "6.0.0",
+      "dependencies": []
+    },
+    {
+      "name": "excel",
+      "version": "2.1.0",
+      "dependencies": [
+        "archive",
+        "collection",
+        "equatable",
+        "xml"
       ]
     },
     {
@@ -666,6 +683,31 @@
       ]
     },
     {
+      "name": "equatable",
+      "version": "2.1.0",
+      "dependencies": [
+        "collection",
+        "meta"
+      ]
+    },
+    {
+      "name": "xml",
+      "version": "6.5.0",
+      "dependencies": [
+        "collection",
+        "meta",
+        "petitparser"
+      ]
+    },
+    {
+      "name": "archive",
+      "version": "3.6.1",
+      "dependencies": [
+        "crypto",
+        "path"
+      ]
+    },
+    {
       "name": "web",
       "version": "1.1.1",
       "dependencies": []
@@ -790,15 +832,6 @@
       ]
     },
     {
-      "name": "xml",
-      "version": "6.5.0",
-      "dependencies": [
-        "collection",
-        "meta",
-        "petitparser"
-      ]
-    },
-    {
       "name": "path_parsing",
       "version": "1.1.0",
       "dependencies": [
@@ -824,14 +857,6 @@
       "dependencies": [
         "meta",
         "qr"
-      ]
-    },
-    {
-      "name": "archive",
-      "version": "3.6.1",
-      "dependencies": [
-        "crypto",
-        "path"
       ]
     },
     {
@@ -909,14 +934,6 @@
       "dependencies": [
         "flutter",
         "vector_math"
-      ]
-    },
-    {
-      "name": "equatable",
-      "version": "2.1.0",
-      "dependencies": [
-        "collection",
-        "meta"
       ]
     },
     {
