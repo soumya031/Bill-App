@@ -6,6 +6,7 @@ import '../../core/models.dart';
 import '../../core/money.dart';
 import '../../core/session.dart';
 import '../../data/repositories.dart';
+import '../../sync/sync_engine.dart';
 import '../../theme/stitch_theme.dart';
 import '../../utils/widgets.dart';
 import '../customers/customer_form.dart';
@@ -42,6 +43,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final biz = await repo.getBusiness(businessId);
     final lowCount = await repo.lowStockCount(businessId);
     final outCount = await repo.outOfStockCount(businessId);
+    await SyncEngine.instance.refreshPending();
     if (!mounted) return;
     setState(() {
       totals = map;
@@ -63,22 +65,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final nav = Navigator.of(context);
     switch (action) {
       case 'New Sale':
-        nav.push(MaterialPageRoute(builder: (_) => const InvoiceBuilderScreen()));
+        nav.push(MaterialPageRoute(builder: (_) => const InvoiceBuilderScreen())).then((_) => _load());
       case 'Payment In':
-        nav.push(MaterialPageRoute(builder: (_) => const PaymentFormScreen(partyType: 'customer')));
+        nav.push(MaterialPageRoute(builder: (_) => const PaymentFormScreen(partyType: 'customer'))).then((_) => _load());
       case 'Payment Out':
-        nav.push(MaterialPageRoute(builder: (_) => const PaymentFormScreen(partyType: 'supplier')));
+        nav.push(MaterialPageRoute(builder: (_) => const PaymentFormScreen(partyType: 'supplier'))).then((_) => _load());
       case 'Purchase':
-        nav.push(MaterialPageRoute(builder: (_) => const PurchaseBuilderScreen()));
+        nav.push(MaterialPageRoute(builder: (_) => const PurchaseBuilderScreen())).then((_) => _load());
       default:
         showModalBottomSheet<void>(
             context: context,
             isScrollControlled: true,
             builder: (_) => switch (action) {
-                  'Customer' => CustomerFormSheet(onSaved: () async {}, businessId: businessId),
-                  'Supplier' => SupplierFormSheet(onSaved: () async {}, businessId: businessId),
-                  'Product' => ProductFormSheet(onSaved: () async {}, businessId: businessId, onSavedProduct: (_) {}),
-                  'Expense' => ExpenseFormSheet(onSaved: () async {}, businessId: businessId),
+                  'Customer' => CustomerFormSheet(onSaved: _load, businessId: businessId),
+                  'Supplier' => SupplierFormSheet(onSaved: _load, businessId: businessId),
+                  'Product' => ProductFormSheet(onSaved: _load, businessId: businessId, onSavedProduct: (_) {}),
+                  'Expense' => ExpenseFormSheet(onSaved: _load, businessId: businessId),
                   _ => const SizedBox.shrink(),
                 });
     }
@@ -89,7 +91,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final t = totals;
     final recentInvoices = recent ?? const <Invoice>[];
     final todayShort = _shortDate(DateTime.now());
-    final profitToday = (t == null) ? null : t['salesToday']! - t['cogsToday']! - t['expensesToday']!;
+    final profitToday = (t == null) ? null : t['taxableToday']! - t['cogsToday']! - t['expensesToday']!;
     return RefreshIndicator(
       onRefresh: _load,
       child: ListView(
@@ -149,8 +151,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           if (t != null) ...[
             _positionRow('Receivables', _amt(t['receivables']!), StitchColors.warning),
             _positionRow('Payables', _amt(t['payables']!), StitchColors.error),
-            _positionRow('Cash balance', _amt(t['cash']!), StitchColors.success),
-            _positionRow('Bank balance', _amt(t['bank']!), StitchColors.success),
+            _positionRow('Cash balance', _amt(t['cash']!),
+                t['cash']! < 0 ? StitchColors.error : StitchColors.success),
+            _positionRow('Bank balance', _amt(t['bank']!),
+                t['bank']! < 0 ? StitchColors.error : StitchColors.success),
             _positionRow('Stock value', _amt(t['stockValue']!), StitchColors.primary),
           ],
           if (low > 0 || out > 0) ...[
@@ -172,8 +176,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Text(
                       [
                         if (low > 0) '$low item(s) low on stock',
-                        if (out > 0) ', $out out of stock',
-                      ].join(),
+                        if (out > 0) '$out out of stock',
+                      ].join(', '),
                       style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFFB45309)),
                     ),
                   ),

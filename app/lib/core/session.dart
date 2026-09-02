@@ -22,7 +22,7 @@ class Session extends ChangeNotifier {
     _prefs ??= await SharedPreferences.getInstance();
     mobile = _prefs!.getString(_kMobile);
     businessId = _prefs!.getInt(_kBusinessId);
-    _locked = false;
+    _locked = true; // stays locked only when a PIN exists — see `locked`
     notifyListeners();
   }
 
@@ -39,17 +39,18 @@ class Session extends ChangeNotifier {
     await _prefs!.setInt(_kBusinessId, businessId);
     await _prefs!.setBool(_kOnboarded, true);
     if (pin != null && pin.isNotEmpty) {
-      await _prefs!.setString(_kPinHash, pin);
+      await _prefs!.setString(_kPinHash, _djb2(pin));
     }
     notifyListeners();
   }
 
   Future<void> updatePin(String? pin) async {
     _prefs ??= await SharedPreferences.getInstance();
+    _locked = false; // changing the PIN must not lock the live session
     if (pin == null || pin.isEmpty) {
       await _prefs!.remove(_kPinHash);
     } else {
-      await _prefs!.setString(_kPinHash, pin);
+      await _prefs!.setString(_kPinHash, _djb2(pin));
     }
     notifyListeners();
   }
@@ -71,6 +72,7 @@ class Session extends ChangeNotifier {
 
   Future<void> setPin(String pin) async {
     _prefs ??= await SharedPreferences.getInstance();
+    _locked = false; // the user is right here; only a cold start should lock
     await _prefs!.setString(_kPinHash, _djb2(pin));
     notifyListeners();
   }

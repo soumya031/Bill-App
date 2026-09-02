@@ -23,7 +23,7 @@ class AppDatabase {
     return _db ??= await openDatabase(
       '${await getDatabasesPath()}/ledger_pilot.db',
       version: 1,
-      onCreate: _createSchema,
+      onCreate: createSchema,
     );
   }
 
@@ -33,12 +33,16 @@ class AppDatabase {
     final dir = await getApplicationSupportDirectory();
     _db = await ffi.databaseFactoryFfi.openDatabase(
       '${dir.path}/ledger_pilot.db',
-      options: ffi.OpenDatabaseOptions(version: 1, onCreate: _createSchema),
+      options: ffi.OpenDatabaseOptions(version: 1, onCreate: createSchema),
     );
     return _db!;
   }
 
-  Future<void> _createSchema(Database db, int version) async {
+  /// Lets tests drive the real repository against an in-memory database.
+  @visibleForTesting
+  void useDatabaseForTesting(Database db) => _db = db;
+
+  Future<void> createSchema(Database db, int version) async {
     await db.execute('''
       CREATE TABLE businesses (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

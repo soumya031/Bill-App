@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -28,6 +29,7 @@ class _MoreTabState extends State<MoreTab> {
     final businessId = context.read<Session>().businessId;
     if (businessId == null) return;
     final b = await Repository.instance.getBusiness(businessId);
+    await SyncEngine.instance.refreshPending();
     if (!mounted) return;
     setState(() => business = b);
   }
@@ -60,7 +62,10 @@ class _MoreTabState extends State<MoreTab> {
           ),
       ]),
       const SizedBox(height: 6),
-      AppCard(
+      InkWell(
+        onTap: () => nav(const BusinessEditScreen()),
+        borderRadius: BorderRadius.circular(14),
+        child: AppCard(
         padding: const EdgeInsets.all(16),
         child: Row(children: [
           InitialsAvatar(biz?.name ?? 'My Business', size: 46),
@@ -73,8 +78,9 @@ class _MoreTabState extends State<MoreTab> {
                   style: const TextStyle(fontSize: 12, color: StitchColors.textSecondary)),
             ]),
           ),
-          IconButton(onPressed: () => nav(const BusinessEditScreen()), icon: const Icon(Icons.chevron_right_rounded)),
+          const Icon(Icons.chevron_right_rounded, color: StitchColors.textTertiary),
         ]),
+        ),
       ),
       const SizedBox(height: 18),
       _menuTile(context, Icons.bar_chart_rounded, 'Reports & analytics', () => nav(const ReportsScreen())),
@@ -184,6 +190,8 @@ class PinSettingsDialog extends StatefulWidget {
   State<PinSettingsDialog> createState() => _PinSettingsDialogState();
 }
 
+final _digits = [FilteringTextInputFormatter.digitsOnly];
+
 class _PinSettingsDialogState extends State<PinSettingsDialog> {
   final _current = TextEditingController();
   final _pin = TextEditingController();
@@ -204,8 +212,8 @@ class _PinSettingsDialogState extends State<PinSettingsDialog> {
       return;
     }
     final pin = _pin.text.trim();
-    if (pin.length < 4) {
-      showAppMessage(context, 'PIN must be at least 4 digits', error: true);
+    if (pin.length != 4) {
+      showAppMessage(context, 'PIN must be exactly 4 digits', error: true);
       return;
     }
     if (pin != _confirm.text.trim()) {
@@ -240,7 +248,8 @@ class _PinSettingsDialogState extends State<PinSettingsDialog> {
               controller: _current,
               obscureText: true,
               keyboardType: TextInputType.number,
-              maxLength: 6,
+              maxLength: 4,
+              inputFormatters: _digits,
               decoration: inputDecoration('Current PIN'),
             ),
             const SizedBox(height: 8),
@@ -249,15 +258,17 @@ class _PinSettingsDialogState extends State<PinSettingsDialog> {
             controller: _pin,
             obscureText: true,
             keyboardType: TextInputType.number,
-            maxLength: 6,
-            decoration: inputDecoration(hasPin ? 'New PIN' : 'PIN (min 4 digits)'),
+            maxLength: 4,
+            inputFormatters: _digits,
+            decoration: inputDecoration(hasPin ? 'New PIN' : 'PIN (4 digits)'),
           ),
           const SizedBox(height: 12),
           TextField(
             controller: _confirm,
             obscureText: true,
             keyboardType: TextInputType.number,
-            maxLength: 6,
+            maxLength: 4,
+            inputFormatters: _digits,
             decoration: inputDecoration('Confirm PIN'),
           ),
         ]),

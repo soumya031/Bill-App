@@ -19,6 +19,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Map<String, int>? totals;
   List<(String, int)>? expenses;
   List<(String, int, int)>? products;
+  String? loadError;
 
   String get fromDate {
     final now = DateTime.now();
@@ -39,15 +40,22 @@ class _ReportsScreenState extends State<ReportsScreen> {
     if (businessId == null) return;
     final repo = Repository.instance;
     final from = fromDate;
-    final t = await repo.periodTotals(businessId, from);
-    final e = await repo.expenseBreakdown(businessId, from);
-    final p = await repo.bestProducts(businessId, from);
-    if (!mounted) return;
-    setState(() {
-      totals = t;
-      expenses = e;
-      products = p;
-    });
+    try {
+      final t = await repo.periodTotals(businessId, from);
+      final e = await repo.expenseBreakdown(businessId, from);
+      final p = await repo.bestProducts(businessId, from);
+      if (!mounted) return;
+      setState(() {
+        loadError = null;
+        totals = t;
+        expenses = e;
+        products = p;
+      });
+    } catch (e) {
+      // never leave the screen spinning forever on a query failure
+      if (!mounted) return;
+      setState(() => loadError = '$e');
+    }
   }
 
   @override
@@ -65,6 +73,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
         onRefresh: _load,
         child: ListView(padding: const EdgeInsets.all(16), children: [
           SegmentedButton<String>(
+            showSelectedIcon: false,
             segments: const [
               ButtonSegment(value: 'Today', label: Text('Today')),
               ButtonSegment(value: 'This week', label: Text('Week')),
@@ -78,7 +87,13 @@ class _ReportsScreenState extends State<ReportsScreen> {
             },
           ),
           const SizedBox(height: 16),
-          if (t == null)
+          if (loadError != null)
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text('Could not load reports: $loadError',
+                  style: const TextStyle(fontSize: 13, color: StitchColors.error)),
+            )
+          else if (t == null)
             const Padding(padding: EdgeInsets.all(40), child: Center(child: CircularProgressIndicator(strokeWidth: 2)))
           else
             GridView.count(

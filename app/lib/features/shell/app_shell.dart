@@ -25,6 +25,8 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   int _index = 0;
+  // bumped after a quick action writes, to force the visible tab to reload
+  int _dataVersion = 0;
   static const _titles = ['Home', 'Bills', 'Stock', 'Parties', 'More'];
   static const _icons = [
     Icons.home_rounded,
@@ -63,48 +65,54 @@ class _AppShellState extends State<AppShell> {
     );
   }
 
+  Future<void> _reloadTabs() async {
+    if (mounted) setState(() => _dataVersion++);
+    await SyncEngine.instance.refreshPending();
+  }
+
   void _launchAction(String action) {
     final session = context.read<Session>();
     switch (action) {
       case 'New Sale':
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => const InvoiceBuilderScreen()));
-      case 'New Purchase':
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => const PurchaseBuilderScreen()));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const InvoiceBuilderScreen()))
+            .then((_) => _reloadTabs());
+      case 'Purchase':
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const PurchaseBuilderScreen()))
+            .then((_) => _reloadTabs());
       case 'Payment In':
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => const PaymentFormScreen(partyType: 'customer')));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const PaymentFormScreen(partyType: 'customer')))
+            .then((_) => _reloadTabs());
       case 'Payment Out':
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => const PaymentFormScreen(partyType: 'supplier')));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const PaymentFormScreen(partyType: 'supplier')))
+            .then((_) => _reloadTabs());
       case 'Expense':
         showModalBottomSheet<void>(
             context: context,
             isScrollControlled: true,
             builder: (_) => ExpenseFormSheet(
-                onSaved: () async => setState(() {}),
-                businessId: session.businessId!));
+                onSaved: _reloadTabs, businessId: session.businessId!));
       case 'Customer':
         showModalBottomSheet<void>(
             context: context,
             isScrollControlled: true,
             builder: (_) => CustomerFormSheet(
-                onSaved: () async => setState(() {}),
-                businessId: session.businessId!));
+                onSaved: _reloadTabs, businessId: session.businessId!));
       case 'Supplier':
         showModalBottomSheet<void>(
             context: context,
             isScrollControlled: true,
             builder: (_) => SupplierFormSheet(
-                onSaved: () async => setState(() {}),
-                businessId: session.businessId!));
+                onSaved: _reloadTabs, businessId: session.businessId!));
       case 'Product':
         showModalBottomSheet<void>(
             context: context,
             isScrollControlled: true,
             builder: (_) => ProductFormSheet(
-                onSaved: () async => setState(() {}),
+                onSaved: _reloadTabs,
                 businessId: session.businessId!,
                 onSavedProduct: (_) {}));
     }
@@ -147,12 +155,12 @@ class _AppShellState extends State<AppShell> {
       body: SafeArea(
         child: IndexedStack(
           index: _index,
-          children: const [
-            DashboardScreen(),
-            InvoiceListTab(),
-            ProductListTab(),
-            PartiesTab(),
-            MoreTab(),
+          children: [
+            DashboardScreen(key: ValueKey('dashboard-$_dataVersion')),
+            InvoiceListTab(key: ValueKey('invoices-$_dataVersion')),
+            ProductListTab(key: ValueKey('products-$_dataVersion')),
+            PartiesTab(key: ValueKey('parties-$_dataVersion')),
+            MoreTab(key: ValueKey('more-$_dataVersion')),
           ],
         ),
       ),

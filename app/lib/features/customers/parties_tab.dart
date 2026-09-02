@@ -27,6 +27,7 @@ class _PartiesTabState extends State<PartiesTab> {
       Padding(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
         child: SegmentedButton<int>(
+   showSelectedIcon: false,
           segments: const [
             ButtonSegment(value: 0, label: Text('Customers')),
             ButtonSegment(value: 1, label: Text('Suppliers')),

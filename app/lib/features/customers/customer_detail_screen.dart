@@ -139,6 +139,7 @@ class _CustomerDetailScreenState extends State<CustomerDetailScreen> {
               ]),
               const SizedBox(height: 6),
               SegmentedButton<int>(
+                showSelectedIcon: false,
                 segments: const [
                   ButtonSegment(value: 0, label: Text('Statement')),
                   ButtonSegment(value: 1, label: Text('Invoices')),

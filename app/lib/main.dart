@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'core/session.dart';
 import 'data/repositories.dart';
+import 'sync/sync_engine.dart';
 import 'features/auth/auth_flow.dart';
 import 'features/auth/pin_lock_screen.dart';
 import 'features/shell/app_shell.dart';
@@ -18,8 +19,11 @@ class BillApp extends StatelessWidget {
   const BillApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: Repository.instance.session,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: Repository.instance.session),
+        ChangeNotifierProvider.value(value: SyncEngine.instance),
+      ],
       child: MaterialApp(
         title: 'Stitch Bill',
         debugShowCheckedModeBanner: false,

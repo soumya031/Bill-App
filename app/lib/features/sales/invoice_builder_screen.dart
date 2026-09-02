@@ -41,7 +41,9 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
   double invoiceDiscountValue = 0;
   bool saving = false;
 
-  QuoteResult? get quote =>
+  QuoteResult? get quote => _quoteFor();
+
+  QuoteResult? _quoteFor({bool? intraStateOverride}) =>
       lines.isEmpty ? null : BillingEngine.calculateQuote(
             lines: lines.map((l) => LineCalcInput(
               quantity: l.qty,
@@ -59,6 +61,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
             businessTaxRegistered: business?.taxRegistered ?? false,
             businessState: _clean(business?.state),
             customerState: _clean(customerState),
+            intraStateOverride: intraStateOverride,
           );
 
   Future<void> _load() async {
@@ -198,7 +201,11 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
       builder: (context) => _LineEditorSheet(line: line, onSave: (updated) {
         setState(() {
           final i = lines.indexOf(line);
-          if (i >= 0) lines[i] = updated;
+          if (i >= 0) {
+            lines[i] = updated;
+          } else {
+            lines.add(updated);
+          }
         });
       }),
     );
@@ -238,6 +245,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                 if (biz.taxRegistered) ...[
                   const SizedBox(height: 12),
                   SegmentedButton<String>(
+                    showSelectedIcon: false,
                     segments: const [
                       ButtonSegment(value: 'intra', label: Text('Intra-state')),
                       ButtonSegment(value: 'inter', label: Text('Inter-state')),
@@ -289,7 +297,8 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
       ),
     );
     if (commit != true) return;
-    await _save(q, biz, date: invoiceDate, gstType: gstType, mode: mode, paidController: paidController, notesController: notesController);
+    final finalQuote = _quoteFor(intraStateOverride: gstType == 'intra') ?? q;
+    await _save(finalQuote, biz, date: invoiceDate, gstType: gstType, mode: mode, paidController: paidController, notesController: notesController);
   }
 
   Future<void> _save(
@@ -363,7 +372,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
       appBar: AppBar(
         title: const Text('New sale'),
         actions: [
-          IconButton(tooltip: 'Items', onPressed: lines.isEmpty ? null : _addItem, icon: const Icon(Icons.add_rounded)),
+          IconButton(tooltip: 'Items', onPressed: _addItem, icon: const Icon(Icons.add_rounded)),
         ],
       ),
       body: ListView(padding: const EdgeInsets.fromLTRB(16, 8, 16, 120), children: [
@@ -494,6 +503,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                 const Text('Invoice discount', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 SegmentedButton<String>(
+                  showSelectedIcon: false,
                   segments: const [
                     ButtonSegment(value: 'percent', label: Text('%')),
                     ButtonSegment(value: 'flat', label: Text('₹')),
