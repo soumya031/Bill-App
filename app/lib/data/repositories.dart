@@ -163,7 +163,7 @@ class Repository {
     final db = await _database;
     final rows = await db.query('customers',
         where: 'business_id = ?${includeInactive ? '' : ' AND inactive = 0'}',
-        whereArgs: includeInactive ? [businessId] : [businessId],
+        whereArgs: [businessId],
         orderBy: 'name COLLATE NOCASE ASC');
     return rows.map(Customer.fromMap).toList();
   }
@@ -220,7 +220,7 @@ class Repository {
   Future<List<Supplier>> suppliers(int businessId, {bool includeInactive = false}) async {
     final db = await _database;
     final rows = await db.query('suppliers',
-        where: 'business_id = ? AND inactive = 0',
+        where: 'business_id = ?${includeInactive ? '' : ' AND inactive = 0'}',
         whereArgs: [businessId],
         orderBy: 'name COLLATE NOCASE ASC');
     return rows.map(Supplier.fromMap).toList();
@@ -256,11 +256,29 @@ class Repository {
     if (businessId == null) throw StateError('no active business');
     final map = product.toMap()..['business_id'] = businessId;
     if (product.id == null) {
-      final check = await db.query('products',
-          where: 'business_id = ? AND (sku = ? OR barcode = ?)',
-          whereArgs: [businessId, product.sku, product.barcode],
-          limit: 1);
-      if (check.isNotEmpty) throw StateError('Product with same SKU/barcode exists');
+      // only compare the identifiers that were actually filled in; passing a
+      // null whereArg is unsupported by sqflite and matches nothing anyway
+      final sku = product.sku?.trim() ?? '';
+      final barcode = product.barcode?.trim() ?? '';
+      final clauses = <String>[];
+      final args = <Object?>[businessId];
+      if (sku.isNotEmpty) {
+        clauses.add('sku = ?');
+        args.add(sku);
+      }
+      if (barcode.isNotEmpty) {
+        clauses.add('barcode = ?');
+        args.add(barcode);
+      }
+      if (clauses.isNotEmpty) {
+        final check = await db.query('products',
+            where: 'business_id = ? AND (${clauses.join(' OR ')})',
+            whereArgs: args,
+            limit: 1);
+        if (check.isNotEmpty) {
+          throw StateError('Product with same SKU/barcode exists');
+        }
+      }
       final id = await db.insert('products', map);
       await _audit(businessId,
           action: 'create', entity: 'product', entityId: id, after: map);
@@ -304,7 +322,7 @@ class Repository {
   Future<List<Product>> products(int businessId, {bool includeInactive = false}) async {
     final db = await _database;
     final rows = await db.query('products',
-        where: 'business_id = ? AND inactive = 0',
+        where: 'business_id = ?${includeInactive ? '' : ' AND inactive = 0'}',
         whereArgs: [businessId],
         orderBy: 'name COLLATE NOCASE ASC');
     return rows.map(Product.fromMap).toList();
@@ -538,9 +556,10 @@ class Repository {
         'amount': 0,
         'mode': paymentMode ?? 'Credit',
         'date': date,
-        'description': 'Purchase from $supplierName',
+        'description': notes == null || notes.isEmpty
+            ? 'Purchase from $supplierName'
+            : 'Purchase from $supplierName — $notes',
         'vendor': supplierName,
-        'notes': notes,
       });
       var total = 0;
       for (final item in items) {
@@ -555,9 +574,11 @@ class Repository {
         if (product != null) {
           final stock = (product['stock'] as num?)?.toDouble() ?? 0;
           final costAvg = (product['cost_average'] as int? ?? 0);
-          final newAvg = (costAvg * stock + price * qty) / (stock + qty);
+          final newStock = stock + qty;
+          final newAvg =
+              newStock == 0 ? costAvg : (costAvg * stock + price * qty) / newStock;
           await txn.update('products', {
-            'stock': stock + qty,
+            'stock': newStock,
             'cost_average': newAvg.round(),
           }, where: 'id = ?', whereArgs: [productId]);
           await txn.insert('stock_moves', {
@@ -923,6 +944,7 @@ class Repository {
     }
 
     final salesToday = await sumOf('invoices', 'total', 'business_id = ? AND date = ?', [businessId, date]);
+    final taxableToday = await sumOf('invoices', 'taxable', 'business_id = ? AND date = ?', [businessId, date]);
     final purchasesToday = await sumOf('expenses', 'amount', "business_id = ? AND date = ? AND category = 'Purchase'", [businessId, date]);
     final expensesToday = await sumOf('expenses', 'amount', "business_id = ? AND date = ? AND category != 'Purchase'", [businessId, date]);
     final cogsToday = await sumOf('ledger', 'debit', "business_id = ? AND date = ? AND account = 'cogs'", [businessId, date]);
@@ -933,15 +955,16 @@ class Repository {
         "SELECT COALESCE(SUM(credit - debit), 0) AS s FROM ledger WHERE business_id = ? AND account LIKE 'supplier:%'",
         [businessId]);
     final cash = await db.rawQuery(
-        "SELECT COALESCE(SUM(credit - debit), 0) AS s FROM ledger WHERE business_id = ? AND account = 'cash'", [businessId]);
+        "SELECT COALESCE(SUM(debit - credit), 0) AS s FROM ledger WHERE business_id = ? AND account = 'cash'", [businessId]);
     final bank = await db.rawQuery(
-        "SELECT COALESCE(SUM(credit - debit), 0) AS s FROM ledger WHERE business_id = ? AND account = 'bank'", [businessId]);
+        "SELECT COALESCE(SUM(debit - credit), 0) AS s FROM ledger WHERE business_id = ? AND account = 'bank'", [businessId]);
     final stockValue = await db.rawQuery(
         'SELECT COALESCE(SUM(stock * cost_average), 0) AS s FROM products WHERE business_id = ?', [businessId]);
 
     final receivablePaise = receivables.isEmpty ? 0 : (receivables.first['s'] as num).toInt();
     return {
       'salesToday': salesToday,
+      'taxableToday': taxableToday,
       'purchasesToday': purchasesToday,
       'expensesToday': expensesToday,
       'cogsToday': cogsToday,
@@ -1017,7 +1040,8 @@ class Repository {
   Future<List<(String, int, int)>> bestProducts(int businessId, String fromDate, {int limit = 5}) async {
     final db = await _database;
     final rows = await db.rawQuery(
-        'SELECT name, SUM(quantity) AS qty, SUM(taxable) AS rev FROM invoice_items '
+        'SELECT invoice_items.name AS name, SUM(invoice_items.quantity) AS qty, '
+        'SUM(invoice_items.taxable) AS rev FROM invoice_items '
         'JOIN invoices ON invoices.id = invoice_items.invoice_id '
         'WHERE invoices.business_id = ? AND invoices.date >= ? '
         'GROUP BY name ORDER BY qty DESC LIMIT ?',

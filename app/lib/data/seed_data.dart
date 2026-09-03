@@ -78,22 +78,24 @@ Future<void> seedDemoData(Repository repo, int businessId) async {
     (productIds[0], 3, 340, 18, 0),
     (productIds[1], 10, 90, 12, 0),
   ];
-  await _seedInvoice(repo, businessId, customerIds[0], 'INV-0001',
-      await backDate(6), sampleInvoices, paymentMode: 'UPI', amountPaid: 0, notes: 'Partial payment');
+  await _seedInvoice(repo, businessId, customerIds[0],
+      await backDate(6), sampleInvoices,
+      customerName: customerSeeds[0].$1,
+      paymentMode: 'UPI', amountPaid: 0, notes: 'Partial payment');
 
-  await _seedInvoice(repo, businessId, customerIds[1], 'INV-0002',
+  await _seedInvoice(repo, businessId, customerIds[1],
       await backDate(3), <(int, int, num, int, double)>[
         (productIds[2], 2, 680, 18, 0),
         (productIds[4], 1, 949, 18, 0),
       ],
-      paymentMode: 'Cash', amountPaid: 0);
+      customerName: customerSeeds[1].$1, paymentMode: 'Cash', amountPaid: 0);
 
-  await _seedInvoice(repo, businessId, customerIds[2], 'INV-0003',
+  await _seedInvoice(repo, businessId, customerIds[2],
       await backDate(1), <(int, int, num, int, double)>[
         (productIds[5], 1, 1599, 18, 0),
         (productIds[1], 5, 90, 12, 0),
       ],
-      paymentMode: 'Card', amountPaid: 0);
+      customerName: customerSeeds[2].$1, paymentMode: 'Card', amountPaid: 0);
 
   await repo.recordPayment(
     businessId: businessId,
@@ -118,13 +120,14 @@ Future<void> _seedInvoice(
   Repository repo,
   int businessId,
   int customerId,
-  String number,
   String date,
   List<(int, int, num, int, double)> items, {
+  required String customerName,
   required String paymentMode,
   required int amountPaid,
   String? notes,
 }) async {
+  final number = await repo.nextInvoiceNumber(businessId, 'INV');
   final inputs = items
       .map((i) => LineCalcInput(
             quantity: i.$2.toDouble(),
@@ -160,7 +163,7 @@ Future<void> _seedInvoice(
     businessId: businessId,
     number: number,
     customerId: customerId,
-    customerName: 'Customer',
+    customerName: customerName,
     date: date,
     gstType: 'gst',
     quote: quote,

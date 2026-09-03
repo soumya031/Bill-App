@@ -91,9 +91,16 @@ class _PaymentFormScreenState extends State<PaymentFormScreen> {
   }
 
   @override
+  void dispose() {
+    _amount.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     mode = 'Cash';
+    _amount.addListener(() => setState(() {}));
     if (widget.partyId != null) {
       partyId = widget.partyId;
       _loadParties();
@@ -211,7 +218,9 @@ class _PaymentFormScreenState extends State<PaymentFormScreen> {
           const SizedBox(height: 8),
           AppCard(
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Column(
+            child: Material(
+              type: MaterialType.transparency,
+              child: Column(
               children: unpaid.take(8).map((i) => CheckboxListTile(
                     value: selected.contains(i.id),
                     onChanged: (v) => setState(() {
@@ -226,6 +235,7 @@ class _PaymentFormScreenState extends State<PaymentFormScreen> {
                         style: const TextStyle(fontSize: 11.5)),
                     secondary: Text(formatPaise(i.outstanding.paise), style: moneyStyle(fontSize: 12)),
                   )).toList(),
+              ),
             ),
           ),
           if (unallocated > 0) ...[

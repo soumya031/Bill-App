@@ -6,6 +6,7 @@ import '../../core/models.dart';
 import '../../core/money.dart';
 import '../../core/session.dart';
 import '../../data/repositories.dart';
+import '../../sync/sync_engine.dart';
 import '../../theme/stitch_theme.dart';
 import '../../utils/widgets.dart';
 import '../customers/customer_form.dart';
@@ -43,6 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final biz = await repo.getBusiness(businessId);
     final lowCount = await repo.lowStockCount(businessId);
     final outCount = await repo.outOfStockCount(businessId);
+    await SyncEngine.instance.refreshPending();
     if (!mounted) return;
     setState(() {
       totals = map;
@@ -64,32 +66,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final nav = Navigator.of(context);
     switch (action) {
       case 'New Sale':
-        nav.push(
-            MaterialPageRoute(builder: (_) => const InvoiceBuilderScreen()));
+        nav
+            .push(MaterialPageRoute(builder: (_) => const InvoiceBuilderScreen()))
+            .then((_) => _load());
       case 'Payment In':
-        nav.push(MaterialPageRoute(
-            builder: (_) => const PaymentFormScreen(partyType: 'customer')));
+        nav
+            .push(MaterialPageRoute(
+                builder: (_) => const PaymentFormScreen(partyType: 'customer')))
+            .then((_) => _load());
       case 'Payment Out':
-        nav.push(MaterialPageRoute(
-            builder: (_) => const PaymentFormScreen(partyType: 'supplier')));
+        nav
+            .push(MaterialPageRoute(
+                builder: (_) => const PaymentFormScreen(partyType: 'supplier')))
+            .then((_) => _load());
       case 'Purchase':
-        nav.push(
-            MaterialPageRoute(builder: (_) => const PurchaseBuilderScreen()));
+        nav
+            .push(MaterialPageRoute(builder: (_) => const PurchaseBuilderScreen()))
+            .then((_) => _load());
       default:
         showModalBottomSheet<void>(
             context: context,
             isScrollControlled: true,
             builder: (_) => switch (action) {
-                  'Customer' => CustomerFormSheet(
-                      onSaved: () async {}, businessId: businessId),
-                  'Supplier' => SupplierFormSheet(
-                      onSaved: () async {}, businessId: businessId),
+                  'Customer' =>
+                    CustomerFormSheet(onSaved: _load, businessId: businessId),
+                  'Supplier' =>
+                    SupplierFormSheet(onSaved: _load, businessId: businessId),
                   'Product' => ProductFormSheet(
-                      onSaved: () async {},
+                      onSaved: _load,
                       businessId: businessId,
                       onSavedProduct: (_) {}),
-                  'Expense' => ExpenseFormSheet(
-                      onSaved: () async {}, businessId: businessId),
+                  'Expense' =>
+                    ExpenseFormSheet(onSaved: _load, businessId: businessId),
                   _ => const SizedBox.shrink(),
                 });
     }
@@ -100,9 +108,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final t = totals;
     final recentInvoices = recent ?? const <Invoice>[];
     final todayShort = _shortDate(DateTime.now());
+    // taxable, not sales: sales includes the GST that is owed onward
     final profitToday = (t == null)
         ? null
-        : t['salesToday']! - t['cogsToday']! - t['expensesToday']!;
+        : t['taxableToday']! - t['cogsToday']! - t['expensesToday']!;
     return RefreshIndicator(
       onRefresh: _load,
       child: ListView(
@@ -366,8 +375,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 12,
+              // 1.8 clipped the value text by ~2px at this width
               mainAxisSpacing: 12,
-              childAspectRatio: 1.8,
+              childAspectRatio: 1.55,
               children: [
                 _FinancialCard(
                   label: 'Receivables',
@@ -385,7 +395,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   label: 'Cash Balance',
                   value: _amt(t['cash']!),
                   icon: Icons.wallet_rounded,
-                  color: StitchColors.success,
+                  color: t['cash']! < 0
+                      ? StitchColors.error
+                      : StitchColors.success,
+                ),
+                _FinancialCard(
+                  label: 'Bank Balance',
+                  value: _amt(t['bank']!),
+                  icon: Icons.account_balance_rounded,
+                  color: t['bank']! < 0
+                      ? StitchColors.error
+                      : StitchColors.success,
                 ),
                 _FinancialCard(
                   label: 'Stock Value',
@@ -416,8 +436,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Text(
                       [
                         if (low > 0) '$low item(s) low on stock',
-                        if (out > 0) ', $out out of stock',
-                      ].join(),
+                        if (out > 0) '$out out of stock',
+                      ].join(', '),
                       style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -500,22 +520,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
-  Widget _positionRow(String label, String value, Color color) => Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: AppCard(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          child: Row(children: [
-            Expanded(
-                child: Text(label,
-                    style: const TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w600))),
-            Text(value,
-                style: moneyStyle(
-                    fontSize: 14, weight: FontWeight.w700, color: color)),
-          ]),
-        ),
-      );
 
   static String _amt(int paise) => formatPaise(paise);
   static String _shortDate(DateTime d) => '${d.day} ${const [

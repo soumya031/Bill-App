@@ -11,8 +11,10 @@ class LineCalcInput {
     this.taxIncluded = false,
   });
   final double quantity;
+  /// Unit price in paise.
   final int price;
   final double discountPercent;
+  /// Flat per-line discount in paise.
   final int discountFlat;
   final int gstRate;
   final bool taxIncluded;
@@ -98,12 +100,12 @@ class BillingEngine {
 
   static LineCalcResult calculateLine(LineCalcInput input) {
     final quantity = input.quantity;
-    final lineTotal = Money(_round(input.price * quantity * 100));
+    final lineTotal = Money(_round(input.price * quantity));
     Money discount = Money.zero();
     if (input.discountPercent > 0) {
       discount = Money(_round(lineTotal.paise * input.discountPercent / 100));
     } else if (input.discountFlat > 0) {
-      final discountPaise = input.discountFlat * 100;
+      final discountPaise = input.discountFlat;
       discount = discountPaise >= lineTotal.paise
           ? lineTotal
           : Money(discountPaise);
@@ -130,6 +132,7 @@ class BillingEngine {
     bool businessTaxRegistered = true,
     String? businessState,
     String? customerState,
+    bool? intraStateOverride,
   }) {
     final computed =
         lines.map((line) => calculateLine(line)).toList(growable: false);
@@ -153,21 +156,24 @@ class BillingEngine {
     if (invoiceDiscountAmount.greaterThan(taxable)) {
       invoiceDiscountAmount = taxable;
     }
+    final grossTaxable = taxable;
     taxable = taxable - invoiceDiscountAmount;
 
-    final intraState =
-        gstEnabled &&
-        businessTaxRegistered &&
-        businessState != null &&
+    final sameState = businessState != null &&
         customerState != null &&
         businessState.trim() == customerState.trim();
+    final intraState = gstEnabled &&
+        businessTaxRegistered &&
+        (intraStateOverride ?? sameState);
 
     Money cgst = Money.zero();
     Money sgst = Money.zero();
     Money igst = Money.zero();
     if (gstEnabled && businessTaxRegistered) {
-      final totalRate = _lineRate(computed);
-      final gst = Money(_round(taxable.paise * totalRate.paise / 100));
+      final lineTax = computed.fold<int>(0, (sum, l) => sum + l.tax.paise);
+      final gst = grossTaxable.isZero
+          ? Money.zero()
+          : Money(_round(lineTax * taxable.paise / grossTaxable.paise));
       if (intraState) {
         final half = _round(gst.paise / 2);
         cgst = Money(half);
@@ -198,17 +204,6 @@ class BillingEngine {
     );
   }
 
-  static Money _lineRate(List<LineCalcResult> lines) {
-    var taxable = 0;
-    var tax = 0;
-    for (final line in lines) {
-      taxable += line.taxable.paise;
-      tax += line.tax.paise;
-    }
-    if (taxable == 0) return Money.zero();
-    return Money(_round(tax * 100 / taxable));
-  }
-
   static String taxLabel(Invoice invoice) {
     if (invoice.igst > 0) return 'IGST';
     if (invoice.cgst > 0 || invoice.sgst > 0) return 'CGST + SGST';
@@ -218,7 +213,6 @@ class BillingEngine {
 
 String invoiceStatusFor(Money outstanding) {
   if (outstanding.paise <= 0) return 'Paid';
-  if (outstanding.paise < 0) return 'Paid';
   return 'Unpaid';
 }
 

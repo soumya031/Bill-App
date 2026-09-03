@@ -293,7 +293,8 @@ class _AsyncButtonState extends State<AsyncButton> {
         ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
         : Row(mainAxisSize: MainAxisSize.min, children: [
             if (widget.icon != null) ...[Icon(widget.icon, size: 18), const SizedBox(width: 8)],
-            Text(widget.label),
+            // long labels must ellipsize instead of overflowing the button
+            Flexible(child: Text(widget.label, maxLines: 1, overflow: TextOverflow.ellipsis)),
           ]);
     final onTapped = isBusy ? null : _run;
     return widget.expand
@@ -322,16 +323,42 @@ class InitialsAvatar extends StatelessWidget {
   }
 }
 
+OverlayEntry? _activeMessage;
+
+/// Shown in the root overlay, not via ScaffoldMessenger: a SnackBar raised from
+/// inside a bottom sheet or dialog is painted behind it and never seen.
 void showAppMessage(BuildContext context, String message, {bool error = false}) {
-  final messenger = ScaffoldMessenger.of(context);
-  messenger.hideCurrentSnackBar();
-  messenger.showSnackBar(
-    SnackBar(
-      content: Text(message),
-      backgroundColor: error ? StitchColors.error : StitchColors.textPrimary,
-      duration: const Duration(seconds: 2),
+  final overlay = Overlay.maybeOf(context, rootOverlay: true);
+  if (overlay == null) return;
+  _activeMessage?.remove();
+  _activeMessage = null;
+  final entry = OverlayEntry(
+    builder: (context) => Positioned(
+      left: 16,
+      right: 16,
+      bottom: MediaQuery.of(context).padding.bottom + 20,
+      child: IgnorePointer(
+        child: Material(
+          color: error ? StitchColors.error : StitchColors.textPrimary,
+          borderRadius: BorderRadius.circular(10),
+          elevation: 6,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Text(message,
+                style: const TextStyle(color: Colors.white, fontSize: 13.5, fontWeight: FontWeight.w600)),
+          ),
+        ),
+      ),
     ),
   );
+  _activeMessage = entry;
+  overlay.insert(entry);
+  Timer(const Duration(seconds: 3), () {
+    if (_activeMessage == entry) {
+      entry.remove();
+      _activeMessage = null;
+    }
+  });
 }
 
 InputDecoration inputDecoration(String label) => InputDecoration(labelText: label);
