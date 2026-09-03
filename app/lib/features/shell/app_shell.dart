@@ -27,7 +27,13 @@ class _AppShellState extends State<AppShell> {
   int _index = 0;
   // bumped after a quick action writes, to force the visible tab to reload
   int _dataVersion = 0;
-  static const _titles = ['Home', 'Bills', 'Stock', 'Parties', 'More'];
+  static const _titles = [
+    'Home',
+    'Transactions',
+    'Products',
+    'Reports',
+    'More'
+  ];
   static const _icons = [
     Icons.home_rounded,
     Icons.receipt_long_rounded,
@@ -47,9 +53,11 @@ class _AppShellState extends State<AppShell> {
   Future<void> _syncNow() async {
     await SyncEngine.instance.syncNow();
     if (mounted) {
-      showAppMessage(context, SyncEngine.instance.pendingCount == 0
-          ? 'All changes synced'
-          : '${SyncEngine.instance.pendingCount} changes waiting to sync');
+      showAppMessage(
+          context,
+          SyncEngine.instance.pendingCount == 0
+              ? 'All changes synced'
+              : '${SyncEngine.instance.pendingCount} changes waiting to sync');
     }
   }
 
@@ -75,19 +83,23 @@ class _AppShellState extends State<AppShell> {
     switch (action) {
       case 'New Sale':
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const InvoiceBuilderScreen()))
+            .push(
+                MaterialPageRoute(builder: (_) => const InvoiceBuilderScreen()))
             .then((_) => _reloadTabs());
       case 'Purchase':
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const PurchaseBuilderScreen()))
+            .push(MaterialPageRoute(
+                builder: (_) => const PurchaseBuilderScreen()))
             .then((_) => _reloadTabs());
       case 'Payment In':
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const PaymentFormScreen(partyType: 'customer')))
+            .push(MaterialPageRoute(
+                builder: (_) => const PaymentFormScreen(partyType: 'customer')))
             .then((_) => _reloadTabs());
       case 'Payment Out':
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const PaymentFormScreen(partyType: 'supplier')))
+            .push(MaterialPageRoute(
+                builder: (_) => const PaymentFormScreen(partyType: 'supplier')))
             .then((_) => _reloadTabs());
       case 'Expense':
         showModalBottomSheet<void>(
@@ -123,35 +135,42 @@ class _AppShellState extends State<AppShell> {
     final sync = context.watch<SyncEngine>();
     final session = context.watch<Session>();
     return Scaffold(
-      appBar: AppBar(
-        title: Row(children: [
-          Text(_titles[_index]),
-          const SizedBox(width: 12),
-          _SyncBadge(pending: sync.pendingCount ?? 0, busy: sync.syncing, onTap: _syncNow),
-        ]),
-        actions: [
-          if (session.hasPin)
-            IconButton(
-              tooltip: 'Lock app',
-              icon: const Icon(Icons.lock_outline_rounded),
-              onPressed: () => session.lock(),
+      appBar: _index == 0
+          ? null
+          : AppBar(
+              title: Row(children: [
+                Text(_titles[_index]),
+                const SizedBox(width: 12),
+                _SyncBadge(
+                    pending: sync.pendingCount ?? 0,
+                    busy: sync.syncing,
+                    onTap: _syncNow),
+              ]),
+              actions: [
+                if (session.hasPin)
+                  IconButton(
+                    tooltip: 'Lock app',
+                    icon: const Icon(Icons.lock_outline_rounded),
+                    onPressed: () => session.lock(),
+                  ),
+                IconButton(
+                  tooltip: 'Notifications',
+                  onPressed: () => showAppMessage(context, 'No new alerts'),
+                  icon: const Icon(Icons.notifications_none_rounded),
+                ),
+                const SizedBox(width: 4),
+                const Padding(
+                  padding: EdgeInsets.only(right: 12),
+                  child: InitialsAvatar('Owner'),
+                ),
+              ],
             ),
-          IconButton(
-            tooltip: 'Notifications',
-            onPressed: () => showAppMessage(context, 'No new alerts'),
-            icon: const Icon(Icons.notifications_none_rounded),
-          ),
-          const SizedBox(width: 4),
-          const Padding(
-            padding: EdgeInsets.only(right: 12),
-            child: InitialsAvatar('Owner'),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _openQuickActions,
-        child: const Icon(Icons.add_rounded, size: 28),
-      ),
+      floatingActionButton: _index == 0
+          ? null
+          : FloatingActionButton(
+              onPressed: _openQuickActions,
+              child: const Icon(Icons.add_rounded, size: 28),
+            ),
       body: SafeArea(
         child: IndexedStack(
           index: _index,
@@ -167,17 +186,20 @@ class _AppShellState extends State<AppShell> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
         onDestinationSelected: (i) => setState(() => _index = i),
-        destinations: List.generate(_titles.length, (i) => NavigationDestination(
-              icon: Icon(_icons[i]),
-              label: _titles[i],
-            )),
+        destinations: List.generate(
+            _titles.length,
+            (i) => NavigationDestination(
+                  icon: Icon(_icons[i]),
+                  label: _titles[i],
+                )),
       ),
     );
   }
 }
 
 class _SyncBadge extends StatelessWidget {
-  const _SyncBadge({required this.pending, required this.busy, required this.onTap});
+  const _SyncBadge(
+      {required this.pending, required this.busy, required this.onTap});
   final int pending;
   final bool busy;
   final VoidCallback onTap;
@@ -193,7 +215,11 @@ class _SyncBadge extends StatelessWidget {
         : pending > 0
             ? Icons.cloud_upload_outlined
             : Icons.cloud_done_outlined;
-    final label = busy ? 'Syncing' : pending > 0 ? '$pending to sync' : 'Synced';
+    final label = busy
+        ? 'Syncing'
+        : pending > 0
+            ? '$pending to sync'
+            : 'Synced';
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(999),
@@ -206,7 +232,9 @@ class _SyncBadge extends StatelessWidget {
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Icon(icon, size: 14, color: color),
           const SizedBox(width: 5),
-          Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: color)),
+          Text(label,
+              style: TextStyle(
+                  fontSize: 11, fontWeight: FontWeight.w700, color: color)),
         ]),
       ),
     );
@@ -221,12 +249,28 @@ class QuickActionSheet extends StatelessWidget {
     const primary = StitchColors.primary;
     const green = StitchColors.success;
     const actions = [
-      {'icon': Icons.add_shopping_cart_rounded, 'label': 'New Sale', 'c': primary},
+      {
+        'icon': Icons.add_shopping_cart_rounded,
+        'label': 'New Sale',
+        'c': primary
+      },
       {'icon': Icons.local_shipping_rounded, 'label': 'Purchase', 'c': green},
       {'icon': Icons.call_received_rounded, 'label': 'Payment In', 'c': green},
-      {'icon': Icons.call_made_rounded, 'label': 'Payment Out', 'c': StitchColors.error},
-      {'icon': Icons.currency_rupee_rounded, 'label': 'Expense', 'c': StitchColors.error},
-      {'icon': Icons.person_add_alt_1_rounded, 'label': 'Customer', 'c': primary},
+      {
+        'icon': Icons.call_made_rounded,
+        'label': 'Payment Out',
+        'c': StitchColors.error
+      },
+      {
+        'icon': Icons.currency_rupee_rounded,
+        'label': 'Expense',
+        'c': StitchColors.error
+      },
+      {
+        'icon': Icons.person_add_alt_1_rounded,
+        'label': 'Customer',
+        'c': primary
+      },
       {'icon': Icons.storefront_outlined, 'label': 'Supplier', 'c': primary},
       {'icon': Icons.inventory_2_outlined, 'label': 'Product', 'c': primary},
     ];
