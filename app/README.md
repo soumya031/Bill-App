@@ -1,19 +1,14 @@
 # PricePilot Bill
 
-PricePilot Bill is a Flutter-based business billing workspace for managing invoices, inventory, customers, cash and bank activity, and reports.
+Android-first Flutter billing app for invoices, inventory, customers, cash,
+bank activity, and reports.
 
 ## Features
 
-- Responsive Material 3 dashboard
-- Overview dashboard with sales metrics and chart
-- Invoice listing and invoice creation dialog
-- Inventory and product tracking
-- Customer management view
-- Cash and bank overview
-- Reports and analytics cards
-- Desktop sidebar navigation
-- Mobile navigation drawer
-- Inter typography through Google Fonts
+- Material 3 dashboard and mobile navigation
+- Sales, invoices, inventory, customers, suppliers, expenses, payments, and reports
+- Local persistence with session/PIN protection
+- Android package: `com.pricepilot.bill`
 
 ## Tech Stack
 
@@ -31,7 +26,8 @@ PricePilot Bill is a Flutter-based business billing workspace for managing invoi
 ## Requirements
 
 - Flutter SDK with Dart 3.x support
-- Chrome, Windows, or another Flutter-supported target
+- Android SDK and an Android device or emulator
+- Flutter SDK with Dart 3.x support
 
 Check the local setup with:
 
@@ -40,30 +36,51 @@ flutter doctor
 flutter devices
 ```
 
-## Run Locally
+## Run On Android
 
-From this directory:
+From the `app` directory:
 
 ```bash
 flutter pub get
-flutter run -d chrome
 ```
 
-To run the desktop build on Windows:
+Run on a connected Android device or emulator:
 
 ```bash
-flutter run -d windows
+flutter devices
+flutter run -d <android-device-id>
 ```
 
-Run static analysis with:
+Chrome and Windows remain available for testing, but Android is the release
+target.
+
+## Play Store Release
+
+Create an upload keystore and keep it outside source control. Then create
+`android/key.properties` using this template:
+
+```properties
+storePassword=...
+keyPassword=...
+keyAlias=upload
+storeFile=C:/secure/pricepilot-upload.jks
+```
+
+Build the Play Store bundle:
+
+```bash
+flutter build appbundle --release
+```
+
+Upload `build/app/outputs/bundle/release/app-release.aab` to Google Play
+Console. Increase the version in `pubspec.yaml` for every release and complete
+the Play Console privacy, data safety, content rating, and store listing
+requirements before publishing.
+
+## Quality Checks
 
 ```bash
 flutter analyze
-```
-
-Run tests with:
-
-```bash
 flutter test
 ```
 
@@ -71,7 +88,12 @@ flutter test
 
 ```text
 lib/
-  main.dart             Active application entry point and UI
+  main.dart             Application entry point and AppGate
+  core/                 Shared models, session, dates, and billing logic
+  data/                 Local database, repositories, and seed data
+  features/             Auth, dashboard, sales, inventory, and other screens
+  sync/                 Synchronization engine
+  theme/                Material 3 application theme
 Pages/
   *.txt                 Page design/reference exports
 Components/             Component resources
@@ -79,9 +101,15 @@ Pubspec/                Supporting project resources
 pubspec.yaml            Dependencies and Flutter configuration
 ```
 
-## Current Status
+## Production Status
 
-The active application is implemented as a self-contained Flutter UI in `lib/main.dart`. The page files under `Pages/` contain FlutterFlow-style design references and are not currently imported by the running application. Data is currently sample content; backend services, authentication, and production data synchronization are not connected yet.
+The Android package identity and store label are configured. Release signing
+uses `android/key.properties` when present; debug signing is not used for a
+configured release build. Complete keystore setup, privacy/data-safety
+declarations, backend services, and remote synchronization before launch.
 
-Set-Location "e:\Bill App\app"; flutter run -d chrome
-cd "e:\Bill App\app" && flutter run -d chrome
+See `SECURITY.md` for vulnerability reporting guidance.
+
+
+
+

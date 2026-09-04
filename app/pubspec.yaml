@@ -1,5 +1,5 @@
-name: ledger_pilot
-description: A new Flutter project.
+name: pricepilot_bill
+description: PricePilot Bill business billing application.
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

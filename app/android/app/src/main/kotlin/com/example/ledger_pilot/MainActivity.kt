@@ -1,4 +1,4 @@
-package com.example.ledger_pilot
+package com.pricepilot.bill
 
 import io.flutter.embedding.android.FlutterActivity
 

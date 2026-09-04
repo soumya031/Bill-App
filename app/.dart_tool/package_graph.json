@@ -1,10 +1,10 @@
 {
   "roots": [
-    "ledger_pilot"
+    "pricepilot_bill"
   ],
   "packages": [
     {
-      "name": "ledger_pilot",
+      "name": "pricepilot_bill",
       "version": "0.0.0",
       "dependencies": [
         "auto_size_text",

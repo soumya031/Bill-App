@@ -698,7 +698,7 @@
       "languageVersion": "3.2"
     },
     {
-      "name": "ledger_pilot",
+      "name": "pricepilot_bill",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.0"
