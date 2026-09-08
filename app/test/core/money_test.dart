@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:ledger_pilot/core/money.dart';
+import 'package:pricepilot_bill/core/money.dart';
 
 void main() {
   group('Money', () {

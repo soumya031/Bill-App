@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:ledger_pilot/core/session.dart';
-import 'package:ledger_pilot/main.dart';
+import 'package:pricepilot_bill/core/session.dart';
+import 'package:pricepilot_bill/main.dart';
 
 void main() {
   setUp(() {

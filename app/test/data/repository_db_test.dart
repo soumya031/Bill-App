@@ -4,11 +4,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'package:ledger_pilot/core/billing_engine.dart';
-import 'package:ledger_pilot/core/models.dart';
-import 'package:ledger_pilot/data/app_database.dart';
-import 'package:ledger_pilot/data/repositories.dart';
-import 'package:ledger_pilot/data/seed_data.dart';
+import 'package:pricepilot_bill/core/billing_engine.dart';
+import 'package:pricepilot_bill/core/models.dart';
+import 'package:pricepilot_bill/data/app_database.dart';
+import 'package:pricepilot_bill/data/repositories.dart';
+import 'package:pricepilot_bill/data/seed_data.dart';
 
 void main() {
   final repo = Repository.instance;
