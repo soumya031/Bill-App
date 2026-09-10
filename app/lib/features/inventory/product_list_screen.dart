@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/api_client.dart';
+import '../../core/inventory_service.dart';
 import '../../core/models.dart';
 import '../../core/money.dart';
 import '../../core/session.dart';
@@ -23,8 +25,33 @@ class _ProductListTabState extends State<ProductListTab> {
   String? typeFilter;
 
   Future<void> _load() async {
-    final businessId = context.read<Session>().businessId;
+    final session = context.read<Session>();
+    final businessId = session.businessId;
     if (businessId == null) return;
+
+    if (session.token != null && session.token!.isNotEmpty) {
+      try {
+        final client = ApiClient()..setToken(session.token!);
+        final remoteProducts = await InventoryService(client).fetchProducts();
+        for (final dto in remoteProducts) {
+          final product = Product(
+            name: dto.name,
+            unit: 'pc',
+            gstRate: dto.gstRate.toInt(),
+            purchasePrice: 0,
+            salePrice: dto.salePrice.toInt(),
+            stock: dto.stock.toInt(),
+          );
+          await Repository.instance.upsertProduct(
+            product,
+            businessIdOverride: businessId,
+          );
+        }
+      } catch (_) {
+        // Fall back to local SQLite data if the backend is unavailable.
+      }
+    }
+
     final products = await Repository.instance.products(businessId);
     if (!mounted) return;
     setState(() => items = products);
@@ -41,7 +68,8 @@ class _ProductListTabState extends State<ProductListTab> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      builder: (_) => ProductFormSheet(onSaved: _load, onSavedProduct: (_) {}, businessId: businessId),
+      builder: (_) => ProductFormSheet(
+          onSaved: _load, onSavedProduct: (_) {}, businessId: businessId),
     );
   }
 
@@ -50,7 +78,10 @@ class _ProductListTabState extends State<ProductListTab> {
     final all = items ?? const <Product>[];
     final filtered = all.where((p) {
       final q = query.trim().toLowerCase();
-      final matchQuery = q.isEmpty || p.name.toLowerCase().contains(q) || (p.sku ?? '').toLowerCase().contains(q) || (p.barcode ?? '').toLowerCase().contains(q);
+      final matchQuery = q.isEmpty ||
+          p.name.toLowerCase().contains(q) ||
+          (p.sku ?? '').toLowerCase().contains(q) ||
+          (p.barcode ?? '').toLowerCase().contains(q);
       final matchType = switch (typeFilter) {
         'out' => p.outOfStock,
         'low' => p.low,
@@ -67,46 +98,60 @@ class _ProductListTabState extends State<ProductListTab> {
             child: TextField(
               controller: search,
               onChanged: (v) => setState(() => query = v),
-              decoration: const InputDecoration(hintText: 'Search by name, SKU or barcode', prefixIcon: Icon(Icons.search_rounded, size: 20)),
+              decoration: const InputDecoration(
+                  hintText: 'Search by name, SKU or barcode',
+                  prefixIcon: Icon(Icons.search_rounded, size: 20)),
             ),
           ),
           const SizedBox(width: 10),
           SizedBox(
             width: 48,
             height: 48,
-            child: FilledButton(onPressed: _add, style: FilledButton.styleFrom(padding: EdgeInsets.zero), child: const Icon(Icons.add_rounded)),
+            child: FilledButton(
+                onPressed: _add,
+                style: FilledButton.styleFrom(padding: EdgeInsets.zero),
+                child: const Icon(Icons.add_rounded)),
           ),
         ]),
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
         child: Wrap(spacing: 8, children: [
-          FilterChip(label: const Text('All'), selected: typeFilter == null, onSelected: (_) => setState(() => typeFilter = null)),
+          FilterChip(
+              label: const Text('All'),
+              selected: typeFilter == null,
+              onSelected: (_) => setState(() => typeFilter = null)),
           FilterChip(
               label: const Text('Low stock'),
               selected: typeFilter == 'low',
-              onSelected: (_) => setState(() => typeFilter = typeFilter == 'low' ? null : 'low')),
+              onSelected: (_) => setState(
+                  () => typeFilter = typeFilter == 'low' ? null : 'low')),
           FilterChip(
               label: const Text('Out of stock'),
               selected: typeFilter == 'out',
-              onSelected: (_) => setState(() => typeFilter = typeFilter == 'out' ? null : 'out')),
+              onSelected: (_) => setState(
+                  () => typeFilter = typeFilter == 'out' ? null : 'out')),
         ]),
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         child: Text('${all.length} product(s), $inStock in stock',
-            style: const TextStyle(fontSize: 12, color: StitchColors.textSecondary)),
+            style: const TextStyle(
+                fontSize: 12, color: StitchColors.textSecondary)),
       ),
       Expanded(
         child: items == null
             ? const Center(child: CircularProgressIndicator(strokeWidth: 2))
             : filtered.isEmpty
                 ? ListView(children: const [
-                    AppEmptyState(icon: Icons.inventory_2_outlined, title: 'No products found')
+                    AppEmptyState(
+                        icon: Icons.inventory_2_outlined,
+                        title: 'No products found')
                   ])
                 : GridView.builder(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 90),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
@@ -116,7 +161,9 @@ class _ProductListTabState extends State<ProductListTab> {
                     itemBuilder: (context, i) => _ProductTile(
                       product: filtered[i],
                       onTap: () => Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (_) => StockMovesScreen(productId: filtered[i].id!)))
+                          .push(MaterialPageRoute(
+                              builder: (_) =>
+                                  StockMovesScreen(productId: filtered[i].id!)))
                           .then((_) => _load()),
                     ),
                   ),
@@ -144,18 +191,22 @@ class _ProductTile extends StatelessWidget {
               child: Text(product.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w700)),
             ),
             if (out)
-              const Icon(Icons.error_rounded, size: 16, color: StitchColors.error)
+              const Icon(Icons.error_rounded,
+                  size: 16, color: StitchColors.error)
             else if (low)
-              const Icon(Icons.warning_amber_rounded, size: 16, color: StitchColors.warning),
+              const Icon(Icons.warning_amber_rounded,
+                  size: 16, color: StitchColors.warning),
           ]),
           const SizedBox(height: 4),
           Text(product.sku ?? product.barcode ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 11, color: StitchColors.textSecondary)),
+              style: const TextStyle(
+                  fontSize: 11, color: StitchColors.textSecondary)),
           const Spacer(),
           Row(children: [
             Expanded(
@@ -163,15 +214,23 @@ class _ProductTile extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w800,
-                    color: out ? StitchColors.error : low ? StitchColors.warning : StitchColors.success,
+                    color: out
+                        ? StitchColors.error
+                        : low
+                            ? StitchColors.warning
+                            : StitchColors.success,
                   )),
             ),
-            Text(formatPaise(product.salePrice), style: moneyStyle(fontSize: 12, color: StitchColors.textPrimary)),
+            Text(formatPaise(product.salePrice),
+                style:
+                    moneyStyle(fontSize: 12, color: StitchColors.textPrimary)),
           ]),
         ]),
       ),
     );
   }
 
-  static String _qty(num stock) => stock == stock.roundToDouble() ? stock.round().toString() : stock.toStringAsFixed(2);
+  static String _qty(num stock) => stock == stock.roundToDouble()
+      ? stock.round().toString()
+      : stock.toStringAsFixed(2);
 }

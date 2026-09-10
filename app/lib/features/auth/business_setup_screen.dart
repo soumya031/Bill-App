@@ -70,7 +70,10 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
             state: business.state,
           );
         } catch (_) {
-          // Keep local flow working even if backend is temporarily down.
+          if (kDebugMode) {
+            debugPrint(
+                'Backend business creation unavailable; local flow continues.');
+          }
         }
       }
 

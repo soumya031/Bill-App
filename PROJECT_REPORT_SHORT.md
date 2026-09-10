@@ -45,11 +45,16 @@ The app currently includes:
 - Android-first UI and workflow design
 
 ### Backend foundation
-- Fastify + TypeScript
-- API-based authentication using JWT
-- Lightweight REST layer for business entities
-- Sync queue for offline-first synchronization
-- Prisma-ready schema for future database migration
+- Spring Boot (Java)
+- Spring Security with JWT + BCrypt
+- Hibernate Validator
+- Spring Data MongoDB
+- Bucket4j for rate limiting and OTP abuse prevention
+- Spring Scheduler for reminders and recurring tasks
+
+### Database and caching
+- MongoDB with replica set support for transactional safety
+- Redis for rate limiting, caching, and OTP tokens
 
 ### Data approach
 - Local persistence for immediate business use
@@ -78,18 +83,17 @@ The current implementation includes:
 
 Future production priorities include:
 
-- PostgreSQL migration
 - strict tenant isolation
 - enhanced logging and monitoring
-- rate limiting and API hardening
+- Redis-backed rate limiting and OTP controls
 - deployment environment separation
 
 ---
 
 ## 7. Status
-The project has reached a strong MVP foundation with a working mobile app, a local data layer, and a lightweight backend skeleton ready for real service integration.
+The project has reached a strong MVP foundation with a working mobile app, a local data layer, and a backend-ready Spring stack aligned to production billing workflows.
 
-It is well-positioned for the next phase of production engineering, including full backend persistence, real authentication workflows, and live Android-to-server sync.
+It is well-positioned for the next phase of production engineering, including secure authentication, MongoDB-backed persistence, rate limiting, and live Android-to-server sync.
 
 ---
 

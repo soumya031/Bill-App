@@ -77,26 +77,41 @@ class _LoginOtpScreenState extends State<LoginOtpScreen> {
 
     final phone = phoneController.text.trim();
     final session = SessionProvider.of(context);
+    final email = '$phone@pricepilot.local';
+    final password = 'pp${phone.substring(phone.length - 4)}';
     final client = ApiClient();
     final service = AuthService(client);
 
     try {
       final auth = await service.register(
         name: 'Business Owner',
-        email: '$phone@pricepilot.local',
-        password: 'pp${phone.substring(phone.length - 4)}',
+        email: email,
+        password: password,
       );
       client.setToken(auth.token);
       await session.savePhone(phone);
       await session.saveAuthToken(auth.token);
       if (mounted) widget.onVerified(phone);
-    } catch (_) {
-      await session.savePhone(phone);
-      if (mounted) {
-        widget.onVerified(phone);
-        showAppMessage(
-            context, 'Backend registration skipped; using local flow.',
-            error: false);
+      return;
+    } catch (registerError) {
+      try {
+        final auth = await service.login(
+          email: email,
+          password: password,
+        );
+        client.setToken(auth.token);
+        await session.savePhone(phone);
+        await session.saveAuthToken(auth.token);
+        if (mounted) widget.onVerified(phone);
+        return;
+      } catch (_) {
+        await session.savePhone(phone);
+        if (mounted) {
+          widget.onVerified(phone);
+          showAppMessage(
+              context, 'Backend unavailable; continuing with local flow.',
+              error: false);
+        }
       }
     }
   }

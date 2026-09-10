@@ -6,7 +6,7 @@ import { registerUser, loginUser } from './services/auth.js';
 import { calculateInvoiceTotals } from './services/ledger.js';
 import { enqueueSync } from './services/sync.js';
 import { store } from './store.js';
-const app = Fastify({ logger: config.nodeEnv !== 'production' });
+export const app = Fastify({ logger: config.nodeEnv !== 'production' });
 const authRegisterSchema = z.object({
     name: z.string().min(2),
     email: z.string().email(),
@@ -98,7 +98,8 @@ app.post('/api/v1/auth/login', async (request, reply) => {
 });
 app.addHook('preHandler', async (request, reply) => {
     const authHeader = request.headers.authorization;
-    if (request.url.startsWith('/api/v1/auth/'))
+    const isPublicRoute = request.url === '/health' || request.url.startsWith('/api/v1/auth/');
+    if (isPublicRoute)
         return;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return reply.code(401).send({ error: 'Missing bearer token' });
@@ -213,4 +214,6 @@ const start = async () => {
         process.exit(1);
     }
 };
-start();
+if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+    start();
+}
