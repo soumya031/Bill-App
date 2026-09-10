@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  passwordHash String
+  role      String   @default("owner")
+  createdAt DateTime @default(now())
+  businesses Business[]
+  auditLogs AuditLog[]
+}
+
+model Business {
+  id           String      @id @default(cuid())
+  name         String
+  ownerName    String?
+  gstin        String?
+  city         String?
+  state        String?
+  currency     String      @default("INR")
+  createdAt    DateTime    @default(now())
+  ownerId      String?
+  owner        User?       @relation(fields: [ownerId], references: [id])
+  customers    Customer[]
+  products     Product[]
+  invoices     Invoice[]
+  ledger       LedgerEntry[]
+  syncQueue    SyncQueueItem[]
+  auditLogs    AuditLog[]
+}
+
+model Customer {
+  id              String   @id @default(cuid())
+  businessId      String
+  business        Business @relation(fields: [businessId], references: [id])
+  name            String
+  phone           String?
+  email           String?
+  gstin           String?
+  billingAddress  String?
+  city            String?
+  openingBalance  Int      @default(0)
+  createdAt       DateTime @default(now())
+  invoices        Invoice[]
+}
+
+model Product {
+  id              String   @id @default(cuid())
+  businessId      String
+  business        Business @relation(fields: [businessId], references: [id])
+  name            String
+  sku             String?
+  category        String?
+  hsn             String?
+  unit            String   @default("pc")
+  gstRate         Int      @default(0)
+  purchasePrice   Int      @default(0)
+  salePrice       Int      @default(0)
+  stock           Int      @default(0)
+  createdAt       DateTime @default(now())
+  invoiceItems    InvoiceItem[]
+}
+
+model Invoice {
+  id              String        @id @default(cuid())
+  businessId      String
+  business        Business      @relation(fields: [businessId], references: [id])
+  number          String
+  customerId      String?
+  customer        Customer?     @relation(fields: [customerId], references: [id])
+  customerName    String
+  date            DateTime
+  dueDate         DateTime?
+  subtotal        Int           @default(0)
+  discount        Int           @default(0)
+  tax             Int           @default(0)
+  total           Int           @default(0)
+  status          String        @default("Finalized")
+  createdAt       DateTime      @default(now())
+  items           InvoiceItem[]
+  ledgerEntries   LedgerEntry[]
+}
+
+model InvoiceItem {
+  id          String   @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id])
+  name        String
+  hsn         String?
+  quantity    Float    @default(1)
+  price       Int      @default(0)
+  gstRate     Int      @default(0)
+  discount    Int      @default(0)
+  taxable     Int      @default(0)
+  tax         Int      @default(0)
+}
+
+model LedgerEntry {
+  id          String   @id @default(cuid())
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+  invoiceId   String?
+  invoice     Invoice? @relation(fields: [invoiceId], references: [id])
+  account     String
+  debit       Int      @default(0)
+  credit      Int      @default(0)
+  note        String?
+  createdAt   DateTime @default(now())
+}
+
+model SyncQueueItem {
+  id          String   @id @default(cuid())
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+  entity      String
+  entityId    String
+  op          String
+  payload     String
+  status      String   @default("pending")
+  attempts    Int      @default(0)
+  createdAt   DateTime @default(now())
+  syncedAt    DateTime?
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  businessId  String?
+  business    Business? @relation(fields: [businessId], references: [id])
+  actorId     String?
+  actor       User?    @relation(fields: [actorId], references: [id])
+  action      String
+  entity      String
+  entityId    String?
+  before      String?
+  after       String?
+  createdAt   DateTime @default(now())
+}
