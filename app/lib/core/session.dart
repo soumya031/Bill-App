@@ -4,10 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Session extends ChangeNotifier {
   SharedPreferences? _prefs;
   String? mobile;
+  String? token;
   int? businessId;
   bool _locked = true;
 
   static const _kMobile = 'session.mobile';
+  static const _kToken = 'session.token';
   static const _kBusinessId = 'session.businessId';
   static const _kPinHash = 'session.pin';
   static const _kOnboarded = 'session.onboarded';
@@ -21,6 +23,7 @@ class Session extends ChangeNotifier {
   Future<void> load() async {
     _prefs ??= await SharedPreferences.getInstance();
     mobile = _prefs!.getString(_kMobile);
+    token = _prefs!.getString(_kToken);
     businessId = _prefs!.getInt(_kBusinessId);
     _locked = true; // stays locked only when a PIN exists — see `locked`
     notifyListeners();
@@ -30,6 +33,13 @@ class Session extends ChangeNotifier {
     _prefs ??= await SharedPreferences.getInstance();
     mobile = value;
     await _prefs!.setString(_kMobile, value);
+    notifyListeners();
+  }
+
+  Future<void> saveAuthToken(String value) async {
+    _prefs ??= await SharedPreferences.getInstance();
+    token = value;
+    await _prefs!.setString(_kToken, value);
     notifyListeners();
   }
 
@@ -90,9 +100,11 @@ class Session extends ChangeNotifier {
   Future<void> logout() async {
     _prefs ??= await SharedPreferences.getInstance();
     await _prefs!.remove(_kMobile);
+    await _prefs!.remove(_kToken);
     await _prefs!.remove(_kBusinessId);
     await _prefs!.remove(_kOnboarded);
     mobile = null;
+    token = null;
     businessId = null;
     _locked = false;
     notifyListeners();

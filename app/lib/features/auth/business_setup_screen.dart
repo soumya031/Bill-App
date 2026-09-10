@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/api_client.dart';
+import '../../core/business_service.dart';
 import '../../core/models.dart';
 import '../../core/session.dart';
 import '../../data/repositories.dart';
@@ -39,8 +42,9 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
   Future<void> _create() async {
     if (!formKey.currentState!.validate()) return;
 
+    final session = context.read<Session>();
+
     try {
-      final session = context.read<Session>();
       final business = Business(
         name: name.text.trim(),
         ownerName: owner.text.trim().isEmpty ? null : owner.text.trim(),
@@ -55,26 +59,38 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
         taxRegistered: taxRegistered,
       );
 
-      // Create business
+      if (session.token != null && session.token!.isNotEmpty) {
+        final client = ApiClient()..setToken(session.token!);
+        try {
+          await BusinessService(client).createBusiness(
+            name: business.name,
+            ownerName: business.ownerName,
+            gstin: business.gstin,
+            city: business.city,
+            state: business.state,
+          );
+        } catch (_) {
+          // Keep local flow working even if backend is temporarily down.
+        }
+      }
+
       final businessId = await Repository.instance.createBusiness(business);
 
-      // Load sample data if requested
       if (loadSample) {
         try {
           await seedDemoData(Repository.instance, businessId);
         } catch (seedError) {
-          // Log seed error but continue - don't block business creation
-          print('Seed data error (non-blocking): $seedError');
+          if (kDebugMode) {
+            debugPrint('Seed data error (non-blocking): $seedError');
+          }
         }
       }
 
-      // Complete onboarding
       await session.completeOnboarding(businessId);
 
       if (mounted) {
         showAppMessage(context, 'Business created successfully!');
         await Future.delayed(const Duration(milliseconds: 300));
-        // Navigate directly to AppShell
         if (mounted) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (_) => const AppShell()),
@@ -85,7 +101,7 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
     } catch (e) {
       if (mounted) {
         showAppMessage(context, 'Error: ${e.toString()}', error: true);
-        print('Business creation error: $e');
+        if (kDebugMode) debugPrint('Business creation error: $e');
       }
     }
   }
