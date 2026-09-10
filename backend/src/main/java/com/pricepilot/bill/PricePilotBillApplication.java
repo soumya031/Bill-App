@@ -1,11 +1,11 @@
 package com.pricepilot.bill;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
+/**
+ * Legacy Java reference kept only for historical context.
+ * The active backend is implemented in Node.js with Fastify and TypeScript.
+ */
 public class PricePilotBillApplication {
     public static void main(String[] args) {
-        SpringApplication.run(PricePilotBillApplication.class, args);
+        System.out.println("Legacy Java reference. Active backend stack: Node.js + Fastify + TypeScript.");
     }
 }

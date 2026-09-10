@@ -99,16 +99,17 @@ The app uses SQLite for local persistence via sqflite, which is appropriate for 
 - Sync queue for pending remote operations
 
 ### 4.3 Backend Layer
-A compact backend foundation has been established using Fastify and TypeScript. It provides:
+The active backend foundation is built with Node.js, TypeScript, and Fastify. It provides:
 
-- JWT authentication
-- Business registration and management endpoints
-- Customer and product APIs
-- Invoice creation and totals calculation
+- JWT-based authentication and bearer-token protection
+- Business, customer, product, and invoice REST APIs
+- Request validation with Zod
+- Password hashing with bcryptjs
+- Invoice totals and business logic services
 - Sync queue ingestion for offline-first records
-- Prisma-ready schema for future PostgreSQL adoption
+- A lightweight architecture ready for future PostgreSQL/Prisma adoption
 
-This backend is intentionally lightweight and designed as a scalable service layer, not as a monolithic overengineered platform.
+This backend is intentionally compact and service-oriented rather than monolithic, matching the current project phase and mobile-first workflow.
 
 ---
 

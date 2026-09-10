@@ -1,23 +1,40 @@
 # PricePilot Bill Backend
 
-This is the backend starter for the Android-first billing app.
+Node.js + Fastify service for the PricePilot Bill mobile-first billing platform.
 
-## Stack
+## Tech stack
 
-- Fastify + TypeScript
-- JWT auth
-- JSON schemas via Zod
-- In-memory store for bootstrapping, ready for PostgreSQL/Prisma later
+- Node.js 20+
+- Fastify v5
+- TypeScript
+- JWT-based authentication
+- Zod request validation
+- bcryptjs password hashing
+- In-memory persistence for bootstrapping and local testing
 
-## Run locally
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Primary API surface
+## Production build
 
+```bash
+npm run build
+npm start
+```
+
+## Verification
+
+```bash
+npm test
+```
+
+## API surface
+
+- `GET /health`
 - `POST /api/v1/auth/register`
 - `POST /api/v1/auth/login`
 - `GET /api/v1/businesses`
@@ -30,10 +47,8 @@ npm run dev
 - `POST /api/v1/invoices`
 - `POST /api/v1/sync/push`
 
-## Production next steps
+## Notes
 
-1. Replace in-memory persistence with PostgreSQL + Prisma.
-2. Add tenant scoping by businessId.
-3. Add invoice totals, ledger posting, and stock movement service rules.
-4. Add rate limits, hashing, and audit logging.
-5. Add background sync workers and retry policies.
+- The backend is intentionally lightweight and uses an in-memory store for the current stage of the project.
+- Auth routes are public; all business and ledger endpoints require a bearer token.
+- The API is designed to be extended toward PostgreSQL, Prisma, tenant-aware data access, and background sync workers in the next phase.

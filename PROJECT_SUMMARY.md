@@ -43,11 +43,13 @@ The current architecture combines a mobile-first client with a lightweight backe
 - Offline-first business processing
 
 ### Backend Foundation
-- Fastify + TypeScript service
-- JWT-based authentication
+- Node.js + TypeScript service
+- Fastify HTTP server
+- JWT-based authentication with bearer-token protection
+- Zod validation and bcryptjs hashing
 - Business, inventory, customer, and invoice endpoints
 - Sync queue for offline operations
-- Prisma-ready schema for database migration
+- Architecture ready for PostgreSQL/Prisma migration
 
 ## 7. Business Value
 This application helps businesses to:
