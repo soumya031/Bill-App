@@ -377,6 +377,21 @@ class Repository {
   }) async {
     final db = await _database;
     final invoiceId = await db.transaction<int>((txn) async {
+      // Credit Limit Check
+      if (customerId != null) {
+        final cRows = await txn.query('customers', where: 'id = ?', whereArgs: [customerId], limit: 1);
+        if (cRows.isNotEmpty) {
+          final limit = (cRows.first['credit_limit'] as num?)?.toInt() ?? 0;
+          if (limit > 0) {
+            final balRows = await txn.rawQuery("SELECT SUM(debit - credit) as s FROM ledger WHERE account = ?", ['customer:$customerId']);
+            final currentBalance = (balRows.first['s'] as num?)?.toInt() ?? 0;
+            if (currentBalance + quote.total.paise > limit) {
+              throw StateError('Credit limit exceeded for $customerName');
+            }
+          }
+        }
+      }
+
       final total = quote.total.paise;
       final status = resolveInvoiceStatus(total: total, amountPaid: amountPaid);
       final invoiceId = await txn.insert('invoices', {
@@ -734,6 +749,50 @@ class Repository {
     });
     await _audit(businessId, action: 'create', entity: 'expense', entityId: id);
     await _enqueueSync(businessId, entity: 'expense', entityId: id, op: 'create');
+    return id;
+  }
+
+  Future<int> recordOtherIncome({
+    required int businessId,
+    required String category,
+    required int amount,
+    required String mode,
+    required String date,
+    String? description,
+    String? payer,
+  }) async {
+    final db = await _database;
+    final id = await db.insert('expenses', {
+      'business_id': businessId,
+      'category': category,
+      'amount': -amount, // Negative expense = Income
+      'mode': mode,
+      'date': date,
+      'description': 'Income: $description',
+      'vendor': payer,
+    });
+    await db.insert('ledger', {
+      'business_id': businessId,
+      'date': date,
+      'account': 'income:$category',
+      'debit': 0,
+      'credit': amount,
+      'ref_type': 'income',
+      'ref_id': id,
+      'note': description,
+    });
+    final account = mode == 'Cash' ? 'cash' : 'bank';
+    await db.insert('ledger', {
+      'business_id': businessId,
+      'date': date,
+      'account': account,
+      'debit': amount,
+      'credit': 0,
+      'ref_type': 'income',
+      'ref_id': id,
+      'note': description,
+    });
+    await _audit(businessId, action: 'create', entity: 'income', entityId: id);
     return id;
   }
 
@@ -1131,7 +1190,97 @@ class Repository {
   }
 
   Future<void> convertQuotationToInvoice(int quotationId, {required String invoiceNumber}) async {
-    // ... logic already added
+    final db = await _database;
+    final bizId = session.businessId!;
+    await db.transaction((txn) async {
+      final qRows = await txn.query('quotations', where: 'id = ?', whereArgs: [quotationId], limit: 1);
+      if (qRows.isEmpty) return;
+      final q = Quotation.fromMap(qRows.first);
+      final itemRows = await txn.query('quotation_items', where: 'quotation_id = ?', whereArgs: [quotationId]);
+
+      final invoiceId = await txn.insert('invoices', {
+        'business_id': bizId,
+        'number': invoiceNumber,
+        'customer_id': q.customerId,
+        'customer_name': q.customerName,
+        'date': todayIso(),
+        'total': q.total,
+        'status': 'Unpaid',
+      });
+
+      for (final item in itemRows) {
+        await txn.insert('invoice_items', item..['invoice_id'] = invoiceId);
+      }
+
+      await txn.update('quotations', {'status': 'Converted'}, where: 'id = ?', whereArgs: [quotationId]);
+    });
+  }
+
+  Future<void> convertSalesOrderToInvoice(int orderId, {required String invoiceNumber}) async {
+    final db = await _database;
+    final bizId = session.businessId!;
+    await db.transaction((txn) async {
+      final rows = await txn.query('sales_orders', where: 'id = ?', whereArgs: [orderId], limit: 1);
+      if (rows.isEmpty) return;
+      final order = SalesOrder.fromMap(rows.first);
+      final itemRows = await txn.query('sales_order_items', where: 'order_id = ?', whereArgs: [orderId]);
+
+      final invoiceId = await txn.insert('invoices', {
+        'business_id': bizId,
+        'number': invoiceNumber,
+        'customer_id': order.customerId,
+        'customer_name': order.customerName,
+        'date': todayIso(),
+        'total': order.total,
+        'status': 'Unpaid',
+      });
+
+      for (final item in itemRows) {
+        await txn.insert('invoice_items', {
+          'invoice_id': invoiceId,
+          'product_id': item['product_id'],
+          'name': item['name'],
+          'quantity': item['quantity'],
+          'price': item['price'],
+          'taxable': ((item['price'] as num) * (item['quantity'] as num)).round(),
+        });
+      }
+
+      await txn.update('sales_orders', {'status': 'Completed'}, where: 'id = ?', whereArgs: [orderId]);
+    });
+  }
+
+  Future<void> convertPurchaseOrderToBill(int orderId) async {
+    final db = await _database;
+    final bizId = session.businessId!;
+    await db.transaction((txn) async {
+      final rows = await txn.query('purchase_orders', where: 'id = ?', whereArgs: [orderId], limit: 1);
+      if (rows.isEmpty) return;
+      final order = PurchaseOrder.fromMap(rows.first);
+      final itemRows = await txn.query('purchase_order_items', where: 'order_id = ?', whereArgs: [orderId]);
+
+      final billId = await txn.insert('expenses', {
+        'business_id': bizId,
+        'category': 'Purchase',
+        'amount': order.total,
+        'date': todayIso(),
+        'vendor': order.supplierName,
+        'description': 'From PO ${order.number}',
+      });
+
+      for (final item in itemRows) {
+        final productId = item['product_id'] as int?;
+        if (productId != null) {
+          final p = await txn.query('products', where: 'id = ?', whereArgs: [productId], limit: 1);
+          if (p.isNotEmpty) {
+            final stock = (p.first['stock'] as num).toDouble();
+            await txn.update('products', {'stock': stock + (item['quantity'] as num)}, where: 'id = ?', whereArgs: [productId]);
+          }
+        }
+      }
+
+      await txn.update('purchase_orders', {'status': 'Received'}, where: 'id = ?', whereArgs: [orderId]);
+    });
   }
 
   Future<void> recordStockTransfer({
@@ -1397,6 +1546,74 @@ class Repository {
     }, where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<void> bounceCheque(int paymentId) async {
+    final db = await _database;
+    final bizId = session.businessId!;
+    await db.transaction((txn) async {
+      final rows = await txn.query('payments', where: 'id = ?', whereArgs: [paymentId], limit: 1);
+      if (rows.isEmpty) return;
+      final p = Payment.fromMap(rows.first);
+      if (p.status == 'Bounced') return;
+
+      await txn.update('payments', {'status': 'Bounced'}, where: 'id = ?', whereArgs: [paymentId]);
+
+      // Reverse ledger
+      final account = p.mode == 'Cash' ? 'cash' : 'bank';
+      final isCustomer = p.partyType == 'customer';
+      final partyAccount = isCustomer ? 'customer:${p.partyId}' : 'supplier:${p.partyId}';
+
+      // If it was Payment In (Customer paid us)
+      // Original: Dr Bank, Cr Customer
+      // Reverse: Dr Customer, Cr Bank
+      if (isCustomer) {
+        await txn.insert('ledger', {
+          'business_id': bizId,
+          'date': todayIso(),
+          'account': account,
+          'debit': 0,
+          'credit': p.amount,
+          'note': 'Cheque Bounced (Reversal) - ${p.reference ?? ''}',
+          'ref_type': 'payment',
+          'ref_id': paymentId,
+        });
+        await txn.insert('ledger', {
+          'business_id': bizId,
+          'date': todayIso(),
+          'account': partyAccount,
+          'debit': p.amount,
+          'credit': 0,
+          'note': 'Cheque Bounced (Reversal) - ${p.reference ?? ''}',
+          'ref_type': 'payment',
+          'ref_id': paymentId,
+        });
+      } else {
+        // If it was Payment Out (We paid supplier)
+        // Original: Dr Supplier, Cr Bank
+        // Reverse: Dr Bank, Cr Supplier
+        await txn.insert('ledger', {
+          'business_id': bizId,
+          'date': todayIso(),
+          'account': account,
+          'debit': p.amount,
+          'credit': 0,
+          'note': 'Cheque Bounced (Reversal) - ${p.reference ?? ''}',
+          'ref_type': 'payment',
+          'ref_id': paymentId,
+        });
+        await txn.insert('ledger', {
+          'business_id': bizId,
+          'date': todayIso(),
+          'account': partyAccount,
+          'debit': 0,
+          'credit': p.amount,
+          'note': 'Cheque Bounced (Reversal) - ${p.reference ?? ''}',
+          'ref_type': 'payment',
+          'ref_id': paymentId,
+        });
+      }
+    });
+  }
+
   static String _qty(double q) =>
       q == q.roundToDouble() ? q.round().toString() : q.toStringAsFixed(2);
 
@@ -1552,6 +1769,29 @@ class Repository {
               (r['rev'] as num).toInt(),
             ))
         .toList();
+  }
+
+  Future<List<(String, int, int)>> itemWiseSalesReport(int businessId, String fromDate, String toDate) async {
+    final db = await _database;
+    final rows = await db.rawQuery(
+        'SELECT item.name, SUM(item.quantity) as qty, SUM(item.taxable + item.tax) as total '
+        'FROM invoice_items item '
+        'JOIN invoices inv ON inv.id = item.invoice_id '
+        'WHERE inv.business_id = ? AND inv.date >= ? AND inv.date <= ? '
+        'GROUP BY item.name ORDER BY total DESC',
+        [businessId, fromDate, toDate]);
+    return rows.map((r) => (r['name'] as String, (r['qty'] as num).toInt(), (r['total'] as num).toInt())).toList();
+  }
+
+  Future<List<(String, int)>> customerWiseSalesReport(int businessId, String fromDate, String toDate) async {
+    final db = await _database;
+    final rows = await db.rawQuery(
+        'SELECT customer_name, SUM(total) as total '
+        'FROM invoices '
+        'WHERE business_id = ? AND date >= ? AND date <= ? '
+        'GROUP BY customer_name ORDER BY total DESC',
+        [businessId, fromDate, toDate]);
+    return rows.map((r) => (r['customer_name'] as String? ?? 'Walk-in', (r['total'] as num).toInt())).toList();
   }
 }
 

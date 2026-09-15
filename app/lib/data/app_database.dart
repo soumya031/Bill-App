@@ -224,6 +224,7 @@ class AppDatabase {
         date TEXT,
         reference TEXT,
         type TEXT,
+        status TEXT DEFAULT 'Cleared',
         notes TEXT
       )
     ''');

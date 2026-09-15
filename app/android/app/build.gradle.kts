@@ -13,8 +13,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.pricepilot.bill"
-    compileSdk = flutter.compileSdkVersion
+    namespace = "com.billket"
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -23,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.pricepilot.bill"
+        applicationId = "com.billket"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

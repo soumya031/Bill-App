@@ -6,6 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="19504417-cf6f-455d-b9af-3bfa2290415d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.dart_tool/package_graph.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/.dart_tool/package_graph.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.metadata" beforeDir="false" afterPath="$PROJECT_DIR$/app/.metadata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/core/models.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/core/models.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/data/app_database.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/data/app_database.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/data/repositories.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/data/repositories.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

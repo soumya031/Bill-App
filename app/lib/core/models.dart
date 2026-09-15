@@ -543,6 +543,7 @@ class Invoice {
     this.status = 'Finalized',
     this.notes,
     this.irn,
+    this.eWayBillNumber,
     this.isRecurring = false,
     this.lines = const [],
   });
@@ -570,7 +571,8 @@ class Invoice {
   String status;
   String? notes;
   String? irn;
-  bool isRecurring = false;
+  String? eWayBillNumber;
+  bool isRecurring;
   List<InvoiceLine> lines;
 
   Money get outstanding => Money(total - amountPaid);
@@ -601,6 +603,7 @@ class Invoice {
         'status': status,
         'notes': notes,
         'irn': irn,
+        'eway_bill_number': eWayBillNumber,
         'is_recurring': isRecurring ? 1 : 0,
       };
 
@@ -629,6 +632,7 @@ class Invoice {
         status: map['status'] as String? ?? 'Finalized',
         notes: map['notes'] as String?,
         irn: map['irn'] as String?,
+        eWayBillNumber: map['eway_bill_number'] as String?,
         isRecurring: (map['is_recurring'] as int? ?? 0) == 1,
       );
 }
@@ -955,6 +959,7 @@ class Payment {
     required this.date,
     this.reference,
     this.type,
+    this.status = 'Cleared',
     this.notes,
   });
   final int? id;
@@ -969,6 +974,7 @@ class Payment {
   String date;
   String? reference;
   String? type;
+  String status;
   String? notes;
 
   Map<String, Object?> toMap() => {
@@ -983,6 +989,7 @@ class Payment {
         'date': date,
         'reference': reference,
         'type': type,
+        'status': status,
         'notes': notes,
       };
 
@@ -999,6 +1006,7 @@ class Payment {
         date: map['date'] as String? ?? '',
         reference: map['reference'] as String?,
         type: map['type'] as String?,
+        status: map['status'] as String? ?? 'Cleared',
         notes: map['notes'] as String?,
       );
 }
