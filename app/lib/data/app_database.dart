@@ -11,12 +11,24 @@ class AppDatabase {
 
   Database? _db;
   bool get _supportsSqlite =>
-      defaultTargetPlatform == TargetPlatform.android ||
-      defaultTargetPlatform == TargetPlatform.iOS;
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
 
   Future<Database> get database async {
+    if (kIsWeb) return _connectWeb();
     if (_supportsSqlite) return _connect();
     return _connectFfi();
+  }
+
+  Future<Database> _connectWeb() async {
+    if (_db != null) return _db!;
+    ffi.sqfliteFfiInit();
+    _db = await ffi.databaseFactoryFfi.openDatabase(
+      ffi.inMemoryDatabasePath,
+      options: ffi.OpenDatabaseOptions(version: 1, onCreate: createSchema),
+    );
+    return _db!;
   }
 
   Future<Database> _connect() async {
@@ -24,6 +36,7 @@ class AppDatabase {
       '${await getDatabasesPath()}/ledger_pilot.db',
       version: 1,
       onCreate: createSchema,
+      onOpen: _migrate,
     );
   }
 
@@ -33,9 +46,42 @@ class AppDatabase {
     final dir = await getApplicationSupportDirectory();
     _db = await ffi.databaseFactoryFfi.openDatabase(
       '${dir.path}/ledger_pilot.db',
-      options: ffi.OpenDatabaseOptions(version: 1, onCreate: createSchema),
+      options: ffi.OpenDatabaseOptions(version: 1, onCreate: createSchema, onOpen: _migrate),
     );
     return _db!;
+  }
+
+  static Future<void> _migrate(Database db) async {
+    try {
+      await db.execute('ALTER TABLE businesses ADD COLUMN upi_id TEXT;');
+    } catch (_) {}
+    try {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS cheques (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          business_id INTEGER NOT NULL,
+          cheque_number TEXT NOT NULL,
+          bank_name TEXT,
+          bank_account_id INTEGER,
+          party_type TEXT,
+          party_id INTEGER,
+          party_name TEXT,
+          amount INTEGER DEFAULT 0,
+          date TEXT NOT NULL,
+          clearing_date TEXT,
+          type TEXT NOT NULL,
+          status TEXT DEFAULT 'Pending',
+          bounce_reason TEXT,
+          notes TEXT
+        );
+      ''');
+    } catch (_) {}
+    try {
+      await db.execute('ALTER TABLE bank_accounts ADD COLUMN ifsc TEXT;');
+    } catch (_) {}
+    try {
+      await db.execute("ALTER TABLE bank_accounts ADD COLUMN account_type TEXT DEFAULT 'Current';");
+    } catch (_) {}
   }
 
   /// Lets tests drive the real repository against an in-memory database.
@@ -61,6 +107,7 @@ class AppDatabase {
         gstin TEXT,
         pan TEXT,
         industry TEXT,
+        upi_id TEXT,
         tax_registered INTEGER DEFAULT 0,
         composition_scheme INTEGER DEFAULT 0,
         invoice_prefix TEXT DEFAULT 'INV',
@@ -428,8 +475,30 @@ class AppDatabase {
         bank_name TEXT NOT NULL,
         account_name TEXT,
         account_number TEXT,
+        ifsc TEXT,
+        account_type TEXT DEFAULT 'Current',
         opening_balance INTEGER DEFAULT 0,
         inactive INTEGER DEFAULT 0
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE cheques (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        business_id INTEGER NOT NULL,
+        cheque_number TEXT NOT NULL,
+        bank_name TEXT,
+        bank_account_id INTEGER,
+        party_type TEXT,
+        party_id INTEGER,
+        party_name TEXT,
+        amount INTEGER DEFAULT 0,
+        date TEXT NOT NULL,
+        clearing_date TEXT,
+        type TEXT NOT NULL,
+        status TEXT DEFAULT 'Pending',
+        bounce_reason TEXT,
+        notes TEXT
       )
     ''');
 
@@ -527,6 +596,7 @@ class AppDatabase {
     await db.delete('delivery_challans');
     await db.delete('delivery_challan_items');
     await db.delete('bank_accounts');
+    await db.delete('cheques');
     await db.delete('unit_conversions');
     await db.delete('batches');
     await db.delete('serial_numbers');

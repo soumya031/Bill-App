@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'package:billket/core/billing_engine.dart';
+import 'package:billket/core/dates.dart';
 import 'package:billket/core/models.dart';
 import 'package:billket/data/app_database.dart';
 import 'package:billket/data/repositories.dart';
@@ -59,12 +60,14 @@ void main() {
 
   Future<int> sell({
     required int productId,
-    required int customerId,
+    int? customerId,
     double qty = 2,
     int price = 10000,
     int gstRate = 18,
     int amountPaid = 0,
     String mode = 'Cash',
+    String? date,
+    String? dueDate,
   }) async {
     final quote = BillingEngine.calculateQuote(
       lines: [LineCalcInput(quantity: qty, price: price, gstRate: gstRate)],
@@ -77,8 +80,9 @@ void main() {
       businessId: businessId,
       number: await repo.nextInvoiceNumber(businessId, 'INV'),
       customerId: customerId,
-      customerName: 'Acme',
-      date: '2026-09-02',
+      customerName: customerId == null ? 'Walk-in customer' : 'Acme',
+      date: date ?? '2026-09-02',
+      dueDate: dueDate,
       gstType: 'intra',
       quote: quote,
       lines: [
@@ -223,6 +227,27 @@ void main() {
         23600 * 2 - 30000);
   });
 
+  test('recordPayment settles walk-in invoices and invoicesForParty retrieves them', () async {
+    final productId = await addProduct(stock: 10);
+    final walkInInvoiceId = await sell(productId: productId, customerId: null);
+
+    final walkInInvoices = await repo.invoicesForParty(businessId, 'customer', null);
+    expect(walkInInvoices.any((i) => i.id == walkInInvoiceId), isTrue);
+
+    await repo.recordPayment(
+      businessId: businessId,
+      partyType: 'customer',
+      amount: 23600,
+      date: '2026-09-02',
+      mode: 'Cash',
+      invoiceIds: [walkInInvoiceId],
+      partyId: null,
+      partyName: 'Walk-in customer',
+    );
+
+    expect((await repo.invoice(businessId, walkInInvoiceId))!.status, 'Paid');
+  });
+
   test('cash and bank balances follow the direction of the money', () async {
     final productId = await addProduct(stock: 50);
     final customerId = await repo.upsertCustomer(Customer(name: 'Acme'),
@@ -306,4 +331,183 @@ void main() {
     await repo.markSyncSuccess(queued.first.id!);
     expect(await repo.pendingSyncCount(), queued.length - 1);
   });
+
+  test('recentTransactions aggregates sales, purchases, payments, and expenses correctly', () async {
+    final productId = await addProduct(salePrice: 10000, purchasePrice: 5000);
+    final customerId = await repo.upsertCustomer(Customer(name: 'Customer A'), businessIdOverride: businessId);
+    final supplierId = await repo.upsertSupplier(Supplier(name: 'Supplier B'), businessIdOverride: businessId);
+
+    // 1. Sale
+    await sell(productId: productId, customerId: customerId, qty: 1, price: 10000, amountPaid: 10000);
+
+    // 2. Purchase
+    await repo.createPurchase(
+      businessId: businessId,
+      supplierId: supplierId,
+      supplierName: 'Supplier B',
+      date: '2026-09-03',
+      items: [(productId, 'Widget', 5.0, 5000, 18)],
+      amountPaid: 25000,
+      paymentMode: 'Cash',
+    );
+
+    // 3. Standalone Payment In
+    await repo.recordPayment(
+      businessId: businessId,
+      partyType: 'customer',
+      partyId: customerId,
+      partyName: 'Customer A',
+      amount: 5000,
+      date: '2026-09-04',
+      mode: 'UPI',
+    );
+
+    // 4. Expense
+    await repo.recordExpense(
+      businessId: businessId,
+      category: 'Utilities',
+      amount: 1500,
+      mode: 'Cash',
+      date: '2026-09-05',
+      description: 'Electricity Bill',
+    );
+
+    final txs = await repo.recentTransactions(businessId, limit: 10);
+    expect(txs.length, 4);
+
+    final types = txs.map((t) => t.type).toList();
+    expect(types, contains(TransactionType.sale));
+    expect(types, contains(TransactionType.purchase));
+    expect(types, contains(TransactionType.paymentIn));
+    expect(types, contains(TransactionType.expense));
+
+    // Verify latest transaction is first (Electricity Bill on 2026-09-05)
+    expect(txs.first.type, TransactionType.expense);
+    expect(txs.first.amount, 1500);
+  });
+
+  test('lowStockProducts and outOfStockProducts return filtered inventory correctly', () async {
+    // Product 1: healthy stock (20)
+    await repo.upsertProduct(Product(
+      name: 'Healthy Item',
+      sku: 'H-1',
+      salePrice: 1000,
+      stock: 20,
+      lowStockThreshold: 5,
+    ), businessIdOverride: businessId);
+
+    // Product 2: low stock (3 <= threshold 5)
+    await repo.upsertProduct(Product(
+      name: 'Low Stock Item',
+      sku: 'L-1',
+      salePrice: 1000,
+      stock: 3,
+      lowStockThreshold: 5,
+    ), businessIdOverride: businessId);
+
+    // Product 3: out of stock (0)
+    await repo.upsertProduct(Product(
+      name: 'Out of Stock Item',
+      sku: 'O-1',
+      salePrice: 1000,
+      stock: 0,
+      lowStockThreshold: 5,
+    ), businessIdOverride: businessId);
+
+    final low = await repo.lowStockProducts(businessId);
+    expect(low.length, 1);
+    expect(low.first.name, 'Low Stock Item');
+
+    final out = await repo.outOfStockProducts(businessId);
+    expect(out.length, 1);
+    expect(out.first.name, 'Out of Stock Item');
+  });
+
+  test('overdueInvoicesSummary and overdueInvoices identify unpaid invoices past due date', () async {
+    final custId = await repo.upsertCustomer(
+      Customer(name: 'Due Customer', phone: '9999900000'),
+      businessIdOverride: businessId,
+    );
+    final pId = await addProduct(stock: 50);
+
+    // 1. Invoice with past due date (overdue)
+    await sell(
+      productId: pId,
+      customerId: custId,
+      qty: 2,
+      amountPaid: 0,
+      date: '2026-08-01',
+      dueDate: '2026-08-15',
+    );
+
+    // 2. Invoice with future due date (not overdue)
+    await sell(
+      productId: pId,
+      customerId: custId,
+      qty: 1,
+      amountPaid: 0,
+      date: '2026-09-10',
+      dueDate: '2026-10-15',
+    );
+
+    final (count, amount) = await repo.overdueInvoicesSummary(businessId);
+    expect(count, 1);
+    expect(amount, greaterThan(0));
+
+    final overdueList = await repo.overdueInvoices(businessId);
+    expect(overdueList.length, 1);
+    expect(overdueList.first.dueDate, '2026-08-15');
+  });
+
+  test('dashboardTotals respects fromDate range', () async {
+    final custId = await repo.upsertCustomer(
+      Customer(name: 'Date Customer', phone: '9999911111'),
+      businessIdOverride: businessId,
+    );
+    final pId = await addProduct(stock: 100);
+    // Sale in July
+    await sell(productId: pId, customerId: custId, qty: 1, amountPaid: 10000, date: '2026-07-01');
+    // Sale in September
+    await sell(productId: pId, customerId: custId, qty: 2, amountPaid: 20000, date: '2026-09-10');
+
+    // Totals from September 1st onward
+    final septTotals = await repo.dashboardTotals(businessId, fromDate: '2026-09-01');
+    // Totals all time (or earlier)
+    final allTotals = await repo.dashboardTotals(businessId, fromDate: '2026-01-01');
+
+    expect(septTotals['salesToday']!, lessThan(allTotals['salesToday']!));
+  });
+
+  test('dashboardPerformance returns dynamic trends and history for all timeframes', () async {
+    final custId = await repo.upsertCustomer(
+      Customer(name: 'Trend Customer', phone: '9999922222'),
+      businessIdOverride: businessId,
+    );
+    final pId = await addProduct(stock: 100);
+    final now = DateTime.now();
+    final todayStr = isoDate(now);
+    await sell(productId: pId, customerId: custId, qty: 1, amountPaid: 10000, date: todayStr);
+
+    final perfToday = await repo.dashboardPerformance(businessId, 'Today');
+    expect(perfToday.comparisonLabel, 'vs yesterday');
+    expect(perfToday.salesHistory.length, 7);
+    expect(perfToday.profitHistory.length, 7);
+    expect(perfToday.salesTrend.formatted, isNotEmpty);
+
+    final perfWeek = await repo.dashboardPerformance(businessId, 'This Week');
+    expect(perfWeek.comparisonLabel, 'vs last week');
+    expect(perfWeek.salesHistory.length, 7);
+    expect(perfWeek.profitHistory.length, 7);
+
+    final perfMonth = await repo.dashboardPerformance(businessId, 'This Month');
+    expect(perfMonth.comparisonLabel, 'vs last month');
+    expect(perfMonth.salesHistory.length, greaterThanOrEqualTo(28));
+    expect(perfMonth.profitHistory.length, greaterThanOrEqualTo(28));
+
+    final perfYear = await repo.dashboardPerformance(businessId, 'This Year');
+    expect(perfYear.comparisonLabel, 'vs last year');
+    expect(perfYear.salesHistory.length, 12);
+    expect(perfYear.profitHistory.length, 12);
+  });
 }
+

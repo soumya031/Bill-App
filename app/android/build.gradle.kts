@@ -3,6 +3,14 @@ allprojects {
         google()
         mavenCentral()
     }
+    configurations.all {
+        resolutionStrategy {
+            force("androidx.camera:camera-core:1.4.1")
+            force("androidx.camera:camera-camera2:1.4.1")
+            force("androidx.camera:camera-lifecycle:1.4.1")
+            force("androidx.camera:camera-view:1.4.1")
+        }
+    }
 }
 
 val newBuildDir: Directory =
@@ -28,6 +36,21 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(":app")
+}
+subprojects {
+    val configureAndroid = {
+        val android = project.extensions.findByName("android")
+        if (android is com.android.build.gradle.BaseExtension) {
+            android.compileSdkVersion(36)
+        }
+    }
+    if (project.state.executed) {
+        configureAndroid()
+    } else {
+        project.afterEvaluate {
+            configureAndroid()
+        }
+    }
 }
 
 tasks.register<Delete>("clean") {
